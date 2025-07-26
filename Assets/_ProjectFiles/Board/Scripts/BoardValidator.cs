@@ -15,7 +15,7 @@ public class BoardValidator
             {
                 var entity = board[r, c];
                 if (entity != null)
-                    allLetters.Add(entity.Character);
+                    allLetters.Add(entity.character);
             }
         }
 

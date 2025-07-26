@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BoardCell : MonoBehaviour
+public class LetterCell : MonoBehaviour
 {
     [SerializeField] private LetterUnit letterUnitPrefab;
     [SerializeField] private Transform spawnPosition;

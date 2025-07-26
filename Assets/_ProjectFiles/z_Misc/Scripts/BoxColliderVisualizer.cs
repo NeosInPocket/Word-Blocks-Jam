@@ -17,6 +17,14 @@ public class BoxColliderVisualizer : MonoBehaviour
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private Vector3[] originalVertices;
+    
+    public BoxCollider Collider => boxCollider;
+
+    public bool Visualuze
+    {
+        get => visualize;
+        set => visualize = value;
+    }
 
     private void OnValidate()
     {
@@ -29,13 +37,14 @@ public class BoxColliderVisualizer : MonoBehaviour
     {
         Initialize();
         UpdateMesh();
-        meshRenderer.enabled = false;
+        gameObject.SetActive(false);
     }
 
     private void Update()
     {
         #if UNITY_EDITOR
-            if (!Application.isPlaying)
+        
+        if (!Application.isPlaying)
             {
                 UpdateMesh();
                 UpdateVisibility();
@@ -95,7 +104,7 @@ public class BoxColliderVisualizer : MonoBehaviour
     {
         if (meshRenderer != null)
         {
-            meshRenderer.enabled = visualize;
+            gameObject.SetActive(visualize);
         }
     }
 
