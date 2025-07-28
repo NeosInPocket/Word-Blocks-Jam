@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using UnityEditor.Experimental;
 using UnityEngine;
 
 public class BoardView : MonoBehaviour
@@ -14,7 +11,8 @@ public class BoardView : MonoBehaviour
     [SerializeField] private Transform parentTransform;
     private LetterCell[,] _cells;
     public LetterCell[,] Cells => _cells;
-    
+    public GameObject LettersCellsParent => parentTransform.gameObject;
+
     public void BuildBoard(BoardData boardData)
     {
         var isBoxColliderActive = boardBoundsCollider.isActiveAndEnabled;
@@ -52,8 +50,6 @@ public class BoardView : MonoBehaviour
             spawnPosition.x = startX;
             spawnPosition.z += spacing + cellSideSize;
         }
-
-        boardBoundsCollider.gameObject.SetActive(isBoxColliderActive);
     }
 
     public void ClearBoard()

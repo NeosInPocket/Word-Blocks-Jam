@@ -72,17 +72,10 @@ public class LevelEditor
     public BoardEntityData[,] CollectData()
     {
         if (boardView == null)
-            boardView = UnityEngine.Object.FindObjectOfType<BoardView>();
+            boardView = Object.FindObjectOfType<BoardView>();
 
-        var data = new BoardEntityData[Rows, Columns];
+        var units = boardView.LettersCellsParent.GetComponentInChildren<LetterUnit>();
 
-        for (int i = 0; i < Rows; i++)
-        {
-            for (int j = 0; j < Columns; j++)
-            {
-                data[i, j] = boardView.Cells[i, j].Occupant.Data;
-            }
-        }
 
         return data;
     }
