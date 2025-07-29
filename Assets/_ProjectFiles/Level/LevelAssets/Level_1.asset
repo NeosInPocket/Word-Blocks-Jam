@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f4d0b136ae4661478d11119b3a38025, type: 3}
+  m_Name: Level_1
+  m_EditorClassIdentifier: 
+  levelId: 1
+  rows: 5
+  columns: 5
+  poolCount: 3
+  words:
+  - word: cat
+    rowMin: 1
+    rowMax: 2
+  - word: car
+    rowMin: 1
+    rowMax: 2
+  - word: pen
+    rowMin: 2
+    rowMax: 3
+  - word: tree
+    rowMin: 2
+    rowMax: 3
+  board:
+  - character: t
+    position: {x: 0, y: 0}
+  - character: r
+    position: {x: 0, y: 1}
+  - character: c
+    position: {x: 0, y: 2}
+  - character: c
+    position: {x: 0, y: 3}
+  - character: a
+    position: {x: 0, y: 4}
+  - character: t
+    position: {x: 1, y: 0}
+  - character: 
+    position: {x: 1, y: 1}
+  - character: a
+    position: {x: 1, y: 2}
+  - character: e
+    position: {x: 1, y: 3}
+  - character: 
+    position: {x: 1, y: 4}
+  - character: n
+    position: {x: 2, y: 0}
+  - character: e
+    position: {x: 2, y: 1}
+  - character: p
+    position: {x: 2, y: 2}
+  - character: r
+    position: {x: 2, y: 3}
+  - character: e
+    position: {x: 2, y: 4}

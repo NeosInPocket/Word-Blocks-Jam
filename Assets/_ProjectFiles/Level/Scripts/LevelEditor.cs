@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Unity.EditorCoroutines.Editor;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
 public class LevelEditor
 {
+    private WordLevelDownloader downloader = new();
+    private BoardView boardView;
+    private BoardData currentBoardData;
     public int Rows { get; set; } = 5;
     public int Columns { get; set; } = 5;
     public int PoolCount { get; set; } = 3;
@@ -17,17 +21,22 @@ public class LevelEditor
     public bool IsLoading { get; private set; }
     public bool IsGenerated { get; private set; }
 
-    private WordLevelDownloader downloader = new();
-    private BoardView boardView;
+    public static LevelEditor Instance { get; private set; }
 
-    public void SetBoardView(BoardView view)
+    public LevelEditor()
     {
-        boardView = view;
+        Instance = this;
+    }
+    
+    public void SetBoardView()
+    {
+        boardView = Object.FindObjectOfType<BoardView>();
     }
 
     public void ClearBoard()
     {
-        boardView?.ClearBoard();
+        SetBoardView();
+        boardView.ClearBoard();
         IsGenerated = false;
     }
 
@@ -59,6 +68,8 @@ public class LevelEditor
         asset.rows = Rows;
         asset.columns = Columns;
         asset.poolCount = PoolCount;
+
+        asset.words = new List<WordWithRange>();
         asset.words.AddRange(SelectLevelWords());
         asset.board = CollectData();
 
@@ -69,18 +80,38 @@ public class LevelEditor
         Debug.Log($"Level {asset.levelId} saved at {assetPath}");
     }
 
-    public BoardEntityData[,] CollectData()
+    public List<BoardEntityData> CollectData()
     {
-        if (boardView == null)
-            boardView = Object.FindObjectOfType<BoardView>();
+        List<BoardEntityData> result = new();
+        var cells = boardView.GetComponentsInChildren<BoardCell>();
+        
+        foreach (var cell in cells)
+        {
+            string character = null;
+            var letterUnit = cell.GetComponentInChildren<LetterUnit>();
+            if (letterUnit != null)
+            {
+                character = letterUnit.Character;
+            }
 
-        var units = boardView.LettersCellsParent.GetComponentInChildren<LetterUnit>();
+            var data = new BoardEntityData(character, cell.positionData.position);
+            result.Add(data);
+        }
+        
+        // for (int row = 0; row < rows; row++)
+        // {
+        //     for (int col = 0; col < cols; col++)
+        //     {
+        //         var cell = currentBoardData.Board[row, col];
+        //         if (cell != null)
+        //             result.Add(cell);
+        //     }
+        // }
 
-
-        return data;
+        return result;
     }
 
-    public List<string> SelectLevelWords()
+    public List<WordWithRange> SelectLevelWords()
     {
         return LoadedLevels[SelectedLevelIndex].words;
     }
@@ -137,9 +168,9 @@ public class LevelEditor
         var words = SelectLevelWords();
         var levelData = new LevelData(words, Rows, Columns, PoolCount);
 
-        var boardData = new BoardData();
-        boardData.GenerateBoard(levelData);
-        boardView.BuildBoard(boardData);
+        currentBoardData = new BoardData();
+        currentBoardData.GenerateBoard(levelData);
+        boardView.BuildBoard(currentBoardData);
 
         IsGenerated = true;
         repaintTarget.Repaint();

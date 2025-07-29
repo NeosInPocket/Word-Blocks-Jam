@@ -8,6 +8,6 @@ public class LevelAsset : ScriptableObject
     public int rows;
     public int columns;
     public int poolCount;
-    public List<string> words;
-    public BoardEntityData[,] board;
+    public List<WordWithRange> words;
+    public List<BoardEntityData> board;
 }

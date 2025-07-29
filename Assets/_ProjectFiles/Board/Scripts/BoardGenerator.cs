@@ -1,46 +1,74 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class BoardGenerator
 {
     public BoardEntityData[,] Generate(LevelData levelData)
     {
         int rows = levelData.Rows;
-        int cols = levelData.Columns;
+        int columns = levelData.Columns;
 
-        var board = new BoardEntityData[rows, cols];
-        var totalCells = rows * cols;
+        BoardEntityData[,] board = new BoardEntityData[rows, columns];
+        bool[,] occupied = new bool[rows, columns];
 
-        List<char> letters = new();
-        foreach (var word in levelData.Words)
+        List<Vector2Int>[] rowSlots = new List<Vector2Int>[rows];
+        for (int r = 0; r < rows; r++)
         {
-            foreach (char letter in word)
-                letters.Add(letter);
+            rowSlots[r] = new List<Vector2Int>();
+            for (int c = 0; c < columns; c++)
+                rowSlots[r].Add(new Vector2Int(r, c));
         }
 
-        if (letters.Count > totalCells)
-            throw new Exception("There is not enough space on the field for all the letters.");
+        foreach (var row in rowSlots)
+            row.Shuffle();
 
-        letters.Shuffle();
+        int activeRow = 0;
 
-        int letterIndex = 0;
-        for (int row = 0; row < rows; row++)
+        foreach (var wordEntry in levelData.Words)
         {
-            for (int col = 0; col < cols; col++)
+            string word = wordEntry.word;
+            int minRow = Mathf.Clamp(wordEntry.rowMin - 1, 0, rows - 1);
+            int maxRow = Mathf.Clamp(wordEntry.rowMax - 1, 0, rows - 1);
+
+            List<Vector2Int> validSlots = new();
+
+            for (int r = Mathf.Max(activeRow, minRow); r <= maxRow && r < rows; r++)
             {
-                if (letterIndex < letters.Count)
-                {
-                    board[row, col] = new BoardEntityData(letters[letterIndex]);
-                    letterIndex++;
-                }
-                else
-                {
-                    board[row, col] = null;
-                }
+                validSlots.AddRange(rowSlots[r].Where(pos => !occupied[pos.x, pos.y]));
+            }
+
+            if (validSlots.Count < word.Length)
+            {
+                Debug.LogWarning($"Недостаточно места для слова '{word}' в строках {minRow}-{maxRow}, начиная с {activeRow}");
+                continue;
+            }
+
+            validSlots.Shuffle();
+
+            for (int i = 0; i < word.Length; i++)
+            {
+                Vector2Int pos = validSlots[i];
+
+                board[pos.x, pos.y] = new BoardEntityData(word[i].ToString(), pos);
+                occupied[pos.x, pos.y] = true;
+                rowSlots[pos.x].Remove(pos);
+
+                if (IsRowFull(occupied, pos.x, columns) && pos.x == activeRow)
+                    activeRow++;
             }
         }
 
         return board;
     }
 
+    private bool IsRowFull(bool[,] occupied, int row, int totalColumns)
+    {
+        for (int c = 0; c < totalColumns; c++)
+        {
+            if (!occupied[row, c])
+                return false;
+        }
+        return true;
+    }
 }

@@ -325,6 +325,7 @@ GameObject:
   - component: {fileID: 331603653484983293}
   - component: {fileID: 6890977328787110148}
   - component: {fileID: 707119305613366751}
+  - component: {fileID: 6568459836143247821}
   m_Layer: 0
   m_Name: LetterUnit
   m_TagString: Untagged
@@ -431,4 +432,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b14dbaa7e616b3842a87bfc481ce83ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterText: {fileID: 8851795967235212747}
+  positionData: {fileID: 6568459836143247821}
+  characterText: {fileID: 8851795967235212747}
+--- !u!114 &6568459836143247821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8427265733194921941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ac7d76cecf7ac4bb769f88f758226e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}

@@ -7,6 +7,7 @@ public class LetterCell : MonoBehaviour
     private LetterUnitFactory _factory;
     private LetterUnit _occupant;
     private Renderer _renderer;
+    public Transform SpawnPositionTransform => spawnPosition;
 
     public float SideSize
     {

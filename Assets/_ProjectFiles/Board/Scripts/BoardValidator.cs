@@ -1,31 +1,51 @@
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class BoardValidator
 {
-    public bool Validate(LevelData level, BoardEntityData[,] board)
+    public bool Validate(BoardEntityData[,] board, List<WordWithRange> words)
     {
-        List<char> allLetters = new();
-
-        int rows = board.GetLength(0);
-        int cols = board.GetLength(1);
-
-        for (int r = 0; r < rows; r++)
+        foreach (var wordEntry in words)
         {
-            for (int c = 0; c < cols; c++)
+            if (!ValidateWord(board, wordEntry))
             {
-                var entity = board[r, c];
-                if (entity != null)
-                    allLetters.Add(entity.character);
+                Debug.LogWarning($"Слово '{wordEntry.word}' не найдено в допустимом диапазоне ({wordEntry.rowMin}-{wordEntry.rowMax})");
+                return false;
             }
         }
 
-        foreach (string word in level.Words)
+        return true;
+    }
+
+    private bool ValidateWord(BoardEntityData[,] board, WordWithRange wordEntry)
+    {
+        string word = wordEntry.word.ToLowerInvariant();
+        int minRow = Mathf.Clamp(wordEntry.rowMin, 0, board.GetLength(0) - 1);
+        int maxRow = Mathf.Clamp(wordEntry.rowMax, 0, board.GetLength(0) - 1);
+
+        List<char> wordChars = word.ToList();
+
+        List<char> lettersInRange = new();
+
+        for (int row = minRow; row <= maxRow; row++)
         {
-            var copy = new List<char>(allLetters);
-            foreach (char ch in word)
+            for (int col = 0; col < board.GetLength(1); col++)
             {
-                if (!copy.Remove(ch))
-                    return false;
+                var cell = board[row, col];
+                if (cell != null)
+                {
+                    lettersInRange.Add(char.ToLowerInvariant(cell.character[0]));
+                }
+            }
+        }
+
+        foreach (char c in wordChars)
+        {
+            if (!lettersInRange.Remove(c))
+            {
+                return false;
             }
         }
 

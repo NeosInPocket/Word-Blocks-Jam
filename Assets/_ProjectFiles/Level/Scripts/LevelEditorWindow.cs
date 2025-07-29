@@ -1,10 +1,12 @@
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 public class LevelEditorWindow : EditorWindow
 {
     private LevelEditor editor;
-
+    public LevelEditor Editor => editor;
+    
     [MenuItem("Tools/Level Editor")]
     public static void ShowWindow()
     {
@@ -37,6 +39,12 @@ public class LevelEditorWindow : EditorWindow
 
             string[] levelNames = editor.LoadedLevels.ConvertAll(l => $"Level {l.levelId}").ToArray();
             editor.SelectedLevelIndex = EditorGUILayout.Popup("Select Level", editor.SelectedLevelIndex, levelNames);
+            
+            int letterCount = editor.LoadedLevels[editor.SelectedLevelIndex]
+                .words
+                .Sum(w => w.word.Length);
+
+            GUILayout.Label($"Total Letters: {letterCount}");
         }
 
         GUILayout.Space(10);
