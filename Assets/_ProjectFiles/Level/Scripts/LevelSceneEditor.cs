@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -40,10 +41,68 @@ public class LevelSceneEditor : MonoBehaviour
         if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Delete)
             DeleteSelected();
         
-        if (e.type != EventType.MouseDown || e.button != 0 || e.alt)
+        if (e.type != EventType.MouseDown || e.button != 0 || e.alt || e.shift)
             return;
 
         Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+        //
+        // var raycasts = Physics.RaycastAll(ray).ToList();
+        // if (raycasts.Count == 0)
+        // {
+        //     ClearSelection();
+        //     return;
+        // }
+        // else
+        // {
+        //     foreach (var raycast in raycasts)
+        //     {
+        //         var unit = raycast.collider.GetComponent<LetterUnit>();
+        //         BoardCell freeCell = null;
+        //     
+        //         if (unit == null)
+        //         {
+        //             var cell = raycast.collider.GetComponent<BoardCell>();
+        //             if (cell != null)
+        //                 unit = cell.GetComponentInChildren<LetterUnit>();
+        //
+        //             if (cell != null && unit == null)
+        //                 freeCell = cell;
+        //         }
+        //
+        //         if (unit != null)
+        //         {
+        //             selectedCell = null;
+        //         
+        //             if (selectedA == null)
+        //                 selectedA = unit;
+        //             else if (selectedB == null && unit != selectedA)
+        //             {
+        //                 selectedB = unit;
+        //                 SwapUnits(selectedA, selectedB);
+        //                 ClearSelection();
+        //             }
+        //         }
+        //         else
+        //         {
+        //             if (selectedA != null && freeCell != null)
+        //             {
+        //                 MoveUnitToCell(selectedA, freeCell);
+        //                 ClearSelection();
+        //             }
+        //             else if (selectedA == null && freeCell != null)
+        //             {
+        //                 selectedCell = freeCell;
+        //             }
+        //             else
+        //             {
+        //                 ClearSelection();
+        //             }
+        //         }
+        //     }
+        // }
+        
+        
+        
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             var unit = hit.collider.GetComponent<LetterUnit>();
@@ -54,11 +113,11 @@ public class LevelSceneEditor : MonoBehaviour
                 var cell = hit.collider.GetComponent<BoardCell>();
                 if (cell != null)
                     unit = cell.GetComponentInChildren<LetterUnit>();
-
+        
                 if (cell != null && unit == null)
                     freeCell = cell;
             }
-
+        
             if (unit != null)
             {
                 selectedCell = null;
@@ -83,20 +142,26 @@ public class LevelSceneEditor : MonoBehaviour
                 {
                     selectedCell = freeCell;
                 }
-                else ClearSelection();
-                
+                else
+                {
+                    ClearSelection();
+                }
             }
         }
         else
         {
             ClearSelection();
+            return;
         }
-
+        
         e.Use();
     }
 
     private void DeleteSelected()
     {
+        if (selectedCell == null) return;
+        
+        Selection.activeObject = null;
         DestroyImmediate(selectedCell.gameObject);
     }
     

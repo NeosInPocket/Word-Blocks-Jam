@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -20,15 +21,15 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnGUI()
     {
-        GUILayout.Label("Level Configuration", EditorStyles.boldLabel);
+        GUILayout.Label("Настройка уровня", EditorStyles.boldLabel);
 
-        editor.Rows = EditorGUILayout.IntField("Rows", editor.Rows);
-        editor.Columns = EditorGUILayout.IntField("Columns", editor.Columns);
-        editor.PoolCount = EditorGUILayout.IntField("Unused letters pool count", editor.PoolCount);
+        editor.Rows = EditorGUILayout.IntField("Кол-во рядов", editor.Rows);
+        editor.Columns = EditorGUILayout.IntField("Кол-во колонок", editor.Columns);
+        editor.PoolCount = EditorGUILayout.IntField("Размер пула", editor.PoolCount);
 
         GUILayout.Space(10);
 
-        if (GUILayout.Button("Update Word Table"))
+        if (GUILayout.Button("Обновить данные таблицы"))
         {
             editor.RequestReload();
         }
@@ -37,35 +38,65 @@ public class LevelEditorWindow : EditorWindow
         {
             GUILayout.Space(10);
 
-            string[] levelNames = editor.LoadedLevels.ConvertAll(l => $"Level {l.levelId}").ToArray();
-            editor.SelectedLevelIndex = EditorGUILayout.Popup("Select Level", editor.SelectedLevelIndex, levelNames);
+            string[] levelNames = editor.LoadedLevels.ConvertAll(l => $"Уровень {l.levelId}").ToArray();
+            editor.SelectedLevelIndex = EditorGUILayout.Popup("Выбранный уровень", editor.SelectedLevelIndex, levelNames);
             
             int letterCount = editor.LoadedLevels[editor.SelectedLevelIndex]
                 .words
                 .Sum(w => w.word.Length);
 
-            GUILayout.Label($"Total Letters: {letterCount}");
+            GUILayout.Label($"Всего букв на уровне: {letterCount}");
+            
+            GUILayout.Space(10);
+            GUILayout.Label("Диапазон расположения букв слова по рядам", EditorStyles.boldLabel);
+
+            List<WordWithRange> words = editor.LoadedLevels[editor.SelectedLevelIndex].words;
+            LevelData.CalculateOptimalRowRangesOptimized(words, editor.Rows, editor.Columns);
+            
+            for (int i = 0; i < words.Count; i++)
+            {
+                var wordEntry = words[i];
+
+                EditorGUILayout.BeginHorizontal();
+
+                EditorGUILayout.LabelField(wordEntry.word, GUILayout.Width(50));
+
+                wordEntry.rowMin = EditorGUILayout.IntField(wordEntry.rowMin, GUILayout.Width(50));
+                wordEntry.rowMax = EditorGUILayout.IntField(wordEntry.rowMax, GUILayout.Width(50));
+
+                EditorGUILayout.EndHorizontal();
+            }
         }
 
         GUILayout.Space(10);
 
         GUI.enabled = !editor.IsLoading && editor.LoadedLevels.Count > 0;
 
-        if (GUILayout.Button("Generate Level"))
+        if (GUILayout.Button("Сгенерировать поле"))
         {
-            editor.Generate(this);
+            editor.GenerateBoard();
         }
-
-        if (editor.IsGenerated)
+        
+        if (editor.IsBoardGenerated)
         {
-            if (GUILayout.Button("Clear Level"))
+            EditorGUILayout.LabelField($"Текущее кол-во ячеек на уровне: {editor.GetCurrentCellsCounts(this)}");
+            
+            if (GUILayout.Button("Заполнить поле"))
             {
-                editor.ClearBoard();
+                editor.FillBoard(this);
             }
-
-            if (GUILayout.Button("Save Level"))
+            
+            if (editor.IsLevelGenerated)
             {
-                editor.SaveLevelAsset();
+                if (GUILayout.Button("Очистить уровень"))
+                {
+                    editor.EmptyBoard();
+                }
+                
+                if (GUILayout.Button("Сохранить уровень"))
+                {
+                    editor.SaveLevelAsset();
+                }
             }
         }
 
@@ -74,7 +105,7 @@ public class LevelEditorWindow : EditorWindow
         if (editor.IsLoading)
         {
             GUILayout.Space(10);
-            EditorGUILayout.LabelField("Loading data...", EditorStyles.miniLabel);
+            EditorGUILayout.LabelField("Загрузка данных...", EditorStyles.miniLabel);
         }
     }
 }

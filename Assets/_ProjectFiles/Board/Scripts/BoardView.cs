@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 
 public class BoardView : MonoBehaviour
@@ -12,13 +14,57 @@ public class BoardView : MonoBehaviour
     public BoardCell[,] Cells => _cells;
     public GameObject LettersCellsParent => parentTransform.gameObject;
 
-    public void BuildBoard(BoardData boardData)
+    public void FillBoard(LevelData levelData)
     {
-        var isBoxColliderActive = boardBoundsCollider.isActiveAndEnabled;
-        boardBoundsCollider.gameObject.SetActive(true);
+        var boardGenerator = new BoardGenerator();
+        var data = boardGenerator.Generate(levelData);
+
+        for (int i = 0; i < levelData.Rows; i++)
+        {
+            for (int j = 0; j < levelData.Columns; j++)
+            {
+                if (data[i, j] != null)
+                {
+                    var cell = _cells[i, j];
+                    cell.SetData(data[i, j]);
+                }
+            }
+        }
+    }
+
+    public int GetCellsCount()
+    {
+        int result = 0;
         
-        var board = boardData.Board;
-        int cellsPerRow = board.GetLength(0);
+        foreach (var cell in _cells)
+        {
+            if (cell != null)
+            {
+                result++;
+            }
+        }
+        
+        return result;
+    }
+
+    public void EmptyBoard()
+    {
+        foreach (var cell in _cells)
+        {
+            if (cell == null) continue;
+            var unit = cell.GetComponentInChildren<LetterUnit>();
+
+            if (unit != null)
+            {
+                DestroyImmediate(unit.gameObject);
+            }
+        }
+    }
+
+    public void BuildEmptyBoard(int rows, int cols)
+    {
+        boardBoundsCollider.Visualuze = true;
+        int cellsPerRow = cols;
         var boardBounds = boardBoundsCollider.Collider.bounds;
         
         var minX = boardBounds.min.x;
@@ -31,16 +77,13 @@ public class BoardView : MonoBehaviour
         float startX = minX + cellSideSize / 2;
         Vector3 spawnPosition = new Vector3(startX, ySpawnTransform.position.y, minZ + cellSideSize / 2);
 
-        _cells = new BoardCell[board.GetLength(0), board.GetLength(1)];
-        for (int i = 0; i < board.GetLength(0); i++)
+        _cells = new BoardCell[rows, cols];
+        for (int i = 0; i < rows; i++)
         {
-            for (int j = 0; j < board.GetLength(1); j++)
+            for (int j = 0; j < cols; j++)
             {
                 var cell = Instantiate(prefab, spawnPosition, prefab.transform.rotation, parentTransform);
                 cell.positionData.position = new Vector2Int(i, j);
-                
-                if (board[i, j] != null)
-                    cell.SetData(board[i, j]);
                 
                 cell.SideSize = cellSideSize;
                 spawnPosition.x += spacing + cellSideSize;
@@ -50,8 +93,10 @@ public class BoardView : MonoBehaviour
             spawnPosition.x = startX;
             spawnPosition.z += spacing + cellSideSize;
         }
+        
+        boardBoundsCollider.Visualuze = false;
     }
-
+    
     public void ClearBoard()
     {
         while (parentTransform.childCount > 0)

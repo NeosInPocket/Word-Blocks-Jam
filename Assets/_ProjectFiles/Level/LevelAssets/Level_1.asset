@@ -30,33 +30,43 @@ MonoBehaviour:
     rowMin: 2
     rowMax: 3
   board:
-  - character: t
-    position: {x: 0, y: 0}
   - character: r
+    position: {x: 0, y: 0}
+  - character: c
     position: {x: 0, y: 1}
-  - character: c
+  - character: t
     position: {x: 0, y: 2}
-  - character: c
+  - character: a
     position: {x: 0, y: 3}
   - character: a
     position: {x: 0, y: 4}
-  - character: t
+  - character: c
     position: {x: 1, y: 0}
-  - character: 
-    position: {x: 1, y: 1}
-  - character: a
-    position: {x: 1, y: 2}
   - character: e
+    position: {x: 1, y: 1}
+  - character: e
+    position: {x: 1, y: 2}
+  - character: 
     position: {x: 1, y: 3}
   - character: 
     position: {x: 1, y: 4}
-  - character: n
+  - character: 
     position: {x: 2, y: 0}
-  - character: e
+  - character: t
     position: {x: 2, y: 1}
-  - character: p
-    position: {x: 2, y: 2}
-  - character: r
+  - character: n
     position: {x: 2, y: 3}
   - character: e
     position: {x: 2, y: 4}
+  - character: 
+    position: {x: 3, y: 0}
+  - character: 
+    position: {x: 3, y: 3}
+  - character: r
+    position: {x: 3, y: 4}
+  - character: p
+    position: {x: 4, y: 0}
+  - character: 
+    position: {x: 4, y: 1}
+  - character: 
+    position: {x: 4, y: 4}

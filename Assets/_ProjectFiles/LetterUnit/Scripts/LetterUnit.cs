@@ -13,7 +13,7 @@ public class LetterUnit : MonoBehaviour
     public void SetData(BoardEntityData data)
     {
         _data = data;
-        characterText.text = data.character.ToString();
+        characterText.text = data.character;
         positionData.position = data.position;
     }
 }

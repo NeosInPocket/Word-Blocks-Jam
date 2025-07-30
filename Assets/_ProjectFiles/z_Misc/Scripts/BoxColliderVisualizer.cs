@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 
-[ExecuteAlways]
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -23,37 +21,22 @@ public class BoxColliderVisualizer : MonoBehaviour
     public bool Visualuze
     {
         get => visualize;
-        set => visualize = value;
-    }
-
-    private void OnValidate()
-    {
-        Initialize();
-        UpdateMesh();
-        UpdateVisibility();
+        set
+        {
+            visualize = value;
+            UpdateVisibility();
+        }
     }
     
     private void Awake()
     {
+        Visualuze = false;
         Initialize();
         UpdateMesh();
         gameObject.SetActive(false);
     }
 
-    private void Update()
-    {
-        #if UNITY_EDITOR
-        
-        if (!Application.isPlaying)
-            {
-                UpdateMesh();
-                UpdateVisibility();
-                RebuildObject();
-            }
-        #endif
-    }
-
-    private void Initialize()
+    public void Initialize()
     {
         boxCollider = GetComponent<BoxCollider>();
         meshFilter = GetComponent<MeshFilter>();
@@ -80,7 +63,7 @@ public class BoxColliderVisualizer : MonoBehaviour
         }
     }
 
-    private void UpdateMesh()
+    public void UpdateMesh()
     {
         if (originalVertices == null || originalVertices.Length != 24)
             return;
@@ -100,11 +83,12 @@ public class BoxColliderVisualizer : MonoBehaviour
         mesh.RecalculateBounds();
     }
 
-    private void UpdateVisibility()
+    public void UpdateVisibility()
     {
         if (meshRenderer != null)
         {
-            gameObject.SetActive(visualize);
+            meshRenderer.enabled = visualize;
+            boxCollider.enabled = visualize;
         }
     }
 
@@ -192,7 +176,6 @@ public class BoxColliderVisualizer : MonoBehaviour
         return mat;
     }
     
-    #if UNITY_EDITOR
     public void RebuildObject()
     {
         Mesh cubeMesh = CreateCubeMesh();
@@ -204,5 +187,4 @@ public class BoxColliderVisualizer : MonoBehaviour
 
         UnityEditor.EditorUtility.SetDirty(gameObject);
     }
-    #endif
 }

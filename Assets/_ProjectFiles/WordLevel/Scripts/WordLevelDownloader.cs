@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class WordLevelDownloader
 {
-    private string apiUrl = "https://script.google.com/macros/s/AKfycbzwvXTefHuRrf03xiO_4g_EKDnIIxFcdXeXXatjx_eOCrJb9KsWrGGvQ-OzZiRTTlDH/exec";
+    private string apiUrl = "https://script.google.com/macros/s/AKfycbxxg9W1HN3pnEystIKV9_bzn1g_Os1-eFLia0NTbZzKTlEhrK1NQvJVmQeRHaCk-NCD/exec";
 
-    public async Task<List<WordLevel>> LoadLevelsAsync()
+    public async Task<List<RawLevel>> LoadLevelsAsync()
     {
-        using HttpClient client = new HttpClient();
+        using HttpClient client = new();
 
         try
         {
@@ -18,62 +18,14 @@ public class WordLevelDownloader
             response.EnsureSuccessStatusCode();
 
             string json = await response.Content.ReadAsStringAsync();
-            WordLevelRawResponse raw = JsonUtility.FromJson<WordLevelRawResponse>(json);
 
-            return ParseRawLevels(raw.levels);
+            WordLevelRawResponse parsed = JsonUtility.FromJson<WordLevelRawResponse>(json);
+            return parsed?.levels ?? new List<RawLevel>();
         }
         catch (Exception e)
         {
             Debug.LogError($"Error loading word levels: {e.Message}");
             return null;
         }
-    }
-
-    private List<WordLevel> ParseRawLevels(List<RawLevel> rawLevels)
-    {
-        List<WordLevel> parsedLevels = new();
-
-        foreach (var raw in rawLevels)
-        {
-            var level = new WordLevel
-            {
-                levelId = raw.levelId,
-                words = new List<WordWithRange>()
-            };
-
-            foreach (string entry in raw.words)
-            {
-                if (string.IsNullOrWhiteSpace(entry)) continue;
-
-                string word = entry;
-                int rowMin = 0;
-                int rowMax = int.MaxValue;
-
-                // Пример: world (1-2)
-                int openIndex = entry.IndexOf('(');
-                int closeIndex = entry.IndexOf(')');
-
-                if (openIndex > 0 && closeIndex > openIndex)
-                {
-                    word = entry.Substring(0, openIndex).Trim();
-                    string rangePart = entry.Substring(openIndex + 1, closeIndex - openIndex - 1);
-
-                    var parts = rangePart.Split('-');
-                    if (parts.Length == 2 &&
-                        int.TryParse(parts[0], out int min) &&
-                        int.TryParse(parts[1], out int max))
-                    {
-                        rowMin = min;
-                        rowMax = max;
-                    }
-                }
-
-                level.words.Add(new WordWithRange(word, rowMin, rowMax));
-            }
-
-            parsedLevels.Add(level);
-        }
-
-        return parsedLevels;
     }
 }
