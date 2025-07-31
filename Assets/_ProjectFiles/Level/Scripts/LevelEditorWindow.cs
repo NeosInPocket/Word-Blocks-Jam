@@ -51,7 +51,6 @@ public class LevelEditorWindow : EditorWindow
             GUILayout.Label("Диапазон расположения букв слова по рядам", EditorStyles.boldLabel);
 
             List<WordWithRange> words = editor.LoadedLevels[editor.SelectedLevelIndex].words;
-            LevelData.CalculateOptimalRowRangesOptimized(words, editor.Rows, editor.Columns);
             
             for (int i = 0; i < words.Count; i++)
             {

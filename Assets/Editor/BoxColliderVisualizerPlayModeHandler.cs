@@ -16,7 +16,7 @@ namespace Editor
         {
             if (state == PlayModeStateChange.ExitingPlayMode)
             {
-                foreach (var visualizer in Object.FindObjectsOfType<BoxColliderVisualizer>())
+                foreach (var visualizer in Object.FindObjectsOfType<VisualArea>())
                 {
                     if (visualizer != null)
                     {
@@ -28,7 +28,7 @@ namespace Editor
     
         private static void OnAfterAssemblyReload()
         {
-            foreach (var visualizer in Object.FindObjectsOfType<BoxColliderVisualizer>())
+            foreach (var visualizer in Object.FindObjectsOfType<VisualArea>())
             {
                 if (visualizer != null)
                 {

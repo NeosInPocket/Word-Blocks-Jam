@@ -1,8 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(BoxColliderVisualizer))]
-public class BoxColliderVisualizerEditor : Editor
+[CustomEditor(typeof(VisualArea))]
+public class VisualAreaEditor : Editor
 {
     public override void OnInspectorGUI()
     {
@@ -12,7 +12,7 @@ public class BoxColliderVisualizerEditor : Editor
 
         if (GUILayout.Button("Rebuild Object"))
         {
-            BoxColliderVisualizer visualizer = (BoxColliderVisualizer)target;
+            VisualArea visualizer = (VisualArea)target;
             visualizer.RebuildObject();
         }
     }

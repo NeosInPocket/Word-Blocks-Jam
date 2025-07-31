@@ -161,6 +161,7 @@ public class LevelEditor
                     words.Add(new WordWithRange(word, 0 ,0));
                 }
                 
+                LevelData.CalculateOptimalRowRangesOptimized(words, Rows, Columns);
                 LoadedLevels.Add(new WordLevel(level.levelId, words));
             }
             

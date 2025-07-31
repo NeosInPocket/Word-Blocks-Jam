@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class LetterCell : MonoBehaviour
 {
-    [SerializeField] private LetterUnit letterUnitPrefab;
-    [SerializeField] private Transform spawnPosition;
-    private LetterUnitFactory _factory;
-    private LetterUnit _occupant;
+    [SerializeField] private Transform spawnTransform;
+    protected LetterUnit _occupant;
     private Renderer _renderer;
-    public Transform SpawnPositionTransform => spawnPosition;
-
+    
     public float SideSize
     {
         get
@@ -30,24 +27,10 @@ public class LetterCell : MonoBehaviour
         set => SetOccupant(value);
     }
 
-    private void Start()
-    {
-        _factory = new LetterUnitFactory(letterUnitPrefab, transform);
-    }
-
-    public void SetData(BoardEntityData data)
-    {
-        if (_factory == null)
-        {
-            _factory = new LetterUnitFactory(letterUnitPrefab, transform);
-        }
-        
-        _occupant = _factory.Create(data);
-        _occupant.transform.position = spawnPosition.position;
-    }
-
     private void SetOccupant(LetterUnit unit)
     {
         _occupant = unit;
+        unit.transform.SetParent(transform);
+        unit.transform.position = spawnTransform.position;
     }
 }

@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class BoardView : MonoBehaviour
 {
     [SerializeField] private BoardCell prefab;
-    [SerializeField] private BoxColliderVisualizer boardBoundsCollider;
+    [SerializeField] private VisualArea boardBoundsCollider;
     [Range(0, 1f)]
     [SerializeField] private float spacingPerCellSize;
     [SerializeField] private Transform ySpawnTransform;
@@ -32,6 +33,34 @@ public class BoardView : MonoBehaviour
         }
     }
 
+    public void BuildBoard(LevelAsset levelAsset)
+    {
+        ClearBoard();
+        BuildEmptyBoard(levelAsset.rows,levelAsset.columns);
+
+        for (int i = 0; i < _cells.GetLength(0); i++)
+        {
+            for (int j = 0; j < _cells.GetLength(1); j++)
+            {
+                var cell = _cells[i, j];
+                var entity = levelAsset.board.FirstOrDefault(x => x.position == new Vector2Int(i, j));
+
+                if (entity == null)
+                {
+                    Destroy(cell.gameObject);
+                }
+                else
+                {
+                    if (entity.character != String.Empty)
+                    {
+                        cell.SetData(entity);
+                    }
+                   
+                }
+            }
+        }
+    }
+    
     public int GetCellsCount()
     {
         int result = 0;
@@ -63,7 +92,6 @@ public class BoardView : MonoBehaviour
 
     public void BuildEmptyBoard(int rows, int cols)
     {
-        boardBoundsCollider.Visualuze = true;
         int cellsPerRow = cols;
         var boardBounds = boardBoundsCollider.Collider.bounds;
         
@@ -93,8 +121,6 @@ public class BoardView : MonoBehaviour
             spawnPosition.x = startX;
             spawnPosition.z += spacing + cellSideSize;
         }
-        
-        boardBoundsCollider.Visualuze = false;
     }
     
     public void ClearBoard()

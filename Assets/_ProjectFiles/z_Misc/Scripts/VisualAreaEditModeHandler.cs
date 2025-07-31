@@ -1,9 +1,9 @@
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class BoxColliderVisualizerHandler : MonoBehaviour
+public class VisualAreaEditModeHandler : MonoBehaviour
 {
-    [SerializeField] private BoxColliderVisualizer _visualizer;
+    [SerializeField] private VisualArea _visualizer;
 
     private void Awake()
     {

@@ -45,72 +45,19 @@ public class LevelSceneEditor : MonoBehaviour
             return;
 
         Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-        //
-        // var raycasts = Physics.RaycastAll(ray).ToList();
-        // if (raycasts.Count == 0)
-        // {
-        //     ClearSelection();
-        //     return;
-        // }
-        // else
-        // {
-        //     foreach (var raycast in raycasts)
-        //     {
-        //         var unit = raycast.collider.GetComponent<LetterUnit>();
-        //         BoardCell freeCell = null;
-        //     
-        //         if (unit == null)
-        //         {
-        //             var cell = raycast.collider.GetComponent<BoardCell>();
-        //             if (cell != null)
-        //                 unit = cell.GetComponentInChildren<LetterUnit>();
-        //
-        //             if (cell != null && unit == null)
-        //                 freeCell = cell;
-        //         }
-        //
-        //         if (unit != null)
-        //         {
-        //             selectedCell = null;
-        //         
-        //             if (selectedA == null)
-        //                 selectedA = unit;
-        //             else if (selectedB == null && unit != selectedA)
-        //             {
-        //                 selectedB = unit;
-        //                 SwapUnits(selectedA, selectedB);
-        //                 ClearSelection();
-        //             }
-        //         }
-        //         else
-        //         {
-        //             if (selectedA != null && freeCell != null)
-        //             {
-        //                 MoveUnitToCell(selectedA, freeCell);
-        //                 ClearSelection();
-        //             }
-        //             else if (selectedA == null && freeCell != null)
-        //             {
-        //                 selectedCell = freeCell;
-        //             }
-        //             else
-        //             {
-        //                 ClearSelection();
-        //             }
-        //         }
-        //     }
-        // }
         
+        var raycasts = Physics.RaycastAll(ray).ToList();
+        var targetRaycast = raycasts.FirstOrDefault(x =>
+            x.collider != null && (x.collider.GetComponent<LetterUnit>() || x.collider.GetComponent<BoardCell>()));
         
-        
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (targetRaycast.collider != null)
         {
-            var unit = hit.collider.GetComponent<LetterUnit>();
+            var unit = targetRaycast.collider.GetComponent<LetterUnit>();
             BoardCell freeCell = null;
             
             if (unit == null)
             {
-                var cell = hit.collider.GetComponent<BoardCell>();
+                var cell = targetRaycast.collider.GetComponent<BoardCell>();
                 if (cell != null)
                     unit = cell.GetComponentInChildren<LetterUnit>();
         
@@ -153,6 +100,58 @@ public class LevelSceneEditor : MonoBehaviour
             ClearSelection();
             return;
         }
+        
+        
+        // if (Physics.Raycast(ray, out RaycastHit hit))
+        // {
+        //     var unit = hit.collider.GetComponent<LetterUnit>();
+        //     BoardCell freeCell = null;
+        //     
+        //     if (unit == null)
+        //     {
+        //         var cell = hit.collider.GetComponent<BoardCell>();
+        //         if (cell != null)
+        //             unit = cell.GetComponentInChildren<LetterUnit>();
+        //
+        //         if (cell != null && unit == null)
+        //             freeCell = cell;
+        //     }
+        //
+        //     if (unit != null)
+        //     {
+        //         selectedCell = null;
+        //         
+        //         if (selectedA == null)
+        //             selectedA = unit;
+        //         else if (selectedB == null && unit != selectedA)
+        //         {
+        //             selectedB = unit;
+        //             SwapUnits(selectedA, selectedB);
+        //             ClearSelection();
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if (selectedA != null && freeCell != null)
+        //         {
+        //             MoveUnitToCell(selectedA, freeCell);
+        //             ClearSelection();
+        //         }
+        //         else if (selectedA == null && freeCell != null)
+        //         {
+        //             selectedCell = freeCell;
+        //         }
+        //         else
+        //         {
+        //             ClearSelection();
+        //         }
+        //     }
+        // }
+        // else
+        // {
+        //     ClearSelection();
+        //     return;
+        // }
         
         e.Use();
     }

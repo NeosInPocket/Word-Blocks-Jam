@@ -13,60 +13,54 @@ MonoBehaviour:
   m_Name: Level_1
   m_EditorClassIdentifier: 
   levelId: 1
-  rows: 5
+  rows: 3
   columns: 5
-  poolCount: 3
+  poolCount: 5
   words:
   - word: cat
     rowMin: 1
     rowMax: 2
-  - word: car
+    minRowsNeeded: 0
+  - word: owl
     rowMin: 1
     rowMax: 2
+    minRowsNeeded: 0
   - word: pen
     rowMin: 2
     rowMax: 3
-  - word: tree
+    minRowsNeeded: 0
+  - word: buy
     rowMin: 2
     rowMax: 3
+    minRowsNeeded: 0
   board:
-  - character: r
+  - character: l
     position: {x: 0, y: 0}
-  - character: c
+  - character: a
     position: {x: 0, y: 1}
-  - character: t
-    position: {x: 0, y: 2}
-  - character: a
-    position: {x: 0, y: 3}
-  - character: a
-    position: {x: 0, y: 4}
   - character: c
-    position: {x: 1, y: 0}
-  - character: e
-    position: {x: 1, y: 1}
-  - character: e
-    position: {x: 1, y: 2}
-  - character: 
-    position: {x: 1, y: 3}
-  - character: 
-    position: {x: 1, y: 4}
-  - character: 
-    position: {x: 2, y: 0}
+    position: {x: 0, y: 2}
   - character: t
-    position: {x: 2, y: 1}
+    position: {x: 0, y: 3}
+  - character: o
+    position: {x: 0, y: 4}
+  - character: y
+    position: {x: 1, y: 0}
   - character: n
-    position: {x: 2, y: 3}
-  - character: e
-    position: {x: 2, y: 4}
-  - character: 
-    position: {x: 3, y: 0}
-  - character: 
-    position: {x: 3, y: 3}
-  - character: r
-    position: {x: 3, y: 4}
+    position: {x: 1, y: 1}
+  - character: u
+    position: {x: 1, y: 2}
+  - character: b
+    position: {x: 1, y: 3}
+  - character: w
+    position: {x: 1, y: 4}
   - character: p
-    position: {x: 4, y: 0}
+    position: {x: 2, y: 0}
   - character: 
-    position: {x: 4, y: 1}
+    position: {x: 2, y: 1}
   - character: 
-    position: {x: 4, y: 4}
+    position: {x: 2, y: 2}
+  - character: e
+    position: {x: 2, y: 3}
+  - character: 
+    position: {x: 2, y: 4}

@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
-public class BoxColliderVisualizer : MonoBehaviour
+public class VisualArea : MonoBehaviour
 {
     [SerializeField]
     private bool visualize = false;
@@ -33,7 +33,6 @@ public class BoxColliderVisualizer : MonoBehaviour
         Visualuze = false;
         Initialize();
         UpdateMesh();
-        gameObject.SetActive(false);
     }
 
     public void Initialize()
@@ -88,7 +87,6 @@ public class BoxColliderVisualizer : MonoBehaviour
         if (meshRenderer != null)
         {
             meshRenderer.enabled = visualize;
-            boxCollider.enabled = visualize;
         }
     }
 

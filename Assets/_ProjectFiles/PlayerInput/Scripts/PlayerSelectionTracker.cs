@@ -1,32 +1,36 @@
 using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem.EnhancedTouch;
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class PlayerSelectionTracker : MonoBehaviour
 {
-    public Action<LetterUnit> OnLetterUnitTapped { get; set; }
+    public Action<BoardCell> OnBoardCellTapped { get; set; }
     public static PlayerSelectionTracker Instance { get; private set; }
     private Camera MainCamera => Camera.main;
 
     private void Awake()
     {
         Instance = this;
+        EnhancedTouchSupport.Enable();
+        TouchSimulation.Enable();
+        
+        Touch.onFingerDown += OnTouch;
     }
 
-    public void Update()
+    private void OnTouch(Finger obj)
     {
-        if (PlayerInputTracker.Instance == null || !PlayerInputTracker.Instance.HasActiveTouch)
-            return;
-
-        Vector2 touchPosition = PlayerInputTracker.Instance.TouchPosition;
+        Vector2 touchPosition = obj.screenPosition;
         Ray ray = MainCamera.ScreenPointToRay(touchPosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        var raycasts = Physics.RaycastAll(ray).ToList();
+        var boardCellHit = raycasts.FirstOrDefault(x => x.collider != null && x.collider.GetComponent<BoardCell>() != null);
+
+        if (boardCellHit.collider != null)
         {
-            var fillBox = hit.collider.GetComponentInParent<LetterUnit>();
-            if (fillBox != null)
-            {
-                OnLetterUnitTapped?.Invoke(fillBox);
-            }
+            BoardCell cell = boardCellHit.collider.GetComponent<BoardCell>();
+            OnBoardCellTapped?.Invoke(cell);
         }
     }
 }
