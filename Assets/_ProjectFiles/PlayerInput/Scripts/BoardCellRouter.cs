@@ -4,6 +4,7 @@ public class BoardCellRouter : MonoBehaviour
 {
     [SerializeField] private UnusedLettersPoolView unusedLettersPoolView; 
     [SerializeField] private WordCompletionPool wordPool; 
+    [SerializeField] private BoardView boardView; 
     
     private void Start()
     {
@@ -12,16 +13,22 @@ public class BoardCellRouter : MonoBehaviour
 
     private void OnBoardCellTapped(BoardCell obj)
     {
-        var mainPoolHasCharacter = wordPool.HasCharacter(obj.Occupant.Character);
+        if (!obj.Occupant.Avaliable) return;
+        
+        var mainPoolHasCharacter = wordPool.HasNonFilledCharacter(obj.Occupant.Character);
 
         if (mainPoolHasCharacter)
         {
             wordPool.SetCharacter(obj.Occupant.Character);
-            Destroy(obj.gameObject);
+            Destroy(obj.Occupant.gameObject);
+            boardView.UnlockCellAfterCell(obj);
         }
         else
         {
-            unusedLettersPoolView.Add(obj.Occupant);
+            if (unusedLettersPoolView.TryAdd(obj.Occupant))
+            {
+                boardView.UnlockCellAfterCell(obj);
+            }
         }
     }
 

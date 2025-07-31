@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class LevelBootstrap : MonoBehaviour
 {
-    [SerializeField] private int levelIndexPlaceholder;
     [SerializeField] private BoardView boardView;
     [SerializeField] private CurrentWordView wordView;
     [SerializeField] private UnusedLettersPoolView unusedLettersPoolView;
@@ -22,13 +21,13 @@ public class LevelBootstrap : MonoBehaviour
 
     private void SelectLevel()
     {
-        var levels = LevelAssetLoader.LoadAllLevelAssets(_levelsAssetsPath);
+        var levels = LevelAssetLoader.LoadAllLevels();
 
         LevelAsset level = null;
 
         try
         {
-            level = levels[levelIndexPlaceholder];
+            level = levels.First(x => x.levelId == CurrentLevelInfo.Instance.LevelId);
         }
         catch (Exception e)
         {

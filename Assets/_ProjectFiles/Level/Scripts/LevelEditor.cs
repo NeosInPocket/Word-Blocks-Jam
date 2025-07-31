@@ -1,9 +1,9 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Unity.EditorCoroutines.Editor;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ public class LevelEditor
     private BoardView _boardView;
     public int Rows { get; set; } = 5;
     public int Columns { get; set; } = 5;
-    public int PoolCount { get; set; } = 3;
+    public int PoolCount { get; set; } = 4;
 
     public List<WordLevel> LoadedLevels { get; private set; } = new();
     public int SelectedLevelIndex { get; set; }
@@ -213,3 +213,4 @@ public class LevelEditor
         repaintTarget.Repaint();
     }
 }
+#endif

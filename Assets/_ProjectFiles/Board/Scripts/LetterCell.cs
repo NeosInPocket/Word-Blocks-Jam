@@ -20,17 +20,19 @@ public class LetterCell : MonoBehaviour
 
         set => transform.localScale *= value / SideSize;
     }
-    
-    public LetterUnit Occupant
-    {
-        get => _occupant;
-        set => SetOccupant(value);
-    }
 
-    private void SetOccupant(LetterUnit unit)
+    public LetterUnit Occupant => _occupant;
+    
+    public void SetOccupant(LetterUnit unit)
     {
         _occupant = unit;
         unit.transform.SetParent(transform);
         unit.transform.position = spawnTransform.position;
+    }
+
+    public void RemoveOccupant()
+    {
+        Destroy(_occupant.gameObject);
+        _occupant = null;
     }
 }

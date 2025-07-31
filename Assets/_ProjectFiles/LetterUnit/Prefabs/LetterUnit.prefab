@@ -434,6 +434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   positionData: {fileID: 6568459836143247821}
   characterText: {fileID: 8851795967235212747}
+  characterFrame: {fileID: 3610771724581601621}
 --- !u!114 &6568459836143247821
 MonoBehaviour:
   m_ObjectHideFlags: 0

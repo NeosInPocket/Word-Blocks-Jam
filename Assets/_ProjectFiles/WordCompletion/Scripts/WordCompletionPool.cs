@@ -10,6 +10,9 @@ public class WordCompletionPool : MonoBehaviour
     [SerializeField] private float spacingPerCellSize;
     [SerializeField] private Transform ySpawnTransform;
     [SerializeField] private Transform parentTransform;
+    [SerializeField] private GameObject winObject;
+    [SerializeField] private PlayerSelectionTracker tracker;
+    [SerializeField] private UnusedLettersPoolView pool;
     private List<WordPoolCell> _cells;
     private WordsQueue _queue;
     
@@ -47,9 +50,16 @@ public class WordCompletionPool : MonoBehaviour
         }
     }
 
-    public bool HasCharacter(string character)
+    public bool HasNonFilledCharacter(string character)
     {
-        return _queue.CurrentWord.Contains(character);
+        var containsCharacter = _queue.CurrentWord.Contains(character);
+        if (!containsCharacter) return false;
+        
+        var characterCount = _queue.CurrentWord.Count(x => x.ToString() == character);
+        var cells = _cells.Where(x => x.Character == character).Select(x => x.Character).ToList();
+
+        var result =  cells.Count != characterCount;
+        return result;
     }
 
     public bool IsCharacterInPlace(string character)
@@ -71,14 +81,55 @@ public class WordCompletionPool : MonoBehaviour
 
     public void SetCharacter(string character)
     {
-        var characterIndex = _queue.CurrentWord.IndexOf(character);
-        var cell = _cells[characterIndex];
+        List<int> characterPositions = new List<int>();
+
+        var word = _queue.CurrentWord;
+        
+        for (int i = 0; i < word.Length; i++)
+        {
+            if (word[i].ToString() == character)
+            {
+                characterPositions.Add(i);
+            }
+        }
+
+        int freePosition = 0;
+        
+        foreach (var pos in characterPositions)
+        {
+            if (_cells[pos].Character == character) continue;
+
+            freePosition = pos;
+            break;
+        }
+        
+        var cell = _cells[freePosition];
         cell.SetCharacter(character);
 
         if (TryCompleteWord())
         {
-            _queue.MoveNext();
-            BuildPool(_queue);
+            if (_queue.MoveNext())
+            {
+                BuildPool(_queue);
+                var lettersInPool = pool.Cells.Where(x => x.Occupant != null).Select(x => x.Occupant.Character).ToList();
+                
+                var matchingCharacters = _queue.CurrentWord.Where(x => lettersInPool.Contains(x.ToString())).ToList();
+
+                if (matchingCharacters.Any())
+                {
+                    foreach (var ch in lettersInPool)
+                    {
+                        var poolCell = pool.Cells.FirstOrDefault(x => x.Occupant != null && x.Occupant.Character == ch);
+                        poolCell.RemoveOccupant();
+                        SetCharacter(ch);
+                    }
+                }
+            }
+            else
+            {
+                winObject.SetActive(true);
+                tracker.gameObject.SetActive(false);
+            }
         }
     }
 

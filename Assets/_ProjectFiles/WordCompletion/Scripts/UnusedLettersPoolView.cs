@@ -10,6 +10,7 @@ public class UnusedLettersPoolView : MonoBehaviour
     [SerializeField] private Transform ySpawnTransform;
     [SerializeField] private Transform parentTransform;
     private List<LetterCell> _cells;
+    public List<LetterCell> Cells => _cells;
     
     public void Initialize(int poolCount)
     {
@@ -40,13 +41,18 @@ public class UnusedLettersPoolView : MonoBehaviour
         }
     }
 
-    public void Add(LetterUnit unit)
+    public bool TryAdd(LetterUnit unit)
     {
         var freeCell = _cells.FirstOrDefault(x => x.Occupant == null);
 
         if (freeCell != null)
         {
-            freeCell.Occupant = unit;
+            freeCell.SetOccupant(unit);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

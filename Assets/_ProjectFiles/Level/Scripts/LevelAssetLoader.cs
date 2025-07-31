@@ -1,25 +1,17 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public static class LevelAssetLoader
 {
-    public static List<LevelAsset> LoadAllLevelAssets(string folderPath)
+    public static List<LevelAsset> LoadAllLevels(string resourcesPath = "LevelAssets")
     {
-        List<LevelAsset> assets = new();
+        LevelAsset[] loaded = Resources.LoadAll<LevelAsset>(resourcesPath);
+        return new List<LevelAsset>(loaded);
+    }
 
-        string[] guids = AssetDatabase.FindAssets("t:LevelAsset", new[] { folderPath });
-
-        foreach (string guid in guids)
-        {
-            string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-            LevelAsset asset = AssetDatabase.LoadAssetAtPath<LevelAsset>(assetPath);
-            if (asset != null)
-            {
-                assets.Add(asset);
-            }
-        }
-
-        return assets;
+    public static LevelAsset LoadLevelById(int levelId, string resourcesPath = "LevelAssets")
+    {
+        var levels = LoadAllLevels(resourcesPath);
+        return levels.Find(l => l.levelId == levelId);
     }
 }

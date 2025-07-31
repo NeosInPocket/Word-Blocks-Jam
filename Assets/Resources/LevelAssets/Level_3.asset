@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f4d0b136ae4661478d11119b3a38025, type: 3}
+  m_Name: Level_3
+  m_EditorClassIdentifier: 
+  levelId: 3
+  rows: 3
+  columns: 5
+  poolCount: 4
+  words:
+  - word: item
+    rowMin: 1
+    rowMax: 2
+    minRowsNeeded: 0
+  - word: sun
+    rowMin: 1
+    rowMax: 2
+    minRowsNeeded: 0
+  - word: beam
+    rowMin: 2
+    rowMax: 3
+    minRowsNeeded: 0
+  - word: cake
+    rowMin: 2
+    rowMax: 3
+    minRowsNeeded: 0
+  board:
+  - character: e
+    position: {x: 0, y: 0}
+  - character: e
+    position: {x: 0, y: 1}
+  - character: n
+    position: {x: 0, y: 2}
+  - character: m
+    position: {x: 0, y: 3}
+  - character: i
+    position: {x: 0, y: 4}
+  - character: e
+    position: {x: 1, y: 0}
+  - character: t
+    position: {x: 1, y: 1}
+  - character: u
+    position: {x: 1, y: 2}
+  - character: s
+    position: {x: 1, y: 3}
+  - character: c
+    position: {x: 1, y: 4}
+  - character: b
+    position: {x: 2, y: 0}
+  - character: m
+    position: {x: 2, y: 1}
+  - character: k
+    position: {x: 2, y: 2}
+  - character: a
+    position: {x: 2, y: 3}
+  - character: a
+    position: {x: 2, y: 4}

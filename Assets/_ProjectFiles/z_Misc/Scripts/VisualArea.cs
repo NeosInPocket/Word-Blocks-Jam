@@ -10,8 +10,9 @@ public class VisualArea : MonoBehaviour
 
     [SerializeField]
     private Material overrideMaterial;
+    
+    [SerializeField] private BoxCollider boxCollider;
 
-    private BoxCollider boxCollider;
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private Vector3[] originalVertices;
@@ -37,7 +38,6 @@ public class VisualArea : MonoBehaviour
 
     public void Initialize()
     {
-        boxCollider = GetComponent<BoxCollider>();
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
 
@@ -183,6 +183,5 @@ public class VisualArea : MonoBehaviour
         UpdateMesh();
         UpdateVisibility();
 
-        UnityEditor.EditorUtility.SetDirty(gameObject);
     }
 }

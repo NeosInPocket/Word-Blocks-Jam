@@ -54,11 +54,14 @@ public class BoardView : MonoBehaviour
                     if (entity.character != String.Empty)
                     {
                         cell.SetData(entity);
+                        cell.Occupant.Avaliable = false;
                     }
                    
                 }
             }
         }
+        
+        UnlockFirstRow();
     }
     
     public int GetCellsCount()
@@ -132,5 +135,24 @@ public class BoardView : MonoBehaviour
                 DestroyImmediate(child.gameObject);
             }
         }
+    }
+
+    private void UnlockFirstRow()
+    {
+        for (int i = 0; i < _cells.GetLength(1); i++)
+        {
+            _cells[0, i].Occupant.Avaliable = true;
+        }
+    }
+    
+    public void UnlockCellAfterCell(BoardCell cell)
+    {
+        var cellPosition = cell.positionData.position;
+        cellPosition.x += 1;
+
+        if (cellPosition.x >= _cells.GetLength(0)) return;
+        if (_cells[cellPosition.x, cellPosition.y].Occupant == null) return;
+        
+        _cells[cellPosition.x, cellPosition.y].Occupant.Avaliable = true;
     }
 }

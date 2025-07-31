@@ -1,7 +1,9 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
+
 
 public class ScenesHotbarWindow : EditorWindow
 {
@@ -39,3 +41,4 @@ public class ScenesHotbarWindow : EditorWindow
         return name;
     }
 }
+#endif
