@@ -11,7 +11,7 @@ public class BoardCellRouter : MonoBehaviour
         PlayerSelectionTracker.Instance.OnBoardCellTapped += OnBoardCellTapped;
     }
 
-    private void OnBoardCellTapped(BoardCell obj)
+    private void OnBoardCellTapped(BoardCellView obj)
     {
         if (!obj.Occupant.Avaliable) return;
         

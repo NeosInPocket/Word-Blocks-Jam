@@ -97,7 +97,7 @@ public class LevelEditor
     public List<BoardEntityData> CollectData()
     {
         List<BoardEntityData> result = new();
-        var cells = _boardView.GetComponentsInChildren<BoardCell>();
+        var cells = _boardView.GetComponentsInChildren<BoardCellView>();
         
         foreach (var cell in cells)
         {
@@ -161,7 +161,7 @@ public class LevelEditor
                     words.Add(new WordWithRange(word, 0 ,0));
                 }
                 
-                LevelData.CalculateOptimalRowRangesOptimized(words, Rows, Columns);
+                LevelData.CalculateOptimalRowRanges(words, Rows, Columns);
                 LoadedLevels.Add(new WordLevel(level.levelId, words));
             }
             
@@ -193,7 +193,7 @@ public class LevelEditor
         var words = SelectLevelWords();
 
         bool[,] activeCells = new bool[Rows, Columns];
-        var cells = _boardView.GetComponentsInChildren<BoardCell>().ToList();
+        var cells = _boardView.GetComponentsInChildren<BoardCellView>().ToList();
         
         for (int i = 0; i < Rows; i++)
         {

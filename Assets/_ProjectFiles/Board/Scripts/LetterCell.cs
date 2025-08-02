@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LetterCell : MonoBehaviour
 {
+    public PositionData positionData;
     [SerializeField] private Transform spawnTransform;
     protected LetterUnit _occupant;
     private Renderer _renderer;

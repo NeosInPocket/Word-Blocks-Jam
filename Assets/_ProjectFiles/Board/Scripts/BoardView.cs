@@ -5,19 +5,17 @@ using UnityEngine;
 
 public class BoardView : MonoBehaviour
 {
-    [SerializeField] private BoardCell prefab;
-    [SerializeField] private VisualArea boardBoundsCollider;
-    [Range(0, 1f)]
+    [SerializeField] private BoardCellView prefab;
+    [SerializeField] private VisualArea spawnArea;
+    [Range(0, 1f)] 
     [SerializeField] private float spacingPerCellSize;
     [SerializeField] private Transform ySpawnTransform;
     [SerializeField] private Transform parentTransform;
-    private BoardCell[,] _cells;
-    public BoardCell[,] Cells => _cells;
-    public GameObject LettersCellsParent => parentTransform.gameObject;
+    private BoardCellView[,] _cells;
 
     public void FillBoard(LevelData levelData)
     {
-        var boardGenerator = new BoardGenerator();
+        var boardGenerator = new BoardDataGenerator();
         var data = boardGenerator.Generate(levelData);
 
         for (int i = 0; i < levelData.Rows; i++)
@@ -96,7 +94,7 @@ public class BoardView : MonoBehaviour
     public void BuildEmptyBoard(int rows, int cols)
     {
         int cellsPerRow = cols;
-        var boardBounds = boardBoundsCollider.Collider.bounds;
+        var boardBounds = spawnArea.Collider.bounds;
         
         var minX = boardBounds.min.x;
         var maxX = boardBounds.max.x;
@@ -108,7 +106,7 @@ public class BoardView : MonoBehaviour
         float startX = minX + cellSideSize / 2;
         Vector3 spawnPosition = new Vector3(startX, ySpawnTransform.position.y, minZ + cellSideSize / 2);
 
-        _cells = new BoardCell[rows, cols];
+        _cells = new BoardCellView[rows, cols];
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < cols; j++)
@@ -145,9 +143,9 @@ public class BoardView : MonoBehaviour
         }
     }
     
-    public void UnlockCellAfterCell(BoardCell cell)
+    public void UnlockCellAfterCell(BoardCellView cellView)
     {
-        var cellPosition = cell.positionData.position;
+        var cellPosition = cellView.positionData.position;
         cellPosition.x += 1;
 
         if (cellPosition.x >= _cells.GetLength(0)) return;

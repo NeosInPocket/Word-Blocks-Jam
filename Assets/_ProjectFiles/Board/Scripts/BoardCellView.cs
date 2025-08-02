@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class BoardCell : LetterCell
+public class BoardCellView : LetterCell
 {
     [SerializeField] protected Transform spawnPosition;
     [SerializeField] private LetterUnit letterUnitPrefab;
-    public PositionData positionData;
     private LetterUnitFactory _factory;
     public Transform SpawnPositionTransform => spawnPosition;
     

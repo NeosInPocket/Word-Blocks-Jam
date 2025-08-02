@@ -6,7 +6,7 @@ using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class PlayerSelectionTracker : MonoBehaviour
 {
-    public Action<BoardCell> OnBoardCellTapped { get; set; }
+    public Action<BoardCellView> OnBoardCellTapped { get; set; }
     public static PlayerSelectionTracker Instance { get; private set; }
     private Camera MainCamera => Camera.main;
 
@@ -25,12 +25,12 @@ public class PlayerSelectionTracker : MonoBehaviour
         Ray ray = MainCamera.ScreenPointToRay(touchPosition);
 
         var raycasts = Physics.RaycastAll(ray).ToList();
-        var boardCellHit = raycasts.FirstOrDefault(x => x.collider != null && x.collider.GetComponent<BoardCell>() != null);
+        var boardCellHit = raycasts.FirstOrDefault(x => x.collider != null && x.collider.GetComponent<BoardCellView>() != null);
 
         if (boardCellHit.collider != null)
         {
-            BoardCell cell = boardCellHit.collider.GetComponent<BoardCell>();
-            OnBoardCellTapped?.Invoke(cell);
+            BoardCellView cellView = boardCellHit.collider.GetComponent<BoardCellView>();
+            OnBoardCellTapped?.Invoke(cellView);
         }
     }
 }

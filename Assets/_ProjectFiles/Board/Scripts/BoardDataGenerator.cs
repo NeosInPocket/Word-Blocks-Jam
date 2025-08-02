@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BoardGenerator
+public class BoardDataGenerator
 {
-    private System.Random _random = new System.Random();
-
     public BoardEntityData[,] Generate(LevelData levelData)
     {
         int rows = levelData.Rows;
