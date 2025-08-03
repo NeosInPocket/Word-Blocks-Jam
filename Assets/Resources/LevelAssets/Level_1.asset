@@ -34,39 +34,39 @@ MonoBehaviour:
     rowMax: 3
     minRowsNeeded: 0
   board:
-  - character: l
+  - character: e
     position: {x: 0, y: 0}
     isVisible: 1
-  - character: w
+  - character: t
     position: {x: 0, y: 1}
     isVisible: 1
-  - character: o
+  - character: w
+    position: {x: 0, y: 2}
+    isVisible: 1
+  - character: l
     position: {x: 0, y: 3}
     isVisible: 1
-  - character: b
+  - character: o
     position: {x: 0, y: 4}
+    isVisible: 1
+  - character: y
+    position: {x: 1, y: 0}
     isVisible: 1
   - character: e
     position: {x: 1, y: 1}
     isVisible: 1
-  - character: e
-    position: {x: 1, y: 2}
+  - character: p
+    position: {x: 1, y: 3}
     isVisible: 1
-  - character: t
+  - character: b
     position: {x: 1, y: 4}
     isVisible: 1
-  - character: n
-    position: {x: 2, y: 0}
-    isVisible: 0
-  - character: p
+  - character: b
     position: {x: 2, y: 1}
     isVisible: 0
-  - character: u
+  - character: n
     position: {x: 2, y: 2}
     isVisible: 0
-  - character: y
+  - character: u
     position: {x: 2, y: 3}
-    isVisible: 0
-  - character: b
-    position: {x: 2, y: 4}
-    isVisible: 0
+    isVisible: 1
