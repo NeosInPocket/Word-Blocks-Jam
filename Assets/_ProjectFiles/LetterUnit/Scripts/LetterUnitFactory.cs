@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class LetterUnitFactory
 {
-    private LetterUnit _prefab;
+    private LetterUnitBase _prefab;
     private Transform _parent;
     
     
-    public LetterUnitFactory(LetterUnit prefab, Transform parent)
+    public LetterUnitFactory(LetterUnitBase prefab, Transform parent)
     {
         _prefab = prefab;
         _parent = parent;
     }
     
-    public LetterUnit Create(BoardEntityData data)
+    public T Create<T>(BoardEntityData data) where T : LetterUnitBase
     {
         var unit = Object.Instantiate(_prefab, _parent);
         unit.SetData(data);
-        return unit;
+        return unit.GetComponent<T>();
     }
 }

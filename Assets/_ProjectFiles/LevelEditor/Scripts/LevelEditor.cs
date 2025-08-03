@@ -10,7 +10,7 @@ using UnityEngine;
 public class LevelEditor
 {
     private WordLevelDownloader _downloader = new();
-    private BoardView _boardView;
+    private BoardEditorView _boardView;
     public int Rows { get; set; } = 5;
     public int Columns { get; set; } = 5;
     public int PoolCount { get; set; } = 4;
@@ -24,7 +24,7 @@ public class LevelEditor
     private int CurrentCellsCount => _boardView.GetCellsCount();
     
     public static LevelEditor Instance { get; private set; }
-    private const string _folderPath = "Assets/_ProjectFiles/Level/LevelAssets";
+    private const string _folderPath = "Assets/Resources/LevelAssets";
 
     public LevelEditor()
     {
@@ -33,7 +33,7 @@ public class LevelEditor
     
     public void SetBoardView()
     {
-        _boardView = Object.FindObjectOfType<BoardView>();
+        _boardView = Object.FindObjectOfType<BoardEditorView>();
     }
 
     public void ClearBoard()
@@ -56,7 +56,6 @@ public class LevelEditor
     
     public void SaveLevelAsset()
     {
-        
         string assetPath = $"{_folderPath}/Level_{LoadedLevels[SelectedLevelIndex].levelId}.asset";
 
         LevelAsset asset;
@@ -97,18 +96,23 @@ public class LevelEditor
     public List<BoardEntityData> CollectData()
     {
         List<BoardEntityData> result = new();
-        var cells = _boardView.GetComponentsInChildren<BoardCellView>();
+        var cells = _boardView.Cells;
         
         foreach (var cell in cells)
         {
+            if (cell == null) continue;
+            
             string character = null;
-            var letterUnit = cell.GetComponentInChildren<LetterUnit>();
+            bool isVisible = true;
+            
+            var letterUnit = cell.GetComponentInChildren<EditorLetterUnit>();
             if (letterUnit != null)
             {
                 character = letterUnit.Character;
+                isVisible = letterUnit.GetVisibility();
             }
 
-            var data = new BoardEntityData(character, cell.positionData.position);
+            var data = new BoardEntityData(character, cell.positionData.position, isVisible);
             result.Add(data);
         }
 
@@ -182,7 +186,7 @@ public class LevelEditor
 
         if (_boardView == null)
         {
-            _boardView = Object.FindObjectOfType<BoardView>();
+            _boardView = Object.FindObjectOfType<BoardEditorView>();
             if (_boardView == null)
             {
                 Debug.LogError("BoardView не найден на сцене.");
@@ -193,7 +197,7 @@ public class LevelEditor
         var words = SelectLevelWords();
 
         bool[,] activeCells = new bool[Rows, Columns];
-        var cells = _boardView.GetComponentsInChildren<BoardCellView>().ToList();
+        var cells = _boardView.Cells;
         
         for (int i = 0; i < Rows; i++)
         {

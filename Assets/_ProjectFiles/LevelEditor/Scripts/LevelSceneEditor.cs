@@ -7,9 +7,9 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class LevelSceneEditor : MonoBehaviour
 {
-    private LetterUnit selectedA;
-    private LetterUnit selectedB;
-    private LetterUnit hoveredUnit;
+    private LetterUnitBase selectedA;
+    private LetterUnitBase selectedB;
+    private LetterUnitBase hoveredUnit;
     private LetterCell selectedCell;
 
     private void OnEnable()
@@ -48,18 +48,18 @@ public class LevelSceneEditor : MonoBehaviour
         
         var raycasts = Physics.RaycastAll(ray).ToList();
         var targetRaycast = raycasts.FirstOrDefault(x =>
-            x.collider != null && (x.collider.GetComponent<LetterUnit>() || x.collider.GetComponent<BoardCellView>()));
+            x.collider != null && (x.collider.GetComponent<LetterUnitBase>() || x.collider.GetComponent<EditorBoardCellView>()));
         
         if (targetRaycast.collider != null)
         {
-            var unit = targetRaycast.collider.GetComponent<LetterUnit>();
-            BoardCellView freeCellView = null;
+            var unit = targetRaycast.collider.GetComponent<LetterUnitBase>();
+            EditorBoardCellView freeCellView = null;
             
             if (unit == null)
             {
-                var cell = targetRaycast.collider.GetComponent<BoardCellView>();
+                var cell = targetRaycast.collider.GetComponent<EditorBoardCellView>();
                 if (cell != null)
-                    unit = cell.GetComponentInChildren<LetterUnit>();
+                    unit = cell.GetComponentInChildren<LetterUnitBase>();
         
                 if (cell != null && unit == null)
                     freeCellView = cell;
@@ -74,6 +74,7 @@ public class LevelSceneEditor : MonoBehaviour
                 else if (unit == selectedA)
                 {
                     unit.ToggleVisibility();
+                    ClearSelection();
                     e.Use();
                     return;
                 } 
@@ -136,13 +137,13 @@ public class LevelSceneEditor : MonoBehaviour
         Handles.DrawWireCube(position, Vector3.one * 0.95f);
     }
 
-    private void SwapUnits(LetterUnit a, LetterUnit b)
+    private void SwapUnits(LetterUnitBase a, LetterUnitBase b)
     {
         Transform parentA = a.transform.parent;
         Transform parentB = b.transform.parent;
 
-        Undo.RecordObject(a.transform, "Swap LetterUnit A");
-        Undo.RecordObject(b.transform, "Swap LetterUnit B");
+        Undo.RecordObject(a.transform, "Swap LetterUnitBase A");
+        Undo.RecordObject(b.transform, "Swap LetterUnitBase B");
 
         a.transform.SetParent(null);
         b.transform.SetParent(null);
@@ -158,7 +159,7 @@ public class LevelSceneEditor : MonoBehaviour
         EditorSceneManager.MarkSceneDirty(a.gameObject.scene);
     }
 
-    private void MoveUnitToCell(LetterUnit unit, BoardCellView cellView)
+    private void MoveUnitToCell(LetterUnitBase unit, EditorBoardCellView cellView)
     {
         unit.transform.SetParent(null);
 

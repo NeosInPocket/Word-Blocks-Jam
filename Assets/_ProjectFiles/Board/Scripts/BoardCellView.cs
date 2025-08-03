@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class BoardCellView : LetterCell
 {
-    [SerializeField] protected Transform spawnPosition;
-    [SerializeField] private LetterUnit letterUnitPrefab;
+    [SerializeField] private LetterUnitBase letterUnitPrefab;
     private LetterUnitFactory _factory;
-    public Transform SpawnPositionTransform => spawnPosition;
+    public Transform SpawnPositionTransform => spawnTransform;
     
     private void Start()
     {
@@ -19,7 +18,7 @@ public class BoardCellView : LetterCell
             _factory = new LetterUnitFactory(letterUnitPrefab, transform);
         }
         
-        _occupant = _factory.Create(data);
-        _occupant.transform.position = spawnPosition.position;
+        _occupant = _factory.Create<LetterUnit>(data);
+        _occupant.transform.position = SpawnPositionTransform.position;
     }
 }

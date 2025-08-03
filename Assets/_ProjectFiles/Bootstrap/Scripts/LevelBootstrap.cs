@@ -42,7 +42,7 @@ public class LevelBootstrap : MonoBehaviour
         
         boardView.BuildBoard(level);
         
-        unusedLettersPoolView.Initialize(level.poolCount);
+        unusedLettersPoolView.BuildEmptyBoard(level.poolCount);
         wordCompletionPool.BuildPool(_queue);
     }
 }

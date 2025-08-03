@@ -14,7 +14,7 @@ public class ViewModelBase : INotifyPropertyChanged
     {
         if (EqualityComparer<T>.Default.Equals(backingField, value)) return false;
         backingField = value;
-        RaisePropertyChanged(propertyName);
+        RaisePropertyChanged(propertyName); //
         return true;
     }
 }

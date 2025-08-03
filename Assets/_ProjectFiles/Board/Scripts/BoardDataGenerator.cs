@@ -119,7 +119,7 @@ public class BoardDataGenerator
                 else
                 {
                     var (ch, w) = lettersQueue[letterPos];
-                    board[r, col] = new BoardEntityData(ch.ToString(), new Vector2Int(r, col));
+                    board[r, col] = new BoardEntityData(ch.ToString(), new Vector2Int(r, col), true);
                     occupied[r, col] = true;
                     lettersQueue[letterPos] = ('\0', null);
                     while (letterIndex < lettersQueue.Count && lettersQueue[letterIndex].letter == '\0')

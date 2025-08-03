@@ -2,19 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class UnusedLettersPoolView : MonoBehaviour
+public class UnusedLettersPoolView : BoardSpawner<LetterCell>
 {
-    [SerializeField] private VisualArea area;
-    [SerializeField] private LetterCell prefab;
-    [SerializeField] private float spacingPerCellSize;
-    [SerializeField] private Transform ySpawnTransform;
-    [SerializeField] private Transform parentTransform;
-    private List<LetterCell> _cells;
     public List<LetterCell> Cells => _cells;
     
     public void Initialize(int poolCount)
     {
-        var spawnAreaBounds = area.Collider.bounds;
+        var spawnAreaBounds = spawnArea.Collider.bounds;
         var minX = spawnAreaBounds.min.x;
         var maxX = spawnAreaBounds.max.x;
         var minZ = spawnAreaBounds.min.z;
@@ -41,7 +35,7 @@ public class UnusedLettersPoolView : MonoBehaviour
         }
     }
 
-    public bool TryAdd(LetterUnit unit)
+    public bool TryAdd(LetterUnitBase unit)
     {
         var freeCell = _cells.FirstOrDefault(x => x.Occupant == null);
 
@@ -50,9 +44,7 @@ public class UnusedLettersPoolView : MonoBehaviour
             freeCell.SetOccupant(unit);
             return true;
         }
-        else
-        {
-            return false;
-        }
+        
+        return false;
     }
 }

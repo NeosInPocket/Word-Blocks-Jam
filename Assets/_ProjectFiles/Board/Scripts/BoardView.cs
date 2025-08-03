@@ -2,49 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
-public class BoardView : MonoBehaviour
+public class BoardView : BoardSpawner<BoardCellView>
 {
-    [SerializeField] private BoardCellView prefab;
-    [SerializeField] private VisualArea spawnArea;
-    [Range(0, 1f)] 
-    [SerializeField] private float spacingPerCellSize;
-    [SerializeField] private Transform ySpawnTransform;
-    [SerializeField] private Transform parentTransform;
-    private BoardCellView[,] _cells;
-
-    public void FillBoard(LevelData levelData)
-    {
-        var boardGenerator = new BoardDataGenerator();
-        var data = boardGenerator.Generate(levelData);
-
-        for (int i = 0; i < levelData.Rows; i++)
-        {
-            for (int j = 0; j < levelData.Columns; j++)
-            {
-                if (data[i, j] != null)
-                {
-                    var cell = _cells[i, j];
-                    cell.SetData(data[i, j]);
-                }
-            }
-        }
-    }
-
     public void BuildBoard(LevelAsset levelAsset)
     {
         ClearBoard();
         BuildEmptyBoard(levelAsset.rows,levelAsset.columns);
 
-        for (int i = 0; i < _cells.GetLength(0); i++)
+        for (int i = 0; i < levelAsset.rows; i++)
         {
-            for (int j = 0; j < _cells.GetLength(1); j++)
+            for (int j = 0; j < levelAsset.columns; j++)
             {
-                var cell = _cells[i, j];
+                var cell = _cells.FirstOrDefault(x => x.positionData.position == new Vector2Int(i, j));
                 var entity = levelAsset.board.FirstOrDefault(x => x.position == new Vector2Int(i, j));
 
                 if (entity == null)
                 {
+                    _cells.Remove(cell);
                     Destroy(cell.gameObject);
                 }
                 else
@@ -62,68 +38,6 @@ public class BoardView : MonoBehaviour
         UnlockFirstRow();
     }
     
-    public int GetCellsCount()
-    {
-        int result = 0;
-        
-        foreach (var cell in _cells)
-        {
-            if (cell != null)
-            {
-                result++;
-            }
-        }
-        
-        return result;
-    }
-
-    public void EmptyBoard()
-    {
-        foreach (var cell in _cells)
-        {
-            if (cell == null) continue;
-            var unit = cell.GetComponentInChildren<LetterUnit>();
-
-            if (unit != null)
-            {
-                DestroyImmediate(unit.gameObject);
-            }
-        }
-    }
-
-    public void BuildEmptyBoard(int rows, int cols)
-    {
-        int cellsPerRow = cols;
-        var boardBounds = spawnArea.Collider.bounds;
-        
-        var minX = boardBounds.min.x;
-        var maxX = boardBounds.max.x;
-        var minZ = boardBounds.min.z;
-
-        float xBoardSize = maxX - minX;
-        float cellSideSize = xBoardSize / (cellsPerRow + spacingPerCellSize * (cellsPerRow - 1));
-        float spacing = spacingPerCellSize * cellSideSize;
-        float startX = minX + cellSideSize / 2;
-        Vector3 spawnPosition = new Vector3(startX, ySpawnTransform.position.y, minZ + cellSideSize / 2);
-
-        _cells = new BoardCellView[rows, cols];
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                var cell = Instantiate(prefab, spawnPosition, prefab.transform.rotation, parentTransform);
-                cell.positionData.position = new Vector2Int(i, j);
-                
-                cell.SideSize = cellSideSize;
-                spawnPosition.x += spacing + cellSideSize;
-                _cells[i, j] = cell;
-            }
-            
-            spawnPosition.x = startX;
-            spawnPosition.z += spacing + cellSideSize;
-        }
-    }
-    
     public void ClearBoard()
     {
         while (parentTransform.childCount > 0)
@@ -137,20 +51,57 @@ public class BoardView : MonoBehaviour
 
     private void UnlockFirstRow()
     {
-        for (int i = 0; i < _cells.GetLength(1); i++)
+        var maxCellsColumn = _cells.Max(x => x.positionData.position.y);
+        
+        for (int i = 0; i < maxCellsColumn + 1; i++)
         {
-            _cells[0, i].Occupant.Avaliable = true;
+            var targetCell = _cells.FirstOrDefault(x => x.positionData.position == new Vector2Int(0, i));
+            if (targetCell != null && targetCell.Occupant != null)
+                targetCell.Occupant.Avaliable = true;
+        }
+    }
+
+    private List<BoardCellView> FindNeighborsForCell(BoardCellView targetCell)
+    {
+        var directions = new[] { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+        var positionMap = _cells.ToDictionary(c => c.positionData.position);
+
+        var neighbors = directions
+            .Select(dir => targetCell.positionData.position + dir)
+            .Where(positionMap.ContainsKey)
+            .Select(pos => positionMap[pos])
+            .ToList();
+
+        return neighbors;
+    }
+
+    
+    public void RefreshCells()
+    {
+        foreach (var cell in _cells)
+        {
+            if (cell.Occupant == null || cell.Occupant.Avaliable) continue;
+
+            var cellNeighbors = FindNeighborsForCell(cell);
+            bool isAvaliable = cellNeighbors.Any(x => x.Occupant == null);
+            cell.Occupant.Avaliable = isAvaliable;
+            cell.Occupant.SetVisibility(isAvaliable || cell.Occupant.GetVisibility());
         }
     }
     
-    public void UnlockCellAfterCell(BoardCellView cellView)
+    private void UnlockCellAfterCell(BoardCellView cellView)
     {
         var cellPosition = cellView.positionData.position;
         cellPosition.x += 1;
 
-        if (cellPosition.x >= _cells.GetLength(0)) return;
-        if (_cells[cellPosition.x, cellPosition.y].Occupant == null) return;
+        var maxCellsRow = _cells.Max(x => x.positionData.position.x);
         
-        _cells[cellPosition.x, cellPosition.y].Occupant.Avaliable = true;
+        if (cellPosition.x >= maxCellsRow) return;
+        var targetCell = _cells.FirstOrDefault(x => x.positionData.position == cellPosition);
+        if (targetCell == null) return;
+        
+        if (targetCell.Occupant == null) return;
+        
+        targetCell.Occupant.Avaliable = true;
     }
 }

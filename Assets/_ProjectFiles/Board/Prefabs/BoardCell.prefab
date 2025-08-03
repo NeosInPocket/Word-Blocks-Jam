@@ -120,10 +120,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 577ea92fe22a404f81a0189ce9dbaa54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  positionData: {fileID: 313071262957500216}
+  spawnTransform: {fileID: 6197950248970315681}
+  spawnPosition: {fileID: 6197950248970315681}
   letterUnitPrefab: {fileID: 707119305613366751, guid: 3117d000f0d5fb443a38e62624d3d123,
     type: 3}
-  spawnPosition: {fileID: 6197950248970315681}
-  positionData: {fileID: 313071262957500216}
 --- !u!114 &313071262957500216
 MonoBehaviour:
   m_ObjectHideFlags: 0

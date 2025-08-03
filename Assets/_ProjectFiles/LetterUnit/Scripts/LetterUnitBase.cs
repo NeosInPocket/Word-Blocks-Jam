@@ -28,9 +28,11 @@ public abstract class LetterUnitBase : MonoBehaviour
         _data = data;
         characterText.text = data.character;
         positionData.position = data.position;
+        SetVisibility(data.isVisible);
     }
 
     public abstract void SetVisibility(bool value);
+    public bool GetVisibility() => _visible;
 
     public void ToggleVisibility()
     {

@@ -3,8 +3,8 @@ using UnityEngine;
 public class LetterCell : MonoBehaviour
 {
     public PositionData positionData;
-    [SerializeField] private Transform spawnTransform;
-    protected LetterUnit _occupant;
+    [SerializeField] protected Transform spawnTransform;
+    protected LetterUnitBase _occupant;
     private Renderer _renderer;
     
     public float SideSize
@@ -22,9 +22,9 @@ public class LetterCell : MonoBehaviour
         set => transform.localScale *= value / SideSize;
     }
 
-    public LetterUnit Occupant => _occupant;
+    public LetterUnitBase Occupant => _occupant;
     
-    public void SetOccupant(LetterUnit unit)
+    public void SetOccupant(LetterUnitBase unit)
     {
         _occupant = unit;
         unit.transform.SetParent(transform);
@@ -33,7 +33,12 @@ public class LetterCell : MonoBehaviour
 
     public void RemoveOccupant()
     {
-        Destroy(_occupant.gameObject);
         _occupant = null;
+    }
+
+    public void DestroyOccupant()
+    {
+        Destroy(_occupant.gameObject);
+        RemoveOccupant();
     }
 }

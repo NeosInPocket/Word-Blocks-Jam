@@ -3,12 +3,12 @@ using UnityEngine;
 
 public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
 {
-    [SerializeField] private T prefab;
-    [SerializeField] private VisualArea spawnArea;
+    [SerializeField] protected T prefab;
+    [SerializeField] protected VisualArea spawnArea;
     [Range(0, 1f)] 
-    [SerializeField] private float spacingPerCellSize;
-    [SerializeField] private Transform ySpawnTransform;
-    [SerializeField] private Transform parentTransform;
+    [SerializeField] protected float spacingPerCellSize;
+    [SerializeField] protected Transform ySpawnTransform;
+    [SerializeField] protected Transform parentTransform;
     protected List<T> _cells;
 
     public void BuildEmptyBoard(int rows, int cols)
@@ -25,7 +25,7 @@ public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
         float spacing = spacingPerCellSize * cellSideSize;
         float startX = minX + cellSideSize / 2;
         Vector3 spawnPosition = new Vector3(startX, ySpawnTransform.position.y, minZ + cellSideSize / 2);
-
+        
         _cells = new List<T>();
         for (int i = 0; i < rows; i++)
         {
@@ -41,6 +41,35 @@ public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
             
             spawnPosition.x = startX;
             spawnPosition.z += spacing + cellSideSize;
+        }
+    }
+    
+    public void BuildEmptyBoard(int count)
+    {
+        var spawnAreaBounds = spawnArea.Collider.bounds;
+        var minX = spawnAreaBounds.min.x;
+        var maxX = spawnAreaBounds.max.x;
+        var minZ = spawnAreaBounds.min.z;
+        var maxZ = spawnAreaBounds.max.z;
+
+        var zCenter = (maxZ + minZ) / 2;
+        
+        float poolLength = maxX - minX;
+        
+        float cellSize = poolLength / (count + spacingPerCellSize * (count - 1));
+        float spacing = spacingPerCellSize * cellSize;
+
+        Vector3 spawnPosition = new Vector3(minX + cellSize / 2, ySpawnTransform.position.y, zCenter);
+        _cells = new List<T>();
+        
+        for (int i = 0; i < count; i++)
+        {
+            var cell = Instantiate(prefab, spawnPosition, prefab.transform.rotation, parentTransform);
+            cell.SideSize = cellSize;
+            
+            _cells.Add(cell);
+
+            spawnPosition.x += cellSize + spacing;
         }
     }
 }

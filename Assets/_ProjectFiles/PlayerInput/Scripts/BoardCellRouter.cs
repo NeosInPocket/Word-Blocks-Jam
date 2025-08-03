@@ -13,23 +13,22 @@ public class BoardCellRouter : MonoBehaviour
 
     private void OnBoardCellTapped(BoardCellView obj)
     {
-        if (!obj.Occupant.Avaliable) return;
+        if (obj.Occupant == null || !obj.Occupant.Avaliable) return;
         
         var mainPoolHasCharacter = wordPool.HasNonFilledCharacter(obj.Occupant.Character);
 
         if (mainPoolHasCharacter)
         {
             wordPool.SetCharacter(obj.Occupant.Character);
-            Destroy(obj.Occupant.gameObject);
-            boardView.UnlockCellAfterCell(obj);
+            obj.DestroyOccupant();
         }
         else
         {
             if (unusedLettersPoolView.TryAdd(obj.Occupant))
-            {
-                boardView.UnlockCellAfterCell(obj);
-            }
+                obj.RemoveOccupant();
         }
+        
+        boardView.RefreshCells();
     }
 
     private void OnDestroy()
