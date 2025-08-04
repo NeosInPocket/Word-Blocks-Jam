@@ -39,11 +39,17 @@ public class LevelSceneEditor : MonoBehaviour
     private void HandleMouseInput(Event e)
     {
         if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Delete)
+        {
+            SpawnGhostCell();
             DeleteSelected();
-        
-        if (e.type != EventType.MouseDown || e.button != 0 || e.alt || e.shift)
+            ClearSelection();
+            e.Use();
             return;
-
+        }
+        
+        if (e.type != EventType.MouseDown || e.button != 0 || e.alt || e.shift || !LevelEditingToggleState.State)
+            return;
+        
         Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
         
         var raycasts = Physics.RaycastAll(ray).ToList();
@@ -104,11 +110,34 @@ public class LevelSceneEditor : MonoBehaviour
         }
         else
         {
+            var ghostCellRaycast = raycasts.FirstOrDefault(x =>
+                x.collider != null && (x.collider.GetComponent<EditorGhostBoardCellView>()));
+
+            if (ghostCellRaycast.collider != null)
+            {
+                var ghostCell = ghostCellRaycast.collider.GetComponent<EditorGhostBoardCellView>();
+                
+                var editorBoardCellPrefab = Resources.Load<EditorBoardCellView>("LevelEditor/BoardEditorCell");
+                var cell = Instantiate(editorBoardCellPrefab, ghostCell.transform.position, editorBoardCellPrefab.transform.rotation, ghostCell.transform.parent);
+                cell.SideSize = ghostCell.SideSize;
+                
+                DestroyImmediate(ghostCell.gameObject);
+            }
+            
             ClearSelection();
             return;
         }
         
         e.Use();
+    }
+
+    private void SpawnGhostCell()
+    {
+        if (selectedCell == null) return;
+        
+        var ghostCellPrefab = Resources.Load<EditorGhostBoardCellView>("LevelEditor/EditorGhostBoardCellView");
+        var cell = Instantiate(ghostCellPrefab, selectedCell.transform.position, ghostCellPrefab.transform.rotation, selectedCell.transform.parent);
+        cell.Initialize(selectedCell.SideSize, cell.positionData.position);
     }
     
     private void DeleteSelected()

@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 public class BoardEditorView : BoardSpawner<EditorBoardCellView>
 {
+    [SerializeField] private EditorGhostBoardCellView ghostPrefab;
     public List<EditorBoardCellView> Cells => _cells;
 
     private void Start()
@@ -44,6 +44,9 @@ public class BoardEditorView : BoardSpawner<EditorBoardCellView>
 
                 if (entity == null)
                 {
+                    var ghostCell = Instantiate(ghostPrefab, cell.transform.position, prefab.transform.rotation, cell.transform.parent);
+                    ghostCell.Initialize(cell.SideSize, cell.positionData.position);
+                    
                     _cells.Remove(cell);
                     DestroyImmediate(cell.gameObject);
                 }
@@ -60,6 +63,8 @@ public class BoardEditorView : BoardSpawner<EditorBoardCellView>
     
     public int GetCellsCount()
     {
+        if (_cells == null) return 0;
+        
         var count = _cells.Count(x => x != null);
         return count;
     }

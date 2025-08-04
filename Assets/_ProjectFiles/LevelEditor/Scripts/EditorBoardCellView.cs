@@ -1,5 +1,7 @@
+using UnityEditor;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class EditorBoardCellView : LetterCell
 {
     [SerializeField] private LetterUnitBase letterUnitPrefab;
@@ -9,8 +11,17 @@ public class EditorBoardCellView : LetterCell
     private void Start()
     {
         _factory = new LetterUnitFactory(letterUnitPrefab, transform);
+        Selection.activeGameObject = null;
     }
-
+    
+    private void Update()
+    {
+        if (Selection.activeGameObject == gameObject)
+        {
+            Selection.activeGameObject = null;
+        }
+    }
+    
     public void SetData(BoardEntityData data)
     {
         if (_factory == null)
