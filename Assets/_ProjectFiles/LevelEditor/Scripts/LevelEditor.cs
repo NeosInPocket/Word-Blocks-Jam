@@ -16,27 +16,38 @@ public class LevelEditor
     public int PoolCount { get; set; } = 4;
 
     public List<WordLevel> LoadedLevels { get; private set; } = new();
+    public List<LevelAsset> LoadedLevelAssets { get; private set; } = new();
     public int SelectedLevelIndex { get; set; }
 
     public bool IsLoading { get; private set; }
     public bool IsLevelGenerated { get; private set; }
     public bool IsBoardGenerated { get; private set; }
+
     private int CurrentCellsCount => _boardView.GetCellsCount();
-    
-    public static LevelEditor Instance { get; private set; }
+
+    public bool Available 
+    {
+        get
+        {
+            SetBoardView();
+            var result = _boardView != null;
+            return result;
+        }
+    }   
+
     private const string _folderPath = "Assets/Resources/LevelAssets";
 
     public LevelEditor()
     {
-        Instance = this;
+        SetBoardView();
     }
     
-    public void SetBoardView()
+    private void SetBoardView()
     {
         _boardView = Object.FindObjectOfType<BoardEditorView>();
     }
 
-    public void ClearBoard()
+    private void ClearBoard()
     {
         SetBoardView();
         _boardView.ClearBoard();
@@ -50,13 +61,19 @@ public class LevelEditor
 
     public int GetCurrentCellsCounts(EditorWindow context)
     {
+        if (_boardView == null)
+            return 0;
+        
         context.Repaint();
         return CurrentCellsCount;
     }
     
     public void SaveLevelAsset()
     {
-        string assetPath = $"{_folderPath}/Level_{LoadedLevels[SelectedLevelIndex].levelId}.asset";
+        var levelId = LoadedLevels.Count > 0
+            ? LoadedLevels[SelectedLevelIndex].levelId
+            : LoadedLevelAssets[SelectedLevelIndex].levelId;
+        string assetPath = $"{_folderPath}/Level_{levelId}.asset";
 
         LevelAsset asset;
 
@@ -68,8 +85,6 @@ public class LevelEditor
                 Debug.LogError($"Файл существует, но не удалось загрузить как LevelAsset: {assetPath}");
                 return;
             }
-
-            asset.words.Clear();
         }
         else
         {
@@ -77,13 +92,21 @@ public class LevelEditor
             AssetDatabase.CreateAsset(asset, assetPath);
         }
 
-        asset.levelId = LoadedLevels[SelectedLevelIndex].levelId;
+        asset.levelId = levelId;
         asset.rows = Rows;
         asset.columns = Columns;
         asset.poolCount = PoolCount;
 
-        asset.words = new List<WordWithRange>();
-        asset.words.AddRange(SelectLevelWords());
+        if (LoadedLevels.Count > 0)
+        {
+            asset.words = new List<WordWithRange>();
+
+            var words = LoadedLevels.Count > 0
+                ? LoadedLevels[SelectedLevelIndex].words
+                : LoadedLevelAssets[SelectedLevelIndex].words;
+            asset.words.AddRange(words);
+        }
+        
         asset.board = CollectData();
 
         EditorUtility.SetDirty(asset);
@@ -93,7 +116,7 @@ public class LevelEditor
         Debug.Log($"Level {asset.levelId} saved at {assetPath}");
     }
 
-    public List<BoardEntityData> CollectData()
+    private List<BoardEntityData> CollectData()
     {
         List<BoardEntityData> result = new();
         var cells = _boardView.Cells;
@@ -119,11 +142,6 @@ public class LevelEditor
         return result;
     }
 
-    public List<WordWithRange> SelectLevelWords()
-    {
-        return LoadedLevels[SelectedLevelIndex].words;
-    }
-
     public void GenerateBoard()
     {
         if (IsLoading) return;
@@ -131,6 +149,14 @@ public class LevelEditor
         IsBoardGenerated = true;
         ClearBoard();
         _boardView.BuildEmptyBoard(Rows, Columns);
+    }
+
+    public void BuildLevelFromAsset()
+    {
+        var level = LoadedLevelAssets[SelectedLevelIndex];
+        _boardView.BuildBoard(level);
+        IsLevelGenerated = true;
+        IsBoardGenerated = true;
     }
 
     public void FillBoard(EditorWindow contextWindow)
@@ -143,7 +169,16 @@ public class LevelEditor
     {
         IsLoading = true;
         LoadedLevels.Clear();
+        LoadedLevelAssets.Clear();
         _ = LoadLevelsAsync();
+    }
+
+    public void RequestLevelsFromAssets()
+    {
+        LoadedLevels.Clear();
+        LoadedLevelAssets.Clear();
+        var levels = LevelAssetLoader.LoadAllLevels();
+        LoadedLevelAssets = levels;
     }
 
     private async System.Threading.Tasks.Task LoadLevelsAsync()
@@ -194,7 +229,7 @@ public class LevelEditor
             }
         }
 
-        var words = SelectLevelWords();
+        var words = LoadedLevels.Count > 0 ? LoadedLevels[SelectedLevelIndex].words : LoadedLevelAssets[SelectedLevelIndex].words;
 
         bool[,] activeCells = new bool[Rows, Columns];
         var cells = _boardView.Cells;

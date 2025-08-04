@@ -22,6 +22,8 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnGUI()
     {
+        if (!editor.Available) return;
+        
         GUILayout.Label("Настройка уровня", EditorStyles.boldLabel);
 
         editor.Rows = EditorGUILayout.IntField("Кол-во рядов", editor.Rows);
@@ -30,11 +32,16 @@ public class LevelEditorWindow : EditorWindow
 
         GUILayout.Space(10);
 
-        if (GUILayout.Button("Обновить данные таблицы"))
-        {
+        GUILayout.BeginHorizontal();
+        
+        if (GUILayout.Button("Загрузить уровни из таблицы"))
             editor.RequestReload();
-        }
+        
+        if (GUILayout.Button("Загрузить существующие уровни"))
+            editor.RequestLevelsFromAssets();
 
+        GUILayout.EndHorizontal();
+        
         if (editor.LoadedLevels.Count > 0)
         {
             GUILayout.Space(10);
@@ -67,14 +74,52 @@ public class LevelEditorWindow : EditorWindow
                 EditorGUILayout.EndHorizontal();
             }
         }
+        else if (editor.LoadedLevelAssets.Count > 0)
+        {
+            GUILayout.Space(10);
+
+            string[] levelNames = editor.LoadedLevelAssets.ConvertAll(l => $"Уровень {l.levelId}").ToArray();
+            editor.SelectedLevelIndex = EditorGUILayout.Popup("Выбранный уровень", editor.SelectedLevelIndex, levelNames);
+            
+            int letterCount = editor.LoadedLevelAssets[editor.SelectedLevelIndex]
+                .words
+                .Sum(w => w.word.Length);
+
+            GUILayout.Label($"Всего букв на уровне: {letterCount}");
+            
+            GUILayout.Space(10);
+            GUILayout.Label("Диапазон расположения букв слова по рядам", EditorStyles.boldLabel);
+
+            List<WordWithRange> words = editor.LoadedLevelAssets[editor.SelectedLevelIndex].words;
+            
+            for (int i = 0; i < words.Count; i++)
+            {
+                var wordEntry = words[i];
+
+                EditorGUILayout.BeginHorizontal();
+
+                EditorGUILayout.LabelField(wordEntry.word, GUILayout.Width(50));
+
+                wordEntry.rowMin = EditorGUILayout.IntField(wordEntry.rowMin, GUILayout.Width(50));
+                wordEntry.rowMax = EditorGUILayout.IntField(wordEntry.rowMax, GUILayout.Width(50));
+
+                EditorGUILayout.EndHorizontal();
+            }
+        }
 
         GUILayout.Space(10);
 
-        GUI.enabled = !editor.IsLoading && editor.LoadedLevels.Count > 0;
+        GUI.enabled = !editor.IsLoading && (editor.LoadedLevels.Count > 0 || editor.LoadedLevelAssets.Count > 0);
 
-        if (GUILayout.Button("Сгенерировать поле"))
+        if (editor.LoadedLevelAssets.Count > 0)
         {
-            editor.GenerateBoard();
+            if (GUILayout.Button("Загрузить уровень"))
+                editor.BuildLevelFromAsset();
+        }
+        else
+        {
+            if (GUILayout.Button("Сгенерировать поле"))
+                editor.GenerateBoard();
         }
         
         if (editor.IsBoardGenerated)
@@ -82,21 +127,15 @@ public class LevelEditorWindow : EditorWindow
             EditorGUILayout.LabelField($"Текущее кол-во ячеек на уровне: {editor.GetCurrentCellsCounts(this)}");
             
             if (GUILayout.Button("Заполнить поле"))
-            {
                 editor.FillBoard(this);
-            }
             
             if (editor.IsLevelGenerated)
             {
                 if (GUILayout.Button("Очистить уровень"))
-                {
                     editor.EmptyBoard();
-                }
                 
                 if (GUILayout.Button("Сохранить уровень"))
-                {
                     editor.SaveLevelAsset();
-                }
             }
         }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level_5
   m_EditorClassIdentifier: 
   levelId: 5
-  rows: 4
+  rows: 5
   columns: 5
   poolCount: 4
   words:
@@ -40,57 +40,57 @@ MonoBehaviour:
   - character: e
     position: {x: 0, y: 1}
     isVisible: 1
-  - character: d
+  - character: o
     position: {x: 0, y: 2}
     isVisible: 1
-  - character: e
+  - character: w
     position: {x: 0, y: 3}
     isVisible: 1
   - character: n
     position: {x: 0, y: 4}
     isVisible: 1
-  - character: o
+  - character: l
     position: {x: 1, y: 0}
     isVisible: 1
-  - character: w
+  - character: e
     position: {x: 1, y: 1}
     isVisible: 1
-  - character: r
+  - character: d
     position: {x: 1, y: 2}
     isVisible: 1
-  - character: v
+  - character: r
     position: {x: 1, y: 3}
     isVisible: 1
-  - character: l
+  - character: v
     position: {x: 1, y: 4}
     isVisible: 1
-  - character: n
+  - character: e
     position: {x: 2, y: 0}
     isVisible: 1
-  - character: a
+  - character: n
     position: {x: 2, y: 1}
     isVisible: 1
-  - character: o
+  - character: m
     position: {x: 2, y: 2}
     isVisible: 1
   - character: l
     position: {x: 2, y: 3}
     isVisible: 1
-  - character: e
+  - character: o
     position: {x: 2, y: 4}
-    isVisible: 1
-  - character: l
-    position: {x: 3, y: 0}
     isVisible: 1
   - character: b
     position: {x: 3, y: 1}
     isVisible: 1
-  - character: u
-    position: {x: 3, y: 2}
-    isVisible: 1
   - character: m
     position: {x: 3, y: 3}
     isVisible: 1
-  - character: m
-    position: {x: 3, y: 4}
+  - character: l
+    position: {x: 4, y: 1}
+    isVisible: 1
+  - character: u
+    position: {x: 4, y: 2}
+    isVisible: 1
+  - character: a
+    position: {x: 4, y: 3}
     isVisible: 1
