@@ -113,18 +113,18 @@ public class LevelEditorWindow : EditorWindow
         }
         else
         {
-            if (GUILayout.Button("Сгенерировать поле"))
+            if (GUILayout.Button("Создать поле"))
                 editor.GenerateBoard();
         }
 
         if (editor.IsBoardGenerated)
         {
-            if (GUILayout.Button("Заполнить поле"))
+            if (GUILayout.Button("Заполнить поле юнитами"))
                 editor.FillBoard(this);
 
             if (editor.IsLevelGenerated)
             {
-                if (GUILayout.Button("Очистить уровень"))
+                if (GUILayout.Button("Очистить юнитов"))
                     editor.EmptyBoard();
 
                 if (GUILayout.Button("Сохранить уровень"))
