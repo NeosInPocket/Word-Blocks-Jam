@@ -60,17 +60,8 @@ public class BoardEditorView : BoardSpawner<EditorBoardCellView>
     
     public int GetCellsCount()
     {
-        int result = 0;
-        
-        foreach (var cell in _cells)
-        {
-            if (cell != null)
-            {
-                result++;
-            }
-        }
-        
-        return result;
+        var count = _cells.Count(x => x != null);
+        return count;
     }
     
     public void EmptyBoard()
