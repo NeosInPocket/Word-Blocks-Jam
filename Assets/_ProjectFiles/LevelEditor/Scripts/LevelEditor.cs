@@ -25,8 +25,8 @@ public class LevelEditor
 
     private const string _folderPath = "Assets/Resources/LevelAssets";
 
-    private bool IsUsingDownloadedLevels => LoadedLevels.Count > 0;
-    private bool IsUsingAssets => LoadedLevelAssets.Count > 0;
+    public bool IsUsingDownloadedLevels => LoadedLevels.Count > 0;
+    public bool IsUsingAssets => LoadedLevelAssets.Count > 0;
 
     public ILevelData CurrentLevel =>
         IsUsingDownloadedLevels ? new WordLevelWrapper(LoadedLevels[SelectedLevelIndex])
