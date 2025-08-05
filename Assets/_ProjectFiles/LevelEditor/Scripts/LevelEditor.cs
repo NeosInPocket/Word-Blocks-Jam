@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelEditor
 {
@@ -59,6 +60,7 @@ public class LevelEditor
     public LevelEditor()
     {
         SetBoardView();
+        _boardView.ClearBoard();
     }
 
     private void SetBoardView()
@@ -170,6 +172,11 @@ public class LevelEditor
     {
         var level = LoadedLevelAssets.ElementAtOrDefault(SelectedLevelIndex);
         if (level == null) return;
+        
+        Rows = level.rows;
+        Columns = level.columns;
+        PoolCount = level.poolCount;
+        
         _boardView?.BuildBoard(level);
         IsLevelGenerated = true;
         IsBoardGenerated = true;
@@ -191,6 +198,7 @@ public class LevelEditor
     public void RequestReload()
     {
         IsLoading = true;
+        _boardView?.ClearBoard();
         LoadedLevels.Clear();
         LoadedLevelAssets.Clear();
         _ = LoadLevelsAsync();
@@ -198,6 +206,7 @@ public class LevelEditor
 
     public void RequestLevelsFromAssets()
     {
+        _boardView?.ClearBoard();
         LoadedLevels.Clear();
         LoadedLevelAssets.Clear();
         LoadedLevelAssets = LevelAssetLoader.LoadAllLevels();

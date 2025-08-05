@@ -10,8 +10,19 @@ public class LevelSceneEditor : MonoBehaviour
     private LetterUnitBase selectedA;
     private LetterUnitBase selectedB;
     private LetterUnitBase hoveredUnit;
-    private LetterCell selectedCell;
+    private EditorBoardCellView selectedCell;
+    private BoardEditorView board;
 
+    private BoardEditorView Board
+    {
+        get
+        {
+            if (board == null)
+                board = FindObjectOfType<BoardEditorView>();
+
+            return board;
+        }
+    }
     private void OnEnable()
     {
         SceneView.duringSceneGui += OnSceneGUI;
@@ -117,11 +128,7 @@ public class LevelSceneEditor : MonoBehaviour
             {
                 var ghostCell = ghostCellRaycast.collider.GetComponent<EditorGhostBoardCellView>();
                 
-                var editorBoardCellPrefab = Resources.Load<EditorBoardCellView>("LevelEditor/BoardEditorCell");
-                var cell = Instantiate(editorBoardCellPrefab, ghostCell.transform.position, editorBoardCellPrefab.transform.rotation, ghostCell.transform.parent);
-                cell.SideSize = ghostCell.SideSize;
-                
-                DestroyImmediate(ghostCell.gameObject);
+                SpawnCell(ghostCell);
             }
             
             ClearSelection();
@@ -131,13 +138,24 @@ public class LevelSceneEditor : MonoBehaviour
         e.Use();
     }
 
+    private void SpawnCell(EditorGhostBoardCellView ghostCell)
+    {
+        var editorBoardCellPrefab = Resources.Load<EditorBoardCellView>("LevelEditor/BoardEditorCell");
+        var cell = Instantiate(editorBoardCellPrefab, ghostCell.transform.position, editorBoardCellPrefab.transform.rotation, ghostCell.transform.parent);
+        cell.positionData.position = ghostCell.positionData.position;
+        cell.SideSize = ghostCell.SideSize;
+        Board.Cells.Add(cell);        
+        
+        DestroyImmediate(ghostCell.gameObject);
+    }
+    
     private void SpawnGhostCell()
     {
         if (selectedCell == null) return;
         
         var ghostCellPrefab = Resources.Load<EditorGhostBoardCellView>("LevelEditor/EditorGhostBoardCellView");
         var cell = Instantiate(ghostCellPrefab, selectedCell.transform.position, ghostCellPrefab.transform.rotation, selectedCell.transform.parent);
-        cell.Initialize(selectedCell.SideSize, cell.positionData.position);
+        cell.Initialize(selectedCell.SideSize, selectedCell.positionData.position);
     }
     
     private void DeleteSelected()
@@ -145,6 +163,8 @@ public class LevelSceneEditor : MonoBehaviour
         if (selectedCell == null) return;
         
         Selection.activeObject = null;
+        Board.Cells.Remove(selectedCell);
+        
         DestroyImmediate(selectedCell.gameObject);
     }
     

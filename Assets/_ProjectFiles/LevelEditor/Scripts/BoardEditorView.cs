@@ -63,10 +63,15 @@ public class BoardEditorView : BoardSpawner<EditorBoardCellView>
     
     public int GetCellsCount()
     {
-        if (_cells == null) return 0;
+        if (_cells == null) GetCells();
         
         var count = _cells.Count(x => x != null);
         return count;
+    }
+
+    private void GetCells()
+    {
+        _cells = parentTransform.GetComponentsInChildren<EditorBoardCellView>().ToList();
     }
     
     public void EmptyBoard()

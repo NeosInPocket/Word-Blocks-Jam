@@ -11,11 +11,14 @@ public class EditorBoardCellView : LetterCell
     private void Start()
     {
         _factory = new LetterUnitFactory(letterUnitPrefab, transform);
+        if (!LevelEditingToggleState.State) return;
         Selection.activeGameObject = null;
     }
     
     private void Update()
     {
+        if (!LevelEditingToggleState.State) return;
+        
         if (Selection.activeGameObject == gameObject)
         {
             Selection.activeGameObject = null;

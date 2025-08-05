@@ -45,6 +45,7 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnGUI()
     {
+        editor ??= new LevelEditor();
         if (!editor.Available) return;
         
         GUILayout.Label("Настройка уровня", EditorStyles.boldLabel);
@@ -69,11 +70,15 @@ public class LevelEditorWindow : EditorWindow
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
 
-        if (GUILayout.Button("Загрузить уровни из таблицы"))
+        if (GUILayout.Button("Загрузить уровни из таблицы", GUILayout.Height(30)))
             editor.RequestReload();
 
-        if (GUILayout.Button("Загрузить существующие уровни"))
+        if (GUILayout.Button("Загрузить существующие уровни", GUILayout.Height(30)))
+        {
             editor.RequestLevelsFromAssets();
+            Repaint();
+        }
+            
 
         GUILayout.EndHorizontal();
         
@@ -108,26 +113,24 @@ public class LevelEditorWindow : EditorWindow
 
         if (editor.LoadedLevelAssets.Count > 0)
         {
-            if (GUILayout.Button("Загрузить уровень"))
+            if (GUILayout.Button("Загрузить уровень", GUILayout.Height(30)))
                 editor.BuildLevelFromAsset();
         }
-        else
-        {
-            if (GUILayout.Button("Создать поле"))
-                editor.GenerateBoard();
-        }
-
+        
+        if (GUILayout.Button("Создать поле", GUILayout.Height(30)))
+            editor.GenerateBoard();
+        
         if (editor.IsBoardGenerated)
         {
-            if (GUILayout.Button("Заполнить поле юнитами"))
+            if (GUILayout.Button("Заполнить поле юнитами", GUILayout.Height(30)))
                 editor.FillBoard(this);
 
             if (editor.IsLevelGenerated)
             {
-                if (GUILayout.Button("Очистить юнитов"))
+                if (GUILayout.Button("Очистить юнитов", GUILayout.Height(30)))
                     editor.EmptyBoard();
 
-                if (GUILayout.Button("Сохранить уровень"))
+                if (GUILayout.Button("Сохранить уровень", GUILayout.Height(30)))
                     editor.SaveLevelAsset();
             }
         }

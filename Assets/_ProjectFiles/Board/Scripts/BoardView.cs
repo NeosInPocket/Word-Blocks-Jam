@@ -25,7 +25,7 @@ public class BoardView : BoardSpawner<BoardCellView>
                 }
                 else
                 {
-                    if (entity.character != String.Empty)
+                    if (!string.IsNullOrEmpty(entity.character))
                     {
                         cell.SetData(entity);
                         cell.Occupant.Avaliable = false;
