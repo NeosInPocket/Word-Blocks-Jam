@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using _ProjectFiles._Features.LetterDispenser.Scripts;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -18,6 +19,8 @@ public class LevelEditor
 
     public List<WordLevel> LoadedLevels { get; private set; } = new();
     public List<LevelAsset> LoadedLevelAssets { get; private set; } = new();
+    public List<LetterDispenserData> LetterDispensers { get; private set; } = new();
+
     public int SelectedLevelIndex { get; set; }
 
     public bool IsLoading { get; private set; }
@@ -264,27 +267,25 @@ public class LevelEditor
         repaintTarget?.Repaint();
     }
 
-
-    public interface ILevelData
+    public void AddLetterDispenser()
     {
-        int LevelId { get; }
-        List<WordWithRange> Words { get; }
+        LetterDispensers.Add(new LetterDispenserData { CellCount = 0 });
     }
 
-    private readonly struct WordLevelWrapper : ILevelData
+    public void RemoveLetterDispenser(int index)
     {
-        private readonly WordLevel _wordLevel;
-        public WordLevelWrapper(WordLevel wordLevel) => _wordLevel = wordLevel;
-        public int LevelId => _wordLevel.levelId;
-        public List<WordWithRange> Words => _wordLevel.words;
+        if (index >= 0 && index < LetterDispensers.Count)
+        {
+            LetterDispensers.RemoveAt(index);
+        }
     }
 
-    private readonly struct LevelAssetWrapper : ILevelData
+    public void UpdateLetterDispenserCellCount(int index, int cellCount)
     {
-        private readonly LevelAsset _levelAsset;
-        public LevelAssetWrapper(LevelAsset levelAsset) => _levelAsset = levelAsset;
-        public int LevelId => _levelAsset.levelId;
-        public List<WordWithRange> Words => _levelAsset.words;
+        if (index >= 0 && index < LetterDispensers.Count)
+        {
+            LetterDispensers[index].CellCount = cellCount;
+        }
     }
 }
 #endif

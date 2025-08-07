@@ -22,12 +22,6 @@ public class LevelEditorWindow : EditorWindow
         alignment = TextAnchor.MiddleCenter
     };
     
-    private GUIStyle boldDefaultLabel => new (EditorStyles.label)
-    {
-        fontStyle = FontStyle.Bold,
-        alignment = TextAnchor.MiddleCenter
-    };
-    
     [MenuItem("Tools/Level Editor")]
     public static void ShowWindow()
     {
@@ -39,7 +33,7 @@ public class LevelEditorWindow : EditorWindow
         editor = new LevelEditor();
     }
 
-    private LevelEditor.ILevelData CurrentLevel => editor.Available ? editor.CurrentLevel : null;
+    private ILevelData CurrentLevel => editor.Available ? editor.CurrentLevel : null;
 
     private List<WordWithRange> CurrentWords => CurrentLevel?.Words;
 
@@ -93,6 +87,31 @@ public class LevelEditorWindow : EditorWindow
             string[] levelNames = editor.CurrentLevels.ConvertAll(x => $"Уровень {x.LevelId}").ToArray();
             editor.SelectedLevelIndex = EditorGUILayout.Popup("Выбранный уровень", editor.SelectedLevelIndex, levelNames);
 
+            GUILayout.Space(10);
+            
+            if (GUILayout.Button("Добавить трубу"))
+            {
+                editor.AddLetterDispenser();
+            }
+
+            for (var i = 0; i < editor.LetterDispensers.Count; i++)
+            {
+                EditorGUILayout.BeginHorizontal();
+
+                GUILayout.Label($"Труба {i + 1}:", GUILayout.Width(100));
+
+                int newCellCount = EditorGUILayout.IntField("Ячеек:", editor.LetterDispensers[i].CellCount);
+                editor.UpdateLetterDispenserCellCount(i, newCellCount);
+
+                if (GUILayout.Button("Удалить", GUILayout.Width(60)))
+                {
+                    editor.RemoveLetterDispenser(i);
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+
+            
             GUILayout.Space(10);
             GUILayout.Label("Диапазон расположения букв по рядам", boldMiddleLabel);
             GUILayout.Space(10);
