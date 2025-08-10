@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEngine;
-public class BoardEditorView : BoardSpawner<EditorBoardCellView>
+public class EditorBoardView : BoardSpawner<EditorBoardCellView>
 {
     [SerializeField] private EditorGhostBoardCellView ghostPrefab;
+    [SerializeField] private EditorLetterDispenserView dispenserPrefab;
     public List<EditorBoardCellView> Cells => _cells;
 
     private void Start()
@@ -27,6 +29,16 @@ public class BoardEditorView : BoardSpawner<EditorBoardCellView>
                         cell.SetData(data[i, j]);
                 }
             }
+        }
+    }
+
+    public void SetDispensers(List<EditorLetterDispenserView> dispensers)
+    {
+        var deletedCells = DeleteLastCells(dispensers.Count);
+        
+        for (int i = 0; i < deletedCells.Count; i++)
+        {
+            dispensers[i].SetPosition(deletedCells[i].position, deletedCells[i].worldPosition);
         }
     }
     

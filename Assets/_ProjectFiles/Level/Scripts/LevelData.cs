@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _ProjectFiles._Features.LetterDispenser.Scripts;
 
 public class LevelData
 {
@@ -9,17 +10,20 @@ public class LevelData
     private int _columns;
     private int _poolCapacity;
     private bool[,] _activeCells;
+    private List<LetterDispenserData> _dispensers;
     public List<WordWithRange> Words => _words; 
     public int Rows => _rows;
     public int Columns => _columns;
     public int PoolCapacity => _poolCapacity;
     public bool[,] ActiveCells => _activeCells;
+    public List<LetterDispenserData> Dispensers => _dispensers;
     
-    public LevelData(List<WordWithRange> words, int rows, int columns, int poolCapacity, bool[,] activeCells)
+    public LevelData(List<WordWithRange> words, int rows, int columns, int poolCapacity, bool[,] activeCells, List<LetterDispenserData> dispensers)
     {
         if (activeCells.GetLength(0) != rows || activeCells.GetLength(1) != columns)
             throw new ArgumentException("Размеры activeCells должны соответствовать rows и columns");
-        
+
+        _dispensers = dispensers;
         _rows = rows;
         _columns = columns;
         _words = words;

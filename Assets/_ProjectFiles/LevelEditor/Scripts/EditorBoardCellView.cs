@@ -34,5 +34,19 @@ public class EditorBoardCellView : LetterCell
     
         _occupant = _factory.Create<EditorLetterUnit>(data);
         _occupant.transform.position = SpawnPositionTransform.position;
+        
+        var editorLetter = _occupant.GetComponent<EditorLetterUnit>();
+        editorLetter.Color = data.color;
+    }
+
+    public void SetColor(Color color)
+    {
+        var renderer = GetComponent<Renderer>();
+        var mpb = new MaterialPropertyBlock();
+        
+        renderer.GetPropertyBlock(mpb);
+        mpb.SetColor("_Color", color);
+
+        renderer.SetPropertyBlock(mpb);
     }
 }

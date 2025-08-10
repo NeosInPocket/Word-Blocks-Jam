@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5468081073860091897}
   - component: {fileID: 108142678140140917}
   - component: {fileID: 329180981319676775}
-  - component: {fileID: 4811543863820674334}
   - component: {fileID: 5134433321194519778}
+  - component: {fileID: 5772097929492849736}
   m_Layer: 0
   m_Name: LetterDispenser
   m_TagString: Untagged
@@ -85,19 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4811543863820674334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8372745558191083178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03ec29ba8bd8e4e43a580c4a136a8606, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  positionData: {fileID: 5134433321194519778}
 --- !u!114 &5134433321194519778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,3 +98,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
+--- !u!114 &5772097929492849736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8372745558191083178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273c563e4a064279b71c0fcd8dd68d8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

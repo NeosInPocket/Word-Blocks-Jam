@@ -1,17 +1,18 @@
 #if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
-using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 public class LevelEditor
 {
     private WordLevelDownloader _downloader = new();
-    private BoardEditorView _boardView;
+    private EditorBoardView editorBoardView;
+    private EditorLetterDispenserFactory editorDispenserFactory;
 
     public int Rows { get; set; } = 5;
     public int Columns { get; set; } = 5;
@@ -19,10 +20,23 @@ public class LevelEditor
 
     public List<WordLevel> LoadedLevels { get; private set; } = new();
     public List<LevelAsset> LoadedLevelAssets { get; private set; } = new();
-    public List<LetterDispenserData> LetterDispensers { get; private set; } = new();
 
-    public int SelectedLevelIndex { get; set; }
+    public List<LetterDispenserData> LetterDispensersDatas { get; set; } = new();
+    public List<EditorLetterDispenserView> LetterDispenserViews { get; set; } = new();
+    public List<Color> EditorWordsColors { get; set; }
+    public List<Color> EditorDispensersColors { get; set; }
 
+    public int SelectedLevelIndex
+    {
+        get => _selectedLevelIndex;
+        set
+        {
+            _selectedLevelIndex = value;
+            EditorWordsColors = GenerateUniqueColors(CurrentLevel.Words.Count);
+        }
+    }
+    private int _selectedLevelIndex;
+    
     public bool IsLoading { get; private set; }
     public bool IsLevelGenerated { get; private set; }
     public bool IsBoardGenerated { get; private set; }
@@ -49,43 +63,49 @@ public class LevelEditor
         }
     }
 
-    private int CurrentCellsCount => _boardView?.GetCellsCount() ?? 0;
+    private int CurrentCellsCount => editorBoardView?.GetCellsCount() ?? 0;
 
     public bool Available
     {
         get
         {
             SetBoardView();
-            return _boardView != null;
+            return editorBoardView != null;
         }
     }
 
     public LevelEditor()
     {
         SetBoardView();
-        _boardView.ClearBoard();
+        editorBoardView.ClearBoard();
+        editorDispenserFactory.Clear();
+        EditorDispensersColors = GenerateUniqueColors(10);
     }
 
     private void SetBoardView()
     {
-        _boardView = Object.FindObjectOfType<BoardEditorView>();
+        editorBoardView = Object.FindObjectOfType<EditorBoardView>();
+        editorDispenserFactory = Object.FindObjectOfType<EditorLetterDispenserFactory>();
     }
 
     private void ClearBoard()
     {
         SetBoardView();
-        _boardView?.ClearBoard();
+        editorBoardView?.ClearBoard();
+        editorDispenserFactory.Clear();
+        LetterDispenserViews.Clear();
     }
 
     public void EmptyBoard()
     {
-        _boardView?.EmptyBoard();
+        editorBoardView?.EmptyBoard();
+        LetterDispenserViews.ForEach(x => x.Clear());
         IsLevelGenerated = false;
     }
 
     public int GetCurrentCellsCounts(EditorWindow context)
     {
-        if (_boardView == null)
+        if (editorBoardView == null)
             return 0;
 
         context?.Repaint();
@@ -137,7 +157,7 @@ public class LevelEditor
     private List<BoardEntityData> CollectData()
     {
         List<BoardEntityData> result = new();
-        var cells = _boardView?.Cells;
+        var cells = editorBoardView?.Cells;
 
         if (cells == null) return result;
 
@@ -155,20 +175,42 @@ public class LevelEditor
                 isVisible = letterUnit.GetVisibility();
             }
 
-            var data = new BoardEntityData(character, cell.positionData.position, isVisible);
+            var data = new BoardEntityData(character, cell.positionData.position, isVisible, letterUnit.Color, false);
             result.Add(data);
         }
 
         return result;
     }
+    
+    public void BuildDispensers()
+    {
+        var dispenserFactory = Object.FindObjectOfType<EditorLetterDispenserFactory>();
+        if (dispenserFactory == null) throw new ArgumentNullException("Фабрика труб не найдена");
 
+        dispenserFactory.Clear();
+        
+        for (int i = 0; i < LetterDispensersDatas.Count; i++)
+        {
+            var data = LetterDispensersDatas[i];
+            
+            var dispenserView = dispenserFactory.Create();
+            dispenserView.BuildEmptyBoard(data.CellCount, 1, editorBoardView.Cells[0].SideSize);
+            dispenserView.SetColor(EditorDispensersColors[i]);
+            
+            LetterDispenserViews.Add(dispenserView);
+        }
+        
+        editorBoardView.SetDispensers(LetterDispenserViews);
+    }
+    
     public void GenerateBoard()
     {
         if (IsLoading) return;
 
         IsBoardGenerated = true;
         ClearBoard();
-        _boardView?.BuildEmptyBoard(Rows, Columns);
+        editorBoardView?.BuildEmptyBoard(Rows, Columns);
+        BuildDispensers();
     }
 
     public void BuildLevelFromAsset()
@@ -180,28 +222,28 @@ public class LevelEditor
         Columns = level.columns;
         PoolCount = level.poolCount;
         
-        _boardView?.BuildBoard(level);
+        editorBoardView?.BuildBoard(level);
+        
         IsLevelGenerated = true;
         IsBoardGenerated = true;
     }
 
     public void FillBoard(EditorWindow contextWindow)
     {
-        if (_boardView == null) SetBoardView();
-        if (_boardView == null)
+        if (editorBoardView == null)
         {
             Debug.LogError("BoardView не найден на сцене.");
             return;
         }
 
         IsLevelGenerated = true;
-        EditorCoroutineUtility.StartCoroutineOwnerless(GenerateAfterLoadCoroutine(contextWindow));
+        FillBoardWithLevelData(contextWindow);
     }
 
     public void RequestReload()
     {
         IsLoading = true;
-        _boardView?.ClearBoard();
+        editorBoardView?.ClearBoard();
         LoadedLevels.Clear();
         LoadedLevelAssets.Clear();
         _ = LoadLevelsAsync();
@@ -209,7 +251,7 @@ public class LevelEditor
 
     public void RequestLevelsFromAssets()
     {
-        _boardView?.ClearBoard();
+        editorBoardView?.ClearBoard();
         LoadedLevels.Clear();
         LoadedLevelAssets.Clear();
         LoadedLevelAssets = LevelAssetLoader.LoadAllLevels();
@@ -222,10 +264,18 @@ public class LevelEditor
         if (levels != null)
         {
             LoadedLevels = new List<WordLevel>();
-
+            EditorWordsColors = GenerateUniqueColors(levels.Count);
+            
             foreach (var level in levels)
             {
-                var words = level.words.Select(w => new WordWithRange(w, 0, 0)).ToList();
+                List<WordWithRange> words = new();
+
+                for (int i = 0; i < level.words.Count; i++)
+                {
+                    var currentWord = level.words[i];
+                    words.Add(new WordWithRange(currentWord, 0, 0, EditorWordsColors[i]));
+                }
+                
                 LevelData.CalculateOptimalRowRanges(words, Rows, Columns);
                 LoadedLevels.Add(new WordLevel(level.levelId, words));
             }
@@ -241,51 +291,70 @@ public class LevelEditor
         IsLoading = false;
     }
 
-    private System.Collections.IEnumerator GenerateAfterLoadCoroutine(EditorWindow repaintTarget)
+    private void FillBoardWithLevelData(EditorWindow repaintTarget)
     {
-        while (IsLoading) yield return null;
-
         var words = CurrentLevel?.Words;
         if (words == null)
         {
             Debug.LogError("Уровень не выбран или не загружен.");
-            yield break;
         }
 
         bool[,] activeCells = new bool[Rows, Columns];
-        var cells = _boardView.Cells;
+        var cells = editorBoardView.Cells;
 
         for (int i = 0; i < Rows; i++)
         for (int j = 0; j < Columns; j++)
             activeCells[i, j] = cells.Any(x => x.positionData.position.x == i && x.positionData.position.y == j);
 
-        var levelData = new LevelData(words, Rows, Columns, PoolCount, activeCells);
-        _boardView.EmptyBoard();
-        _boardView.FillBoard(levelData);
+        var levelData = new LevelData(words, Rows, Columns, PoolCount, activeCells, LetterDispensersDatas);
+        editorBoardView.EmptyBoard();
+        editorBoardView.FillBoard(levelData);
 
+        for (int i = 0; i < LetterDispensersDatas.Count; i++)
+        {
+            var data = LetterDispensersDatas[i];
+            var dispenser = LetterDispenserViews[i];
+            
+            dispenser.FillDispenser(data);
+        }
+        
         IsBoardGenerated = true;
         repaintTarget?.Repaint();
     }
 
     public void AddLetterDispenser()
     {
-        LetterDispensers.Add(new LetterDispenserData { CellCount = 0 });
+        LetterDispensersDatas.Add(new LetterDispenserData { CellCount = 0 });
     }
 
     public void RemoveLetterDispenser(int index)
     {
-        if (index >= 0 && index < LetterDispensers.Count)
+        if (index >= 0 && index < LetterDispensersDatas.Count)
         {
-            LetterDispensers.RemoveAt(index);
+            LetterDispensersDatas.RemoveAt(index);
         }
     }
 
     public void UpdateLetterDispenserCellCount(int index, int cellCount)
     {
-        if (index >= 0 && index < LetterDispensers.Count)
+        if (index >= 0 && index < LetterDispensersDatas.Count)
         {
-            LetterDispensers[index].CellCount = cellCount;
+            LetterDispensersDatas[index].CellCount = cellCount;
         }
+    }
+    
+    public List<Color> GenerateUniqueColors(int colorsCount)
+    {
+        List<Color> colors = new List<Color>(colorsCount);
+
+        for (int i = 0; i < colorsCount; i++)
+        {
+            float hue = (i / (float)colorsCount) % 1f;
+            Color color = Color.HSVToRGB(hue, 0.8f, 0.9f);
+            colors.Add(color);
+        }
+
+        return colors;
     }
 }
 #endif

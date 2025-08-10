@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
@@ -11,7 +12,7 @@ public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
     [SerializeField] protected Transform parentTransform;
     protected List<T> _cells;
 
-    public void BuildEmptyBoard(int rows, int cols)
+    public void BuildEmptyBoard(int rows, int cols, float cellSize = 0)
     {
         int cellsPerRow = cols;
         var boardBounds = spawnArea.Collider.bounds;
@@ -21,10 +22,12 @@ public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
         var minZ = boardBounds.min.z;
 
         float xBoardSize = maxX - minX;
-        float cellSideSize = xBoardSize / (cellsPerRow + spacingPerCellSize * (cellsPerRow - 1));
+        float cellSideSize = cellSize == 0 ? xBoardSize / (cellsPerRow + spacingPerCellSize * (cellsPerRow - 1)) : cellSize;
         float spacing = spacingPerCellSize * cellSideSize;
         float startX = minX + cellSideSize / 2;
-        Vector3 spawnPosition = new Vector3(startX, ySpawnTransform.position.y, minZ + cellSideSize / 2);
+        float startZ = minZ + cellSideSize / 2;
+        
+        Vector3 spawnPosition = new Vector3(startX, ySpawnTransform.position.y, startZ);
         
         _cells = new List<T>();
         for (int i = 0; i < rows; i++)
@@ -42,6 +45,26 @@ public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
             spawnPosition.x = startX;
             spawnPosition.z += spacing + cellSideSize;
         }
+    }
+
+    public List<(Vector2Int position, Vector3 worldPosition)> DeleteLastCells(int cellsCount)
+    {
+        List<(Vector2Int position, Vector3 worldPosition)> result = new();
+        
+        for (int i = 0; i < cellsCount; i++)
+        {
+            var lastCell = _cells.Last();
+            result.Add((lastCell.positionData.position, lastCell.transform.position));
+            _cells.Remove(lastCell);
+            
+            #if UNITY_EDITOR
+            DestroyImmediate(lastCell.gameObject);
+            #else
+            Destroy(lastCell.gameObject);
+            #endif
+        }
+        
+        return result;
     }
     
     public void BuildEmptyBoard(int count)

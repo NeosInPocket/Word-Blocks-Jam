@@ -27,16 +27,14 @@ public class BoardDataGenerator
             totalActiveCells += count;
         }
 
-        if (totalLetters > totalActiveCells)
-        {
-            throw new InvalidOperationException("Букв слишком много для доступных ячеек!");
-        }
+        int totalDispenserCapacity = levelData.Dispensers?.Sum(d => d.CellCount) ?? 0;
 
-        int lettersPlaced = 0;
+        if (totalLetters > totalActiveCells + totalDispenserCapacity)
+            throw new InvalidOperationException("Букв слишком много для доступных ячеек и диспенсеров!");
+
         int maxFilledRowIndex = -1;
         int fullRows = 0;
         int partialRowLetters = 0;
-
         {
             int sum = 0;
             for (int r = 0; r < rows; r++)
@@ -57,11 +55,28 @@ public class BoardDataGenerator
             if (maxFilledRowIndex == -1) maxFilledRowIndex = fullRows - 1;
         }
 
-        List<(char letter, WordWithRange wordInfo)> lettersQueue = new List<(char, WordWithRange)>();
+        List<(char letter, WordWithRange word)> lettersQueue = new List<(char, WordWithRange)>();
         foreach (var w in levelData.Words)
             lettersQueue.AddRange(w.word.Select(ch => (ch, w)));
 
         int letterIndex = 0;
+
+        bool TryPlaceInDispensers(int queueIndex)
+        {
+            if (levelData.Dispensers == null || levelData.Dispensers.Count == 0) return false;
+            var entry = lettersQueue[queueIndex];
+            if (entry.letter == '\0') return true;
+            foreach (var dispenser in levelData.Dispensers)
+            {
+                var data = new BoardEntityData(entry.letter.ToString(), new Vector2Int(-1, -1), true, entry.word.color, false);
+                if (dispenser.TryAdd(data))
+                {
+                    lettersQueue[queueIndex] = ('\0', null);
+                    return true;
+                }
+            }
+            return false;
+        }
 
         for (int r = 0; r <= maxFilledRowIndex; r++)
         {
@@ -72,26 +87,36 @@ public class BoardDataGenerator
             while (indexesForRow.Count < lettersInThisRow && i < lettersQueue.Count)
             {
                 var (ch, w) = lettersQueue[i];
-                if (r + 1 >= w.rowMin && r + 1 <= w.rowMax && ch != '\0')
+                if (ch == '\0') { i++; continue; }
+                if (w != null && r + 1 >= w.rowMin && r + 1 <= w.rowMax)
                 {
                     indexesForRow.Add(i);
                 }
+                else
+                {
+                    if (TryPlaceInDispensers(i))
+                    {
+                        // letter moved to dispenser, advance
+                    }
+                }
                 i++;
             }
+
             for (int j = 0; j < lettersQueue.Count && indexesForRow.Count < lettersInThisRow; j++)
             {
                 if (indexesForRow.Contains(j)) continue;
                 var (ch, w) = lettersQueue[j];
-
-                if (w == null)
+                if (ch == '\0') continue;
+                if (w != null && r + 1 >= w.rowMin && r + 1 <= w.rowMax)
                 {
-                    throw new InvalidOperationException(
-                        "Не удалось расставить буквы в ячейки поля, проверьте количество ячеек");
-                }
-                
-                if (r + 1 >= w.rowMin && r + 1 <= w.rowMax && ch != '\0')
                     indexesForRow.Add(j);
+                }
+                else
+                {
+                    TryPlaceInDispensers(j);
+                }
             }
+
             if (indexesForRow.Count < lettersInThisRow)
             {
                 int toFill = lettersInThisRow - indexesForRow.Count;
@@ -119,14 +144,22 @@ public class BoardDataGenerator
                 else
                 {
                     var (ch, w) = lettersQueue[letterPos];
-                    board[r, col] = new BoardEntityData(ch.ToString(), new Vector2Int(r, col), true);
-                    occupied[r, col] = true;
-                    lettersQueue[letterPos] = ('\0', null);
-                    while (letterIndex < lettersQueue.Count && lettersQueue[letterIndex].letter == '\0')
-                        letterIndex++;
+                    if (ch == '\0')
+                    {
+                        board[r, col] = null;
+                        occupied[r, col] = true;
+                    }
+                    else
+                    {
+                        board[r, col] = new BoardEntityData(ch.ToString(), new Vector2Int(r, col), true, w.color, false);
+                        occupied[r, col] = true;
+                        lettersQueue[letterPos] = ('\0', null);
+                        while (letterIndex < lettersQueue.Count && lettersQueue[letterIndex].letter == '\0')
+                            letterIndex++;
+                    }
                 }
             }
-            
+
             foreach (var col in activePositions.Skip(lettersInThisRow))
             {
                 if (!occupied[r, col])
@@ -135,7 +168,7 @@ public class BoardDataGenerator
                     occupied[r, col] = true;
                 }
             }
-            
+
             for (int c = 0; c < columns; c++)
             {
                 if (activeCells[r, c] && !occupied[r, c])
@@ -146,21 +179,22 @@ public class BoardDataGenerator
             }
         }
 
-        
         for (int r = maxFilledRowIndex + 1; r < rows; r++)
         {
             for (int c = 0; c < columns; c++)
             {
-                if (activeCells[r, c])
-                {
-                    board[r, c] = null;
-                    occupied[r, c] = true;
-                }
-                else
-                {
-                    board[r, c] = null;
-                    occupied[r, c] = true;
-                }
+                board[r, c] = null;
+                occupied[r, c] = true;
+            }
+        }
+
+        if (levelData.Dispensers != null && levelData.Dispensers.Count > 0)
+        {
+            for (int idx = 0; idx < lettersQueue.Count; idx++)
+            {
+                var entry = lettersQueue[idx];
+                if (entry.letter == '\0') continue;
+                TryPlaceInDispensers(idx);
             }
         }
 
@@ -168,7 +202,8 @@ public class BoardDataGenerator
         if (!allUsed)
         {
             var leftovers = lettersQueue.Where(l => l.letter != '\0').Select(l => l.letter).ToList();
-            Debug.LogWarning($"Не все буквы были размещены! Остались: {string.Join(", ", leftovers)}");
+            if (leftovers.Count > 0)
+                throw new InvalidOperationException($"Не удалось разместить все буквы. Остались: {string.Join(", ", leftovers)}");
         }
 
         ShuffleLettersBetweenRows(board, levelData, maxFilledRowIndex, columns);

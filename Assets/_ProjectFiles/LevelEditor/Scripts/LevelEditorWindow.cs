@@ -7,7 +7,8 @@ using UnityEngine;
 public class LevelEditorWindow : EditorWindow
 {
     private LevelEditor editor;
-    public LevelEditor Editor => editor;
+
+    public LevelEditor Editor => editor ??= new LevelEditor();
     private GUIStyle boldLargeLabel => new (EditorStyles.label)
     {
         fontStyle = FontStyle.Bold,
@@ -20,6 +21,11 @@ public class LevelEditorWindow : EditorWindow
         fontStyle = FontStyle.Bold,
         fontSize = 14,
         alignment = TextAnchor.MiddleCenter
+    };
+    
+    private GUIStyle defaultBoldLabel => new (EditorStyles.label)
+    {
+        fontStyle = FontStyle.Bold
     };
     
     [MenuItem("Tools/Level Editor")]
@@ -39,15 +45,44 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnGUI()
     {
-        editor ??= new LevelEditor();
-        if (!editor.Available) return;
+        if (!Editor.Available) return;
         
         GUILayout.Label("Настройка уровня", EditorStyles.boldLabel);
 
-        editor.Rows = EditorGUILayout.IntField("Кол-во рядов", editor.Rows);
-        editor.Columns = EditorGUILayout.IntField("Кол-во колонок", editor.Columns);
-        editor.PoolCount = EditorGUILayout.IntField("Размер пула", editor.PoolCount);
+        Editor.Rows = EditorGUILayout.IntField("Кол-во рядов", editor.Rows);
+        Editor.Columns = EditorGUILayout.IntField("Кол-во колонок", editor.Columns);
+        Editor.PoolCount = EditorGUILayout.IntField("Размер пула", editor.PoolCount);
 
+        GUILayout.Space(10);
+        
+        if (GUILayout.Button("Добавить трубу"))
+        {
+            Editor.AddLetterDispenser();
+        }
+
+        GUILayout.Space(10);
+        
+        var defaultContentColor = GUI.contentColor;
+        
+        for (var i = 0; i < Editor.LetterDispensersDatas.Count; i++)
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            GUI.contentColor = Editor.EditorDispensersColors[i];
+            GUILayout.Label($"Труба {i + 1}:", GUILayout.Width(100));
+            GUI.contentColor = defaultContentColor;
+            
+            int newCellCount = EditorGUILayout.IntField("Ячеек:", Editor.LetterDispensersDatas[i].CellCount);
+            Editor.UpdateLetterDispenserCellCount(i, newCellCount);
+
+            if (GUILayout.Button("Удалить", GUILayout.Width(60)))
+            {
+                Editor.RemoveLetterDispenser(i);
+            }
+
+            EditorGUILayout.EndHorizontal();
+        }
+        
         if (CurrentWords is { Count: > 0 })
         {
             GUILayout.Space(10);
@@ -55,7 +90,7 @@ public class LevelEditorWindow : EditorWindow
             int letterCount = CurrentWords.Sum(w => w.word.Length);
             GUILayout.Label($"Всего букв на уровне: {letterCount}", EditorStyles.boldLabel);
 
-            if (editor.IsBoardGenerated)
+            if (Editor.IsBoardGenerated)
             {
                 EditorGUILayout.LabelField($"Текущее кол-во ячеек на уровне: {editor.GetCurrentCellsCounts(this)}", EditorStyles.boldLabel);
             }
@@ -65,11 +100,11 @@ public class LevelEditorWindow : EditorWindow
         GUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Загрузить уровни из таблицы", GUILayout.Height(30)))
-            editor.RequestReload();
+            Editor.RequestReload();
 
         if (GUILayout.Button("Загрузить существующие уровни", GUILayout.Height(30)))
         {
-            editor.RequestLevelsFromAssets();
+            Editor.RequestLevelsFromAssets();
             Repaint();
         }
             
@@ -78,39 +113,18 @@ public class LevelEditorWindow : EditorWindow
         
         GUILayout.Space(10);
         
-        if (editor.IsUsingAssets) GUILayout.Label("Режим редактирования уровня", boldLargeLabel);
-        if (editor.IsUsingDownloadedLevels) GUILayout.Label("Режим создания уровня", boldLargeLabel);
+        if (Editor.IsUsingAssets) GUILayout.Label("Режим редактирования уровня", boldLargeLabel);
+        if (Editor.IsUsingDownloadedLevels) GUILayout.Label("Режим создания уровня", boldLargeLabel);
+        
+        var defaultColor = GUI.contentColor;
         
         if (CurrentWords is { Count: > 0 }) 
         {
             GUILayout.Space(10);
             string[] levelNames = editor.CurrentLevels.ConvertAll(x => $"Уровень {x.LevelId}").ToArray();
-            editor.SelectedLevelIndex = EditorGUILayout.Popup("Выбранный уровень", editor.SelectedLevelIndex, levelNames);
+            Editor.SelectedLevelIndex = EditorGUILayout.Popup("Выбранный уровень", editor.SelectedLevelIndex, levelNames);
 
             GUILayout.Space(10);
-            
-            if (GUILayout.Button("Добавить трубу"))
-            {
-                editor.AddLetterDispenser();
-            }
-
-            for (var i = 0; i < editor.LetterDispensers.Count; i++)
-            {
-                EditorGUILayout.BeginHorizontal();
-
-                GUILayout.Label($"Труба {i + 1}:", GUILayout.Width(100));
-
-                int newCellCount = EditorGUILayout.IntField("Ячеек:", editor.LetterDispensers[i].CellCount);
-                editor.UpdateLetterDispenserCellCount(i, newCellCount);
-
-                if (GUILayout.Button("Удалить", GUILayout.Width(60)))
-                {
-                    editor.RemoveLetterDispenser(i);
-                }
-
-                EditorGUILayout.EndHorizontal();
-            }
-
             
             GUILayout.Space(10);
             GUILayout.Label("Диапазон расположения букв по рядам", boldMiddleLabel);
@@ -118,8 +132,13 @@ public class LevelEditorWindow : EditorWindow
             
             foreach (var wordEntry in CurrentWords)
             {
+                var index = CurrentWords.IndexOf(wordEntry);
+                
+                GUI.contentColor = Editor.EditorWordsColors[index];
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(wordEntry.word, GUILayout.Width(50));
+                GUI.contentColor = defaultColor;
+                
                 wordEntry.rowMin = EditorGUILayout.IntField(wordEntry.rowMin, GUILayout.Width(50));
                 wordEntry.rowMax = EditorGUILayout.IntField(wordEntry.rowMax, GUILayout.Width(50));
                 EditorGUILayout.EndHorizontal();
@@ -130,33 +149,33 @@ public class LevelEditorWindow : EditorWindow
 
         GUI.enabled = !editor.IsLoading && (editor.LoadedLevels.Count > 0 || editor.LoadedLevelAssets.Count > 0);
 
-        if (editor.LoadedLevelAssets.Count > 0)
+        if (Editor.LoadedLevelAssets.Count > 0)
         {
             if (GUILayout.Button("Загрузить уровень", GUILayout.Height(30)))
                 editor.BuildLevelFromAsset();
         }
         
         if (GUILayout.Button("Создать поле", GUILayout.Height(30)))
-            editor.GenerateBoard();
+            Editor.GenerateBoard();
         
-        if (editor.IsBoardGenerated)
+        if (Editor.IsBoardGenerated)
         {
             if (GUILayout.Button("Заполнить поле юнитами", GUILayout.Height(30)))
                 editor.FillBoard(this);
 
-            if (editor.IsLevelGenerated)
+            if (Editor.IsLevelGenerated)
             {
                 if (GUILayout.Button("Очистить юнитов", GUILayout.Height(30)))
-                    editor.EmptyBoard();
+                    Editor.EmptyBoard();
 
                 if (GUILayout.Button("Сохранить уровень", GUILayout.Height(30)))
-                    editor.SaveLevelAsset();
+                    Editor.SaveLevelAsset();
             }
         }
 
         GUI.enabled = true;
 
-        if (editor.IsLoading)
+        if (Editor.IsLoading)
         {
             GUILayout.Space(10);
             EditorGUILayout.LabelField("Загрузка данных...", EditorStyles.miniLabel);

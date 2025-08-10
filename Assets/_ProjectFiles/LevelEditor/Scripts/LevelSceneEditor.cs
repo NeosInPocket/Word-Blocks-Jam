@@ -11,16 +11,16 @@ public class LevelSceneEditor : MonoBehaviour
     private LetterUnitBase selectedB;
     private LetterUnitBase hoveredUnit;
     private EditorBoardCellView selectedCell;
-    private BoardEditorView board;
+    private EditorBoardView editorBoard;
 
-    private BoardEditorView Board
+    private EditorBoardView EditorBoard
     {
         get
         {
-            if (board == null)
-                board = FindObjectOfType<BoardEditorView>();
+            if (editorBoard == null)
+                editorBoard = FindObjectOfType<EditorBoardView>();
 
-            return board;
+            return editorBoard;
         }
     }
     private void OnEnable()
@@ -144,7 +144,7 @@ public class LevelSceneEditor : MonoBehaviour
         var cell = Instantiate(editorBoardCellPrefab, ghostCell.transform.position, editorBoardCellPrefab.transform.rotation, ghostCell.transform.parent);
         cell.positionData.position = ghostCell.positionData.position;
         cell.SideSize = ghostCell.SideSize;
-        Board.Cells.Add(cell);        
+        EditorBoard.Cells.Add(cell);        
         
         DestroyImmediate(ghostCell.gameObject);
     }
@@ -163,7 +163,7 @@ public class LevelSceneEditor : MonoBehaviour
         if (selectedCell == null) return;
         
         Selection.activeObject = null;
-        Board.Cells.Remove(selectedCell);
+        EditorBoard.Cells.Remove(selectedCell);
         
         DestroyImmediate(selectedCell.gameObject);
     }
