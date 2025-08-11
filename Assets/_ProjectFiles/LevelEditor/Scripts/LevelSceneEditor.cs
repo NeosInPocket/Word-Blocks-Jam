@@ -1,5 +1,7 @@
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using System.Linq;
+using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -11,6 +13,7 @@ public class LevelSceneEditor : MonoBehaviour
     private LetterUnitBase selectedB;
     private LetterUnitBase hoveredUnit;
     private EditorBoardCellView selectedCell;
+    private EditorLetterDispenserView selectedDispenser;
     private EditorBoardView editorBoard;
 
     private EditorBoardView EditorBoard
@@ -23,6 +26,29 @@ public class LevelSceneEditor : MonoBehaviour
             return editorBoard;
         }
     }
+
+    private enum HitKind
+    {
+        None = 0,
+        Unit = 1,
+        Pipe = 2,
+        Cell = 3,
+        Ghost = 4
+    }
+
+    private struct PickHit
+    {
+        public HitKind Kind;
+        public float Distance;
+        public LetterUnitBase Unit;
+        public EditorBoardCellView Cell;
+        public EditorGhostBoardCellView Ghost;
+        public EditorPipeView Pipe;
+        public RaycastHit Raw;
+
+        public static readonly PickHit None = new PickHit { Kind = HitKind.None, Distance = float.PositiveInfinity };
+    }
+
     private void OnEnable()
     {
         SceneView.duringSceneGui += OnSceneGUI;
@@ -35,8 +61,257 @@ public class LevelSceneEditor : MonoBehaviour
 
     private void OnSceneGUI(SceneView sceneView)
     {
-        HandleMouseInput(Event.current);
-        HighlightUnits();
+        var e = Event.current;
+        HandleKeyboard(e);
+        HandleMouse(e);
+        HighlightSelections();
+    }
+
+    private void HandleKeyboard(Event e)
+    {
+        if (e.type != EventType.KeyDown || e.keyCode != KeyCode.Delete)
+            return;
+
+        SpawnGhostCell();
+        DeleteSelectedCell();
+        ClearSelection();
+        e.Use();
+    }
+
+    private void HandleMouse(Event e)
+    {
+        if (!IsPrimaryClick(e))
+            return;
+
+        var ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+        var pick = PickTarget(ray);
+
+        ProcessPick(pick, e);
+    }
+
+    private static bool IsPrimaryClick(Event e)
+    {
+        if (e.type != EventType.MouseDown) return false;
+        if (e.button != 0) return false;
+        if (e.alt || e.shift) return false;
+        if (!LevelEditingToggleState.State) return false;
+        return true;
+    }
+
+    private PickTargetPriority PriorityOf(HitKind kind)
+    {
+        switch (kind)
+        {
+            case HitKind.Unit: return PickTargetPriority.Unit;
+            case HitKind.Pipe: return PickTargetPriority.Dispenser;
+            case HitKind.Cell: return PickTargetPriority.Cell;
+            case HitKind.Ghost: return PickTargetPriority.Ghost;
+            default: return PickTargetPriority.Other;
+        }
+    }
+
+    private enum PickTargetPriority
+    {
+        Unit = 0,
+        Dispenser = 1,
+        Cell = 2,
+        Ghost = 3,
+        Other = 100
+    }
+
+    private PickHit PickTarget(Ray ray)
+    {
+        var hits = Physics.RaycastAll(ray);
+        if (hits == null || hits.Length == 0)
+            return PickHit.None;
+
+        var candidates = new List<PickHit>(hits.Length);
+        foreach (var h in hits)
+        {
+            var pick = ClassifyHit(h);
+            if (pick.Kind != HitKind.None)
+                candidates.Add(pick);
+        }
+
+        if (candidates.Count == 0)
+            return PickHit.None;
+
+        var best = candidates
+            .OrderBy(p => PriorityOf(p.Kind))
+            .ThenBy(p => p.Distance)
+            .ThenBy(p => p.Raw.collider != null ? p.Raw.collider.GetInstanceID() : int.MaxValue)
+            .First();
+
+        return best;
+    }
+
+    private PickHit ClassifyHit(RaycastHit hit)
+    {
+        if (hit.collider == null)
+            return PickHit.None;
+
+        if (hit.collider.TryGetComponent<LetterUnitBase>(out var unit) && unit != null)
+        {
+            return new PickHit
+            {
+                Kind = HitKind.Unit,
+                Unit = unit,
+                Distance = hit.distance,
+                Raw = hit
+            };
+        }
+
+        var pipe = hit.collider.GetComponentInParent<EditorPipeView>();
+        if (pipe != null)
+        {
+            return new PickHit
+            {
+                Kind = HitKind.Pipe,
+                Pipe = pipe,
+                Distance = hit.distance,
+                Raw = hit
+            };
+        }
+
+        if (hit.collider.TryGetComponent<EditorBoardCellView>(out var cell) && cell != null)
+        {
+            return new PickHit
+            {
+                Kind = HitKind.Cell,
+                Cell = cell,
+                Distance = hit.distance,
+                Raw = hit
+            };
+        }
+
+        if (hit.collider.TryGetComponent<EditorGhostBoardCellView>(out var ghost) && ghost != null)
+        {
+            return new PickHit
+            {
+                Kind = HitKind.Ghost,
+                Ghost = ghost,
+                Distance = hit.distance,
+                Raw = hit
+            };
+        }
+
+        return PickHit.None;
+    }
+
+    private void ProcessPick(PickHit pick, Event e)
+    {
+        switch (pick.Kind)
+        {
+            case HitKind.Unit:
+                OnUnitClicked(pick.Unit, e);
+                break;
+
+            case HitKind.Pipe:
+                OnPipeClicked(pick.Pipe);
+                break;
+
+            case HitKind.Cell:
+                OnCellClicked(pick.Cell);
+                break;
+
+            case HitKind.Ghost:
+                OnGhostCellClicked(pick.Ghost);
+                break;
+
+            default:
+                ClearSelection();
+                break;
+        }
+
+        e.Use();
+    }
+
+    private void OnUnitClicked(LetterUnitBase unit, Event e)
+    {
+        selectedCell = null;
+        selectedDispenser = null;
+
+        if (selectedA == null)
+        {
+            selectedA = unit;
+            SceneView.RepaintAll();
+            return;
+        }
+
+        if (unit == selectedA)
+        {
+            unit.ToggleVisibility();
+            ClearSelection();
+            return;
+        }
+
+        if (selectedB == null && unit != selectedA)
+        {
+            selectedB = unit;
+            SwapUnits(selectedA, selectedB);
+            ClearSelection();
+        }
+    }
+
+    private void OnPipeClicked(EditorPipeView pipe)
+    {
+        if (selectedCell != null)
+        {
+            SwapDispenserWithCell(pipe.View, selectedCell);
+            ClearSelection();
+            return;
+        }
+
+        if (selectedA != null)
+        {
+            ClearSelection();
+            selectedDispenser = pipe.View;
+            SceneView.RepaintAll();
+            return;
+        }
+
+        if (selectedDispenser == pipe.View)
+        {
+            ClearSelection();
+            return;
+        }
+
+        selectedDispenser = pipe.View;
+        selectedCell = null;
+        SceneView.RepaintAll();
+    }
+
+    private void OnCellClicked(EditorBoardCellView cell)
+    {
+        if (cell.TryGetComponentInChildren<LetterUnitBase>(out var unitInCell))
+        {
+            OnUnitClicked(unitInCell, Event.current);
+            return;
+        }
+
+        if (selectedDispenser != null)
+        {
+            SwapDispenserWithCell(selectedDispenser, cell);
+            ClearSelection();
+            return;
+        }
+
+        if (selectedA != null)
+        {
+            MoveUnitToCell(selectedA, cell);
+            ClearSelection();
+        }
+        else
+        {
+            selectedCell = cell;
+            SceneView.RepaintAll();
+        }
+    }
+
+    private void OnGhostCellClicked(EditorGhostBoardCellView ghost)
+    {
+        SpawnCell(ghost);
+        ClearSelection();
     }
 
     private void ClearSelection()
@@ -44,146 +319,38 @@ public class LevelSceneEditor : MonoBehaviour
         selectedA = null;
         selectedB = null;
         selectedCell = null;
+        selectedDispenser = null;
         SceneView.RepaintAll();
-    }
-    
-    private void HandleMouseInput(Event e)
-    {
-        if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Delete)
-        {
-            SpawnGhostCell();
-            DeleteSelected();
-            ClearSelection();
-            e.Use();
-            return;
-        }
-        
-        if (e.type != EventType.MouseDown || e.button != 0 || e.alt || e.shift || !LevelEditingToggleState.State)
-            return;
-        
-        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-        
-        var raycasts = Physics.RaycastAll(ray).ToList();
-        var targetRaycast = raycasts.FirstOrDefault(x =>
-            x.collider != null && (x.collider.GetComponent<LetterUnitBase>() || x.collider.GetComponent<EditorBoardCellView>()));
-        
-        if (targetRaycast.collider != null)
-        {
-            var unit = targetRaycast.collider.GetComponent<LetterUnitBase>();
-            EditorBoardCellView freeCellView = null;
-            
-            if (unit == null)
-            {
-                var cell = targetRaycast.collider.GetComponent<EditorBoardCellView>();
-                if (cell != null)
-                    unit = cell.GetComponentInChildren<LetterUnitBase>();
-        
-                if (cell != null && unit == null)
-                    freeCellView = cell;
-            }
-        
-            if (unit != null)
-            {
-                selectedCell = null;
-                
-                if (selectedA == null)
-                    selectedA = unit;
-                else if (unit == selectedA)
-                {
-                    unit.ToggleVisibility();
-                    ClearSelection();
-                    e.Use();
-                    return;
-                } 
-                else if (selectedB == null && unit != selectedA)
-                {
-                    selectedB = unit;
-                    SwapUnits(selectedA, selectedB);
-                    ClearSelection();
-                }
-            }
-            else
-            {
-                if (selectedA != null && freeCellView != null)
-                {
-                    MoveUnitToCell(selectedA, freeCellView);
-                    ClearSelection();
-                }
-                else if (selectedA == null && freeCellView != null)
-                {
-                    selectedCell = freeCellView;
-                }
-                else
-                {
-                    ClearSelection();
-                }
-            }
-        }
-        else
-        {
-            var ghostCellRaycast = raycasts.FirstOrDefault(x =>
-                x.collider != null && (x.collider.GetComponent<EditorGhostBoardCellView>()));
-
-            if (ghostCellRaycast.collider != null)
-            {
-                var ghostCell = ghostCellRaycast.collider.GetComponent<EditorGhostBoardCellView>();
-                
-                SpawnCell(ghostCell);
-            }
-            
-            ClearSelection();
-            return;
-        }
-        
-        e.Use();
     }
 
     private void SpawnCell(EditorGhostBoardCellView ghostCell)
     {
-        var editorBoardCellPrefab = Resources.Load<EditorBoardCellView>("LevelEditor/BoardEditorCell");
+        var editorBoardCellPrefab = Resources.Load<EditorBoardCellView>("LevelEditor/EditorBoardCellView");
         var cell = Instantiate(editorBoardCellPrefab, ghostCell.transform.position, editorBoardCellPrefab.transform.rotation, ghostCell.transform.parent);
         cell.positionData.position = ghostCell.positionData.position;
         cell.SideSize = ghostCell.SideSize;
-        EditorBoard.Cells.Add(cell);        
-        
+        EditorBoard.Cells.Add(cell);
+
         DestroyImmediate(ghostCell.gameObject);
     }
-    
+
     private void SpawnGhostCell()
     {
         if (selectedCell == null) return;
-        
+
         var ghostCellPrefab = Resources.Load<EditorGhostBoardCellView>("LevelEditor/EditorGhostBoardCellView");
         var cell = Instantiate(ghostCellPrefab, selectedCell.transform.position, ghostCellPrefab.transform.rotation, selectedCell.transform.parent);
         cell.Initialize(selectedCell.SideSize, selectedCell.positionData.position);
     }
-    
-    private void DeleteSelected()
+
+    private void DeleteSelectedCell()
     {
         if (selectedCell == null) return;
-        
+
         Selection.activeObject = null;
         EditorBoard.Cells.Remove(selectedCell);
-        
+
         DestroyImmediate(selectedCell.gameObject);
-    }
-    
-    private void HighlightUnits()
-    {
-        if (selectedA != null)
-            DrawHighlight(selectedA.transform.position, Color.green);
-
-        if (selectedB != null)
-            DrawHighlight(selectedB.transform.position, Color.cyan);
-        
-        if (selectedCell != null)
-            DrawHighlight(selectedCell.transform.position, Color.red);
-    }
-
-    private void DrawHighlight(Vector3 position, Color color)
-    {
-        Handles.color = color;
-        Handles.DrawWireCube(position, Vector3.one * 0.95f);
     }
 
     private void SwapUnits(LetterUnitBase a, LetterUnitBase b)
@@ -194,15 +361,21 @@ public class LevelSceneEditor : MonoBehaviour
         Undo.RecordObject(a.transform, "Swap LetterUnitBase A");
         Undo.RecordObject(b.transform, "Swap LetterUnitBase B");
 
-        a.transform.SetParent(null);
-        b.transform.SetParent(null);
-
-        a.transform.SetParent(parentB);
-        b.transform.SetParent(parentA);
-
-        (a.transform.position, b.transform.position) = (b.transform.position, a.transform.position);
-        (a.PositionData.position, b.PositionData.position) = (b.PositionData.position, a.PositionData.position);
+        LetterCell cellA = a.GetComponentInParent<LetterCell>();
+        LetterCell cellB = b.GetComponentInParent<LetterCell>();
         
+        cellA.SetOccupant(b);
+        cellB.SetOccupant(a);
+        
+        // a.transform.SetParent(null);
+        // b.transform.SetParent(null);
+        //
+        // a.transform.SetParent(parentB);
+        // b.transform.SetParent(parentA);
+        //
+        // (a.transform.position, b.transform.position) = (b.transform.position, a.transform.position);
+        // (a.PositionData.position, b.PositionData.position) = (b.PositionData.position, a.PositionData.position);
+
         EditorUtility.SetDirty(a);
         EditorUtility.SetDirty(b);
         EditorSceneManager.MarkSceneDirty(a.gameObject.scene);
@@ -210,11 +383,70 @@ public class LevelSceneEditor : MonoBehaviour
 
     private void MoveUnitToCell(LetterUnitBase unit, EditorBoardCellView cellView)
     {
+        Undo.RecordObject(unit.transform, "Move LetterUnitBase To Cell");
+
         unit.transform.SetParent(null);
 
         var position = cellView.SpawnPositionTransform.position;
         unit.transform.SetParent(cellView.SpawnPositionTransform);
         unit.transform.position = position;
+
+        EditorUtility.SetDirty(unit);
+        EditorSceneManager.MarkSceneDirty(unit.gameObject.scene);
+    }
+
+    private void SwapDispenserWithCell(EditorLetterDispenserView dispenser, EditorBoardCellView cell)
+    {
+        if (cell.TryGetComponentInChildren<LetterUnitBase>(out _))
+            return;
+
+        var oldDispGrid = dispenser.positionData.position;
+        var oldCellGrid = cell.positionData.position;
+
+        var oldDispWorld = dispenser.Pipe.transform.position;
+        var oldCellWorld = cell.transform.position;
+        
+        Undo.RegisterFullObjectHierarchyUndo(dispenser.gameObject, "Swap Dispenser With Cell");
+        Undo.RecordObject(cell.transform, "Swap Dispenser With Cell");
+        Undo.RecordObject(cell, "Swap Dispenser With Cell");
+
+        dispenser.SetPosition(oldCellGrid, oldCellWorld);
+        cell.positionData.position = oldDispGrid;
+        cell.transform.position = oldDispWorld;
+
+        EditorUtility.SetDirty(dispenser);
+        EditorUtility.SetDirty(cell);
+        EditorSceneManager.MarkSceneDirty(dispenser.gameObject.scene);
+    }
+
+    private void HighlightSelections()
+    {
+        if (selectedA != null)
+            DrawHighlight(selectedA.transform.position, Color.green);
+
+        if (selectedB != null)
+            DrawHighlight(selectedB.transform.position, Color.cyan);
+
+        if (selectedCell != null)
+            DrawHighlight(selectedCell.transform.position, Color.red);
+
+        if (selectedDispenser != null)
+            DrawHighlight(selectedDispenser.Pipe.transform.position, Color.yellow);
+    }
+
+    private void DrawHighlight(Vector3 position, Color color)
+    {
+        Handles.color = color;
+        Handles.DrawWireCube(position, Vector3.one * 0.95f);
+    }
+}
+
+internal static class ComponentExtensions
+{
+    public static bool TryGetComponentInChildren<T>(this Component component, out T result) where T : Component
+    {
+        result = component.GetComponentInChildren<T>();
+        return result != null;
     }
 }
 #endif

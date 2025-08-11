@@ -12,6 +12,6 @@ public static class LevelAssetLoader
     public static LevelAsset LoadLevelById(int levelId, string resourcesPath = "LevelAssets")
     {
         var levels = LoadAllLevels(resourcesPath);
-        return levels.Find(l => l.levelId == levelId);
+        return levels.Find(l => l.LevelId == levelId);
     }
 }

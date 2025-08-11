@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+
 public class EditorBoardView : BoardSpawner<EditorBoardCellView>
 {
     [SerializeField] private EditorGhostBoardCellView ghostPrefab;
@@ -32,7 +35,7 @@ public class EditorBoardView : BoardSpawner<EditorBoardCellView>
         }
     }
 
-    public void SetDispensers(List<EditorLetterDispenserView> dispensers)
+    public void InsertDispensers(List<EditorLetterDispenserView> dispensers)
     {
         var deletedCells = DeleteLastCells(dispensers.Count);
         
@@ -41,18 +44,37 @@ public class EditorBoardView : BoardSpawner<EditorBoardCellView>
             dispensers[i].SetPosition(deletedCells[i].position, deletedCells[i].worldPosition);
         }
     }
+
+    public void SetDispensers(LevelAsset levelAsset, List<EditorLetterDispenserView> dispensers)
+    {
+        List<EditorBoardCellView> occupiedCells = new List<EditorBoardCellView>();
+        List<BoardEntityData> usedEntities = new List<BoardEntityData>();
+        
+        for (int i = 0; i < dispensers.Count; i++)
+        {
+            var data = levelAsset.Board.First(x => x.isOccupiedByDispenser && !usedEntities.Contains(x));
+            var cellToDelete = _cells.FirstOrDefault(x => x.positionData.position == data.position && !occupiedCells.Contains(x));
+            if (cellToDelete == null) throw new NullReferenceException("Ячейка не найдена: " + dispensers[i].positionData.position);
+            occupiedCells.Add(cellToDelete);
+            usedEntities.Add(data);
+            
+            dispensers[i].SetPosition(cellToDelete.positionData.position, cellToDelete.transform.position);
+            DestroyImmediate(cellToDelete.gameObject);
+        }
+    }
     
     public void BuildBoard(LevelAsset levelAsset)
     {
         ClearBoard();
-        BuildEmptyBoard(levelAsset.rows,levelAsset.columns);
-
-        for (int i = 0; i < levelAsset.rows; i++)
+        BuildEmptyBoard(levelAsset.Rows,levelAsset.Columns);
+        int dispenserIndex = 0;
+        
+        for (int i = 0; i < levelAsset.Rows; i++)
         {
-            for (int j = 0; j < levelAsset.columns; j++)
+            for (int j = 0; j < levelAsset.Columns; j++)
             {
                 var cell = _cells.FirstOrDefault(x => x.positionData.position == new Vector2Int(i, j));
-                var entity = levelAsset.board.FirstOrDefault(x => x.position == new Vector2Int(i, j));
+                var entity = levelAsset.Board.FirstOrDefault(x => x.position == new Vector2Int(i, j));
 
                 if (entity == null)
                 {
@@ -65,9 +87,7 @@ public class EditorBoardView : BoardSpawner<EditorBoardCellView>
                 else
                 {
                     if (!string.IsNullOrEmpty(entity.character))
-                    {
                         cell.SetData(entity);
-                    }
                 }
             }
         }

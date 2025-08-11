@@ -1,17 +1,38 @@
 using UnityEngine;
 using System.Collections.Generic;
+using _ProjectFiles._Features.LetterDispenser.Scripts;
 
 [CreateAssetMenu(fileName = "Level_", menuName = "Game/Level Asset")]
 public class LevelAsset : ScriptableObject
 {
-    public int levelId;
-    public int rows;
-    public int columns;
-    public int poolCount;
-    public List<WordWithRange> words;
-    public List<BoardEntityData> board;
-
+    [SerializeField] private int levelId;
+    [SerializeField] private int rows;
+    [SerializeField] private int columns;
+    [SerializeField] private int poolCount;
+    [SerializeField] private List<WordWithRange> words;
+    [SerializeField] private List<BoardEntityData> board;
+    [SerializeField] private List<LetterDispenserData> dispensers;
+    
+    public int LevelId => levelId;
+    public int Rows => rows;
+    public int Columns => columns;
+    public int PoolCount => poolCount;
+    public List<WordWithRange> Words => words;
+    public List<BoardEntityData> Board => board;
+    public List<LetterDispenserData> Dispensers => dispensers;
+    
     public BoardEntityData[,] boardArray => To2DArray(board, rows, columns);
+
+    public void Initialize(int levelId, int rows, int columns, int poolCount, List<WordWithRange> words, List<BoardEntityData> board, List<LetterDispenserData> dispensers)
+    {
+        this.levelId = levelId;
+        this.rows = rows;
+        this.columns = columns;
+        this.poolCount = poolCount;
+        this.words = words;
+        this.board = board;
+        this.dispensers = dispensers;
+    }
     
     public BoardEntityData[,] To2DArray(List<BoardEntityData> list, int rows, int columns)
     {

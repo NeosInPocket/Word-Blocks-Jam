@@ -11,7 +11,7 @@ public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
     [SerializeField] protected Transform ySpawnTransform;
     [SerializeField] protected Transform parentTransform;
     protected List<T> _cells;
-
+    
     public void BuildEmptyBoard(int rows, int cols, float cellSize = 0)
     {
         int cellsPerRow = cols;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -5,6 +6,11 @@ public class EditorLetterDispenserFactory : MonoBehaviour
 {
     [SerializeField] private EditorLetterDispenserView prefab;
 
+    private void Start()
+    {
+        Clear();
+    }
+    
     public EditorLetterDispenserView Create()
     {
         var allCells = FindObjectsByType<EditorBoardCellView>(FindObjectsSortMode.None).ToList();
@@ -20,9 +26,16 @@ public class EditorLetterDispenserFactory : MonoBehaviour
 
     public void Clear()
     {
-        foreach (Transform dispenserView in transform)
+        var childs = new List<GameObject>();
+
+        foreach (Transform child in transform)
         {
-            DestroyImmediate(dispenserView.gameObject);
+            childs.Add(child.gameObject);
+        }
+        
+        foreach (var child in childs)
+        {
+            DestroyImmediate(child);
         }
     }
 }

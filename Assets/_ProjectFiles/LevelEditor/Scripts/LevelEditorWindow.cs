@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelEditorWindow : EditorWindow
 {
@@ -36,6 +37,8 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnEnable()
     {
+        if (SceneManager.GetActiveScene().name != "GameScene") return;
+        
         editor = new LevelEditor();
     }
 
@@ -45,10 +48,25 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnGUI()
     {
+        if (SceneManager.GetActiveScene().name != "GameScene") return;
         if (!Editor.Available) return;
         
         GUILayout.Label("Настройка уровня", EditorStyles.boldLabel);
 
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Загрузить уровни из таблицы", GUILayout.Height(30)))
+            Editor.RequestReload();
+
+        if (GUILayout.Button("Загрузить существующие уровни", GUILayout.Height(30)))
+        {
+            Editor.RequestLevelsFromAssets();
+            Repaint();
+        }
+
+        GUILayout.EndHorizontal();
+        
         Editor.Rows = EditorGUILayout.IntField("Кол-во рядов", editor.Rows);
         Editor.Columns = EditorGUILayout.IntField("Кол-во колонок", editor.Columns);
         Editor.PoolCount = EditorGUILayout.IntField("Размер пула", editor.PoolCount);
@@ -72,8 +90,7 @@ public class LevelEditorWindow : EditorWindow
             GUILayout.Label($"Труба {i + 1}:", GUILayout.Width(100));
             GUI.contentColor = defaultContentColor;
             
-            int newCellCount = EditorGUILayout.IntField("Ячеек:", Editor.LetterDispensersDatas[i].CellCount);
-            Editor.UpdateLetterDispenserCellCount(i, newCellCount);
+            Editor.LetterDispensersDatas[i].CellCount = EditorGUILayout.IntField("Ячеек:", Editor.LetterDispensersDatas[i].CellCount);
 
             if (GUILayout.Button("Удалить", GUILayout.Width(60)))
             {
@@ -95,21 +112,6 @@ public class LevelEditorWindow : EditorWindow
                 EditorGUILayout.LabelField($"Текущее кол-во ячеек на уровне: {editor.GetCurrentCellsCounts(this)}", EditorStyles.boldLabel);
             }
         }
-
-        GUILayout.Space(10);
-        GUILayout.BeginHorizontal();
-
-        if (GUILayout.Button("Загрузить уровни из таблицы", GUILayout.Height(30)))
-            Editor.RequestReload();
-
-        if (GUILayout.Button("Загрузить существующие уровни", GUILayout.Height(30)))
-        {
-            Editor.RequestLevelsFromAssets();
-            Repaint();
-        }
-            
-
-        GUILayout.EndHorizontal();
         
         GUILayout.Space(10);
         

@@ -22,12 +22,12 @@ public class LevelSelectionView : MonoBehaviour
         
         foreach (var level in LoadedLevels)
         {
-            options.Add($"Level {level.levelId}");
+            options.Add($"Level {level.LevelId}");
         }
         
         dropdown.ClearOptions();
         dropdown.AddOptions(options);
-        levelInfo = new CurrentLevelInfo(LoadedLevels[0].levelId);
+        levelInfo = new CurrentLevelInfo(LoadedLevels[0].LevelId);
     }
 
     public void LoadLevel()

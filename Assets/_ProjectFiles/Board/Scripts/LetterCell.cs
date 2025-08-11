@@ -6,6 +6,8 @@ public class LetterCell : MonoBehaviour
     [SerializeField] protected Transform spawnTransform;
     protected LetterUnitBase _occupant;
     private Renderer _renderer;
+    protected BoardEntityData _data;
+    public BoardEntityData Data => _data;
     
     public float SideSize
     {
@@ -26,6 +28,7 @@ public class LetterCell : MonoBehaviour
     
     public void SetOccupant(LetterUnitBase unit)
     {
+        _data = unit.Data;
         _occupant = unit;
         unit.transform.SetParent(transform);
         unit.transform.position = spawnTransform.position;

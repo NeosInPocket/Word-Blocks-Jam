@@ -27,6 +27,8 @@ public class EditorBoardCellView : LetterCell
     
     public void SetData(BoardEntityData data)
     {
+        _data = data;
+        
         if (_factory == null)
         {
             _factory = new LetterUnitFactory(letterUnitPrefab, transform);

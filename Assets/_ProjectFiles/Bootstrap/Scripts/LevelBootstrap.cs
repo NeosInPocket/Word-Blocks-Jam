@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using _ProjectFiles.WordCompletion.Scripts;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelBootstrap : MonoBehaviour
@@ -27,14 +26,14 @@ public class LevelBootstrap : MonoBehaviour
 
         try
         {
-            level = levels.First(x => x.levelId == CurrentLevelInfo.Instance.LevelId);
+            level = levels.First(x => x.LevelId == CurrentLevelInfo.Instance.LevelId);
         }
         catch (Exception e)
         {
             Debug.LogError("Данный уровень не найден");
         }
 
-        _queue = new(level.words.Select(x => x.word).ToList());
+        _queue = new(level.Words.Select(x => x.word).ToList());
 
         var viewModel = new CurrentWordViewModel(_queue);
         wordView.ViewModel = viewModel;
@@ -42,7 +41,7 @@ public class LevelBootstrap : MonoBehaviour
         
         boardView.BuildBoard(level);
         
-        unusedLettersPoolView.BuildEmptyBoard(level.poolCount);
+        unusedLettersPoolView.BuildEmptyBoard(level.PoolCount);
         wordCompletionPool.BuildPool(_queue);
     }
 }

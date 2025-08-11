@@ -1,31 +1,47 @@
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace _ProjectFiles._Features.LetterDispenser.Scripts
 {
+    [Serializable]
     public class LetterDispenserData
     {
         public int CellCount
         {
-            get => _cellCount;
+            get => cellCount;
             set
             {
-                _datas.Clear();
-                _cellCount = value;
+                Board.Clear();
+                cellCount = value;
             }
         }
-        public bool IsFull => _datas.Count == CellCount;
-        public List<BoardEntityData> Data => _datas;
+        public bool IsFull => Board.Count == CellCount;
         
-        private int _cellCount;
-        private List<BoardEntityData> _datas = new();
-        
+        public int cellCount;
+        public List<BoardEntityData> Board = new();
 
         public bool TryAdd(BoardEntityData data)
         {
-            if (_datas.Count >= CellCount) return false;
+            if (Board.Count >= CellCount) return false;
             
-            _datas.Add(data);
+            Board.Add(data);
             return true;
+        }
+
+        public List<BoardEntityData> CopyBoard()
+        {
+            var result = new List<BoardEntityData>();
+            
+            foreach (var data in Board)
+            {
+                var newData = new BoardEntityData(data.character, data.position, data.isVisible, data.color,
+                    data.isOccupiedByDispenser);
+                
+                result.Add(newData);
+            }
+
+            return result;
         }
     }
 }

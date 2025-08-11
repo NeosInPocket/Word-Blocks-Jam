@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -79,6 +80,8 @@ public class LevelEditor
         SetBoardView();
         editorBoardView.ClearBoard();
         editorDispenserFactory.Clear();
+        
+        ClearBoard();
         EditorDispensersColors = GenerateUniqueColors(10);
     }
 
@@ -91,7 +94,7 @@ public class LevelEditor
     private void ClearBoard()
     {
         SetBoardView();
-        editorBoardView?.ClearBoard();
+        editorBoardView.ClearBoard();
         editorDispenserFactory.Clear();
         LetterDispenserViews.Clear();
     }
@@ -99,7 +102,7 @@ public class LevelEditor
     public void EmptyBoard()
     {
         editorBoardView?.EmptyBoard();
-        LetterDispenserViews.ForEach(x => x.Clear());
+        LetterDispenserViews.ForEach(x => x.ClearBoard());
         IsLevelGenerated = false;
     }
 
@@ -138,45 +141,57 @@ public class LevelEditor
             AssetDatabase.CreateAsset(asset, assetPath);
         }
 
-        asset.levelId = CurrentLevel.LevelId;
-        asset.rows = Rows;
-        asset.columns = Columns;
-        asset.poolCount = PoolCount;
-
-        asset.words = new List<WordWithRange>(CurrentLevel.Words);
-
-        asset.board = CollectData();
-
+        var letterDispensersDatas = LetterDispenserViews.Select(x => x.Data).ToList();
+        asset.Initialize(CurrentLevel.LevelId, Rows, Columns, PoolCount, new List<WordWithRange>(CurrentLevel.Words), CollectData(), letterDispensersDatas);
+        
         EditorUtility.SetDirty(asset);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
 
-        Debug.Log($"Level {asset.levelId} saved at {assetPath}");
+        Debug.Log($"Level {asset.LevelId} saved at {assetPath}");
     }
 
     private List<BoardEntityData> CollectData()
     {
         List<BoardEntityData> result = new();
-        var cells = editorBoardView?.Cells;
 
-        if (cells == null) return result;
-
-        foreach (var cell in cells)
+        for (int i = 0; i < Rows; i++)
         {
-            if (cell == null) continue;
-
-            string character = null;
-            bool isVisible = true;
-
-            var letterUnit = cell.GetComponentInChildren<EditorLetterUnit>();
-            if (letterUnit != null)
+            for (int j = 0; j < Columns; j++)
             {
-                character = letterUnit.Character;
-                isVisible = letterUnit.GetVisibility();
-            }
+                var cell = editorBoardView.Cells.FirstOrDefault(x => x.positionData.position == new Vector2Int(i, j));
+                
+                string character = null;
+                bool isVisible = true;
+                Color unitColor = default;
+                BoardEntityData data = null;
 
-            var data = new BoardEntityData(character, cell.positionData.position, isVisible, letterUnit.Color, false);
-            result.Add(data);
+                if (cell == null)
+                {
+                    var dispenser =
+                        LetterDispenserViews.FirstOrDefault(x => x.positionData.position == new Vector2Int(i, j));
+
+                    if (dispenser != null)
+                    {
+                        data = new BoardEntityData(null, dispenser.positionData.position, true, unitColor, true);
+                    }
+                }
+                else
+                {
+                    var letterUnit = cell.GetComponentInChildren<EditorLetterUnit>();
+                    
+                    if (letterUnit != null)
+                    {
+                        character = letterUnit.Character;
+                        isVisible = letterUnit.GetVisibility();
+                        unitColor = letterUnit.Color;
+                    }
+                    
+                    data = new BoardEntityData(character, cell.positionData.position, isVisible, unitColor, false);
+                }
+                
+                result.Add(data);
+            }
         }
 
         return result;
@@ -199,8 +214,6 @@ public class LevelEditor
             
             LetterDispenserViews.Add(dispenserView);
         }
-        
-        editorBoardView.SetDispensers(LetterDispenserViews);
     }
     
     public void GenerateBoard()
@@ -211,6 +224,7 @@ public class LevelEditor
         ClearBoard();
         editorBoardView?.BuildEmptyBoard(Rows, Columns);
         BuildDispensers();
+        editorBoardView.InsertDispensers(LetterDispenserViews);
     }
 
     public void BuildLevelFromAsset()
@@ -218,11 +232,29 @@ public class LevelEditor
         var level = LoadedLevelAssets.ElementAtOrDefault(SelectedLevelIndex);
         if (level == null) return;
         
-        Rows = level.rows;
-        Columns = level.columns;
-        PoolCount = level.poolCount;
+        Rows = level.Rows;
+        Columns = level.Columns;
+        PoolCount = level.PoolCount;
+        LetterDispensersDatas = level.Dispensers.Select(x => new LetterDispenserData { CellCount = x.CellCount, Board = x.CopyBoard() }).ToList();
+        
+        ClearBoard();
         
         editorBoardView?.BuildBoard(level);
+        BuildDispensers();
+        editorBoardView.SetDispensers(level, LetterDispenserViews);
+
+        for (int i = 0; i < LetterDispenserViews.Count; i++)
+        {
+            LetterDispenserViews[i].SetData(LetterDispensersDatas[i]);
+        }
+        
+        for (int i = 0; i < LetterDispensersDatas.Count; i++)
+        {
+            var data = LetterDispensersDatas[i];
+            var dispenser = LetterDispenserViews[i];
+            
+            dispenser.FillDispenser(data);
+        }
         
         IsLevelGenerated = true;
         IsBoardGenerated = true;
@@ -243,18 +275,23 @@ public class LevelEditor
     public void RequestReload()
     {
         IsLoading = true;
-        editorBoardView?.ClearBoard();
+        ClearBoard();
         LoadedLevels.Clear();
         LoadedLevelAssets.Clear();
+        LetterDispensersDatas.Clear();
+        
         _ = LoadLevelsAsync();
+        
     }
 
     public void RequestLevelsFromAssets()
     {
-        editorBoardView?.ClearBoard();
+        ClearBoard();
         LoadedLevels.Clear();
         LoadedLevelAssets.Clear();
         LoadedLevelAssets = LevelAssetLoader.LoadAllLevels();
+        
+        LetterDispensersDatas = LoadedLevelAssets[SelectedLevelIndex].Dispensers.Select(x => new LetterDispenserData { CellCount = x.cellCount, Board = x.CopyBoard() }).ToList();
     }
 
     private async System.Threading.Tasks.Task LoadLevelsAsync()

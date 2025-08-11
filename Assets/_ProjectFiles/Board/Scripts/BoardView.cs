@@ -1,23 +1,24 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEngine;
 
 public class BoardView : BoardSpawner<BoardCellView>
 {
-    [SerializeField] private EditorLetterDispenserView dispenserPrefab;
+    [SerializeField] private LetterDispenserView dispenserPrefab;
+    private List<LetterDispenserView> _dispensers = new List<LetterDispenserView>();
     
     public void BuildBoard(LevelAsset levelAsset)
     {
         ClearBoard();
-        BuildEmptyBoard(levelAsset.rows,levelAsset.columns);
+        BuildEmptyBoard(levelAsset.Rows,levelAsset.Columns);
 
-        for (int i = 0; i < levelAsset.rows; i++)
+        for (int i = 0; i < levelAsset.Rows; i++)
         {
-            for (int j = 0; j < levelAsset.columns; j++)
+            for (int j = 0; j < levelAsset.Columns; j++)
             {
                 var cell = _cells.FirstOrDefault(x => x.positionData.position == new Vector2Int(i, j));
-                var entity = levelAsset.board.FirstOrDefault(x => x.position == new Vector2Int(i, j));
+                var entity = levelAsset.Board.FirstOrDefault(x => x.position == new Vector2Int(i, j));
 
                 if (entity == null)
                 {
@@ -26,6 +27,20 @@ public class BoardView : BoardSpawner<BoardCellView>
                 }
                 else
                 {
+                    if (entity.isOccupiedByDispenser)
+                    {
+                        var dispenser = Instantiate(dispenserPrefab, cell.transform.position, dispenserPrefab.transform.rotation, cell.transform.parent);
+                        var dispenserData = levelAsset.Dispensers.First(x => x.Board[0].position == new Vector2Int(i, j));
+                        
+                        dispenser.SetData(dispenserData);
+                        dispenser.SetPosition(new Vector2Int(i, j), cell.transform.position);
+                        _dispensers.Add(dispenser);
+
+                        _cells.Remove(cell);
+                        Destroy(cell.gameObject);
+                    }
+                    else 
+                    
                     if (!string.IsNullOrEmpty(entity.character))
                     {
                         cell.SetData(entity);
@@ -88,21 +103,19 @@ public class BoardView : BoardSpawner<BoardCellView>
             cell.Occupant.Avaliable = isAvaliable;
             cell.Occupant.SetVisibility(isAvaliable || cell.Occupant.GetVisibility());
         }
-    }
-    
-    private void UnlockCellAfterCell(BoardCellView cellView)
-    {
-        var cellPosition = cellView.positionData.position;
-        cellPosition.x += 1;
 
-        var maxCellsRow = _cells.Max(x => x.positionData.position.x);
-        
-        if (cellPosition.x >= maxCellsRow) return;
-        var targetCell = _cells.FirstOrDefault(x => x.positionData.position == cellPosition);
-        if (targetCell == null) return;
-        
-        if (targetCell.Occupant == null) return;
-        
-        targetCell.Occupant.Avaliable = true;
+        foreach (var dispenser in _dispensers)
+        {
+            var nextCellToDispenser = _cells.First(x => x.positionData.position == new Vector2Int(dispenser.Position.x - 1, dispenser.Position.y));
+
+            if (nextCellToDispenser.Occupant == null)
+            {
+                if (dispenser.TryGetNext(out BoardEntityData data))
+                {
+                    nextCellToDispenser.SetData(data);
+                    nextCellToDispenser.Occupant.Avaliable = true;
+                }
+            }
+        }
     }
 }
