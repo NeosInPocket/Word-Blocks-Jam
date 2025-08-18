@@ -7,7 +7,7 @@ public class BoardEntityData
     public string character;
     public Vector2Int position;
     public bool isVisible = true;
-    public Color color;
+    public Color color = Color.black;
     public bool isOccupiedByDispenser;
     
     public BoardEntityData(string character, Vector2Int position, bool isVisible, Color color, bool isOccupiedByDispenser)

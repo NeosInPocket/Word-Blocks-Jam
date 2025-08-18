@@ -11,18 +11,23 @@ public class EditorBoardCellView : LetterCell
     private void Start()
     {
         _factory = new LetterUnitFactory(letterUnitPrefab, transform);
+        
+        #if UNITY_EDITOR
         if (!LevelEditingToggleState.State) return;
         Selection.activeGameObject = null;
+        #endif
     }
     
     private void Update()
     {
+        #if UNITY_EDITOR
         if (!LevelEditingToggleState.State) return;
         
         if (Selection.activeGameObject == gameObject)
         {
             Selection.activeGameObject = null;
         }
+        #endif
     }
     
     public void SetData(BoardEntityData data)
@@ -38,6 +43,12 @@ public class EditorBoardCellView : LetterCell
         _occupant.transform.position = SpawnPositionTransform.position;
         
         var editorLetter = _occupant.GetComponent<EditorLetterUnit>();
+
+        if (data.color.a == 0)
+        {
+            data.color.a = 1f;
+        }
+        
         editorLetter.Color = data.color;
     }
 

@@ -21,61 +21,125 @@ MonoBehaviour:
     rowMin: 1
     rowMax: 2
     minRowsNeeded: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
   - word: pole
     rowMin: 1
     rowMax: 2
     minRowsNeeded: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
   - word: doll
-    rowMin: 2
-    rowMax: 3
+    rowMin: 1
+    rowMax: 2
     minRowsNeeded: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
   - word: gas
-    rowMin: 2
-    rowMax: 3
+    rowMin: 1
+    rowMax: 2
     minRowsNeeded: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
   board:
-  - character: o
+  - character: l
     position: {x: 0, y: 0}
     isVisible: 1
-  - character: d
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+  - character: e
     position: {x: 0, y: 1}
     isVisible: 1
-  - character: l
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+  - character: d
     position: {x: 0, y: 2}
     isVisible: 1
-  - character: b
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+  - character: o
     position: {x: 0, y: 3}
     isVisible: 1
-  - character: d
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+  - character: p
     position: {x: 0, y: 4}
     isVisible: 1
-  - character: l
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+  - character: g
     position: {x: 1, y: 0}
     isVisible: 1
-  - character: o
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+  - character: d
     position: {x: 1, y: 1}
     isVisible: 1
-  - character: e
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+  - character: o
     position: {x: 1, y: 2}
     isVisible: 1
-  - character: p
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+  - character: s
     position: {x: 1, y: 3}
     isVisible: 1
-  - character: o
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+  - character: b
     position: {x: 1, y: 4}
     isVisible: 1
-  - character: l
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+  - character: 
     position: {x: 2, y: 0}
     isVisible: 1
-  - character: g
-    position: {x: 2, y: 1}
-    isVisible: 1
-  - character: l
-    position: {x: 2, y: 2}
-    isVisible: 1
-  - character: a
-    position: {x: 2, y: 3}
-    isVisible: 1
-  - character: s
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 1
+  - character: 
+    position: {x: 0, y: 0}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+  - character: 
+    position: {x: 0, y: 0}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+  - character: 
+    position: {x: 0, y: 0}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+  - character: 
     position: {x: 2, y: 4}
     isVisible: 1
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 1
+  dispensers:
+  - cellCount: 2
+    Board:
+    - character: l
+      position: {x: 2, y: 4}
+      isVisible: 1
+      color: {r: 0, g: 0, b: 0, a: 1}
+      isOccupiedByDispenser: 0
+    - character: l
+      position: {x: 2, y: 4}
+      isVisible: 1
+      color: {r: 0, g: 0, b: 0, a: 1}
+      isOccupiedByDispenser: 0
+  - cellCount: 3
+    Board:
+    - character: o
+      position: {x: 2, y: 0}
+      isVisible: 1
+      color: {r: 0, g: 0, b: 0, a: 1}
+      isOccupiedByDispenser: 0
+    - character: l
+      position: {x: 2, y: 0}
+      isVisible: 1
+      color: {r: 0, g: 0, b: 0, a: 1}
+      isOccupiedByDispenser: 0
+    - character: a
+      position: {x: 2, y: 0}
+      isVisible: 1
+      color: {r: 0, g: 0, b: 0, a: 1}
+      isOccupiedByDispenser: 0
