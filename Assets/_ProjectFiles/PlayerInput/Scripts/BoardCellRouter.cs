@@ -13,7 +13,7 @@ public class BoardCellRouter : MonoBehaviour
 
     private void OnBoardCellTapped(BoardCellView obj)
     {
-        if (obj.Occupant == null || !obj.Occupant.Avaliable) return;
+        if (obj.Occupant == null || !obj.Occupant.Available) return;
         
         var mainPoolHasCharacter = wordPool.HasNonFilledCharacter(obj.Occupant.Character);
 

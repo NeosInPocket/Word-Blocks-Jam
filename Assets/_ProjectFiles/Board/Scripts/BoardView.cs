@@ -53,7 +53,7 @@ public class BoardView : BoardSpawner<BoardCellView>
                     if (!string.IsNullOrEmpty(entity.character))
                     {
                         cell.SetData(entity);
-                        cell.Occupant.Avaliable = false;
+                        cell.Occupant.Available = false;
                     }
                    
                 }
@@ -82,7 +82,7 @@ public class BoardView : BoardSpawner<BoardCellView>
         {
             var targetCell = _cells.FirstOrDefault(x => x.positionData.position == new Vector2Int(0, i));
             if (targetCell != null && targetCell.Occupant != null)
-                targetCell.Occupant.Avaliable = true;
+                targetCell.Occupant.Available = true;
         }
     }
 
@@ -105,11 +105,11 @@ public class BoardView : BoardSpawner<BoardCellView>
     {
         foreach (var cell in _cells)
         {
-            if (cell.Occupant == null || cell.Occupant.Avaliable) continue;
+            if (cell.Occupant == null || cell.Occupant.Available) continue;
 
             var cellNeighbors = FindNeighborsForCell(cell);
             bool isAvaliable = cellNeighbors.Any(x => x.Occupant == null);
-            cell.Occupant.Avaliable = isAvaliable;
+            cell.Occupant.Available = isAvaliable;
             cell.Occupant.SetVisibility(isAvaliable || cell.Occupant.GetVisibility());
         }
 
@@ -122,7 +122,7 @@ public class BoardView : BoardSpawner<BoardCellView>
                 if (dispenser.TryGetNext(out BoardEntityData data))
                 {
                     nextCellToDispenser.SetData(data);
-                    nextCellToDispenser.Occupant.Avaliable = true;
+                    nextCellToDispenser.Occupant.Available = true;
                 }
             }
         }
