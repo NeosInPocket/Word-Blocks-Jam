@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using _ProjectFiles.LetterUnit.Scripts;
 using UnityEngine;
@@ -7,7 +8,9 @@ public class LetterUnitCharacterRenderer : MonoBehaviour
     [SerializeField] private Transform characterTransform;
     [SerializeField] private CharactersDictionary characters;
     private GameObject characterObject;
-    
+
+    public GameObject CharacterObject => characterObject;
+
     public void SetCharacter(string character)
     {
         RemoveCharacter();
@@ -28,5 +31,10 @@ public class LetterUnitCharacterRenderer : MonoBehaviour
     {
         if (characterObject == null) return;
         Destroy(characterObject.gameObject);
+    }
+
+    public void SetCharacterColor()
+    {
+        
     }
 }

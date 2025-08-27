@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,19 +6,18 @@ using UnityEngine.UI;
 public abstract class LetterUnitBase : MonoBehaviour
 {
     [SerializeField] private PositionData positionData;
-    
     [SerializeField] protected GameObject rendererObject;
     private BoardEntityData _data;
     protected bool _available;
     protected string _character;
     protected bool _visible;
-    private Renderer _renderer;
+    protected Renderer _renderer;
     
     public BoardEntityData Data => _data;
     public PositionData PositionData => positionData;
     public string Character => _character;
     public abstract bool Available { get; set; }
-    
+
     public float Size
     {
         get
@@ -37,11 +37,11 @@ public abstract class LetterUnitBase : MonoBehaviour
         positionData.position = data.position;
         _character = data.character;
         
-        SetCharacterData(data.character);
+        SetCharacterData(data);
         SetVisibility(data.isVisible);
     }
 
-    protected abstract void SetCharacterData(string character);
+    protected abstract void SetCharacterData(BoardEntityData data);
     
     public abstract void SetVisibility(bool value);
     public bool GetVisibility() => _visible;

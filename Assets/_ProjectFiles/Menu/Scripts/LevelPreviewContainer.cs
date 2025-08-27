@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelPreviewContainer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private BoardView boardView;
+    [SerializeField] private BoardEnvironmentObjectsSpawner environmentObjectsSpawner;
+    
+    public void ShowPreview(LevelAsset levelAsset)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        boardView.BuildBoard(levelAsset);
+        environmentObjectsSpawner.Spawn(levelAsset.Board);
     }
 }

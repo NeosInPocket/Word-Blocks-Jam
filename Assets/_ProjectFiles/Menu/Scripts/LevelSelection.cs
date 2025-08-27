@@ -6,11 +6,6 @@ public class LevelSelection : MonoBehaviour
 {
    [SerializeField] private TMP_Text levelText;
 
-   private void Start()
-   {
-      UpdateLevel();
-   }
-
    public void Load()
    {
       SaveManager.Load();

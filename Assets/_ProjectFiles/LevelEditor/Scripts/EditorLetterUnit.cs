@@ -29,9 +29,9 @@ public class EditorLetterUnit : LetterUnitBase
         }
     }
 
-    protected override void SetCharacterData(string character)
+    protected override void SetCharacterData(BoardEntityData data)
     {
-        characterText.text = character;
+        characterText.text = data.character;
     }
 
     public override void SetVisibility(bool value)
