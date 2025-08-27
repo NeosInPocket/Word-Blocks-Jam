@@ -11,6 +11,10 @@ public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
     [SerializeField] protected Transform ySpawnTransform;
     [SerializeField] protected Transform parentTransform;
     protected List<T> _cells;
+    private float _preferredCellSize;
+    private float _preferredSpacing;
+    public float PreferredCellSize => _preferredCellSize;
+    public float PreferredSpacing => _preferredSpacing;
     
     public void BuildEmptyBoard(int rows, int cols, float cellSize = 0)
     {
@@ -23,7 +27,10 @@ public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
 
         float xBoardSize = maxX - minX;
         float cellSideSize = cellSize == 0 ? xBoardSize / (cellsPerRow + spacingPerCellSize * (cellsPerRow - 1)) : cellSize;
+        _preferredCellSize = cellSideSize;
+        
         float spacing = spacingPerCellSize * cellSideSize;
+        _preferredSpacing = spacing;
         float startX = minX + cellSideSize / 2;
         float startZ = minZ + cellSideSize / 2;
         
@@ -47,6 +54,30 @@ public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
         }
     }
 
+    protected void SpawnCell(Vector2 spawnPosition, int i, int j, float cellSideSize)
+    {
+        var cell = Instantiate(prefab, spawnPosition, prefab.transform.rotation, parentTransform);
+        cell.positionData.position = new Vector2Int(i, j);
+                
+        cell.SideSize = cellSideSize;
+        _cells.Add(cell);
+    }
+    
+    public Vector3 GetPositionFromPositionData(Vector2Int position)
+    {
+        var boardBounds = spawnArea.Collider.bounds;
+        
+        var minX = boardBounds.min.x;
+        var minZ = boardBounds.min.z;
+        
+        float startX = minX + _preferredCellSize / 2;
+        float startZ = minZ + _preferredCellSize / 2;
+        float spacing = spacingPerCellSize * _preferredCellSize;
+        
+        Vector3 spawnPosition = new Vector3(startX + (spacing + _preferredCellSize) * position.y, ySpawnTransform.position.y, startZ + (spacing + _preferredCellSize) * position.x);
+        return spawnPosition;
+    }
+    
     public List<(Vector2Int position, Vector3 worldPosition)> DeleteLastCells(int cellsCount)
     {
         List<(Vector2Int position, Vector3 worldPosition)> result = new();

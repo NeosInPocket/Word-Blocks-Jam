@@ -3,6 +3,7 @@ using UnityEngine;
 public class BoardCellView : LetterCell
 {
     [SerializeField] private LetterUnitBase letterUnitPrefab;
+    [SerializeField] private float unitSizePerCellSize = 0.7f;
     private LetterUnitFactory _factory;
     public Transform SpawnPositionTransform => spawnTransform;
     
@@ -18,7 +19,7 @@ public class BoardCellView : LetterCell
             _factory = new LetterUnitFactory(letterUnitPrefab, transform);
         }
         
-        _occupant = _factory.Create<LetterUnit>(data);
+        _occupant = _factory.Create<LetterUnit>(data, SideSize * unitSizePerCellSize);
         _occupant.transform.position = SpawnPositionTransform.position;
     }
 }

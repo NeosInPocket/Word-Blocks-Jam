@@ -5,6 +5,7 @@ using UnityEngine;
 public class EditorBoardCellView : LetterCell
 {
     [SerializeField] private LetterUnitBase letterUnitPrefab;
+    [SerializeField] private float unitSizePerCellSize = 0.7f;
     private LetterUnitFactory _factory;
     public Transform SpawnPositionTransform => spawnTransform;
 
@@ -39,7 +40,7 @@ public class EditorBoardCellView : LetterCell
             _factory = new LetterUnitFactory(letterUnitPrefab, transform);
         }
     
-        _occupant = _factory.Create<EditorLetterUnit>(data);
+        _occupant = _factory.Create<EditorLetterUnit>(data, unitSizePerCellSize * SideSize);
         _occupant.transform.position = SpawnPositionTransform.position;
         
         var editorLetter = _occupant.GetComponent<EditorLetterUnit>();

@@ -7,9 +7,12 @@ public abstract class LetterUnitBase : MonoBehaviour
     [SerializeField] private PositionData positionData;
     [SerializeField] protected TMP_Text characterText;
     [SerializeField] protected Image characterFrame;
+    [SerializeField] protected GameObject rendererObject;
     private BoardEntityData _data;
     private bool _avaliable;
     protected bool _visible;
+    private Renderer _renderer;
+    
     public BoardEntityData Data => _data;
     public PositionData PositionData => positionData;
     public string Character => characterText.text;
@@ -21,6 +24,21 @@ public abstract class LetterUnitBase : MonoBehaviour
             _avaliable = value;
             characterFrame.color = value ? Color.white : Color.gray;
         }
+    }
+    
+    public float Size
+    {
+        get
+        {
+            if (_renderer == null)
+            {
+                _renderer = rendererObject.GetComponent<Renderer>();   
+            }
+
+            return _renderer.bounds.size.x;
+        }
+
+        set => transform.localScale *= value / Size;
     }
     
     public void SetData(BoardEntityData data)

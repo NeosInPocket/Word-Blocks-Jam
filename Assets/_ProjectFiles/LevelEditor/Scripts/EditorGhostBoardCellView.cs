@@ -30,6 +30,6 @@ public class EditorGhostBoardCellView : MonoBehaviour
     public void ReplaceWithBoardCell()
     {
         var cell = Instantiate(prefab, transform.position, prefab.transform.rotation, transform.parent);
-        cell.SetData(new BoardEntityData(null, positionData.position, true,  Color.white,false));
+        //cell.SetData(new BoardEntityData(null, positionData.position, true,  Color.white,false));
     }
 }

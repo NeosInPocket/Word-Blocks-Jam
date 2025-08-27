@@ -322,7 +322,7 @@ public class LevelSceneEditor : MonoBehaviour
         selectedDispenser = null;
         SceneView.RepaintAll();
     }
-
+    
     private void SpawnCell(EditorGhostBoardCellView ghostCell)
     {
         var editorBoardCellPrefab = Resources.Load<EditorBoardCellView>("LevelEditor/EditorBoardCellView");
@@ -330,10 +330,12 @@ public class LevelSceneEditor : MonoBehaviour
         cell.positionData.position = ghostCell.positionData.position;
         cell.SideSize = ghostCell.SideSize;
         EditorBoard.Cells.Add(cell);
-
+        EditorBoard.GhostCells.Remove(ghostCell);
+        
         DestroyImmediate(ghostCell.gameObject);
+        RefreshCells();
     }
-
+    
     private void SpawnGhostCell()
     {
         if (selectedCell == null) return;
@@ -341,8 +343,54 @@ public class LevelSceneEditor : MonoBehaviour
         var ghostCellPrefab = Resources.Load<EditorGhostBoardCellView>("LevelEditor/EditorGhostBoardCellView");
         var cell = Instantiate(ghostCellPrefab, selectedCell.transform.position, ghostCellPrefab.transform.rotation, selectedCell.transform.parent);
         cell.Initialize(selectedCell.SideSize, selectedCell.positionData.position);
+        EditorBoard.GhostCells.Add(cell);
     }
 
+    public void RefreshCells()
+    {
+        var ghostCellPrefab = Resources.Load<EditorGhostBoardCellView>("LevelEditor/EditorGhostBoardCellView");
+        var deltas = new List<Vector2Int>
+        {
+            new Vector2Int(-1, -1),
+            new Vector2Int(-1,  0),
+            new Vector2Int(-1,  1),
+            new Vector2Int( 0, -1),
+            new Vector2Int( 0,  1),
+            new Vector2Int( 1, -1),
+            new Vector2Int( 1,  0),
+            new Vector2Int( 1,  1),
+        };
+
+        var dispensers = FindObjectsByType<EditorLetterDispenserView>(FindObjectsSortMode.None).ToList();
+        var dispensersPositions = dispensers.Select(x => x.positionData.position).ToList();
+        
+        foreach (var cell in EditorBoard.Cells)
+        {
+            var neighborsPositions = EditorBoard.Cells.Where(p =>
+                p != cell &&
+                deltas.Contains(p.positionData.position - cell.positionData.position)
+            ).Select(x => x.positionData.position).ToList();
+
+            foreach (var delta in deltas)
+            {
+                var currentPosition = cell.positionData.position + delta;
+                
+                if (dispensersPositions.Contains(currentPosition)) continue;
+                
+                if (currentPosition.x < 0 || 
+                    neighborsPositions.Contains(currentPosition) || 
+                    EditorBoard.GhostCells.Any(x => x.positionData.position == currentPosition
+                    )) continue;
+                
+                var cellPosition = EditorBoard.GetPositionFromPositionData(currentPosition);
+                var ghostCell = Instantiate(ghostCellPrefab, cellPosition, ghostCellPrefab.transform.rotation, cell.transform.parent);
+                
+                ghostCell.Initialize(cell.SideSize, currentPosition);
+                EditorBoard.GhostCells.Add(ghostCell);
+            }
+        }
+    }
+    
     private void DeleteSelectedCell()
     {
         if (selectedCell == null) return;
@@ -366,15 +414,6 @@ public class LevelSceneEditor : MonoBehaviour
         
         cellA.SetOccupant(b);
         cellB.SetOccupant(a);
-        
-        // a.transform.SetParent(null);
-        // b.transform.SetParent(null);
-        //
-        // a.transform.SetParent(parentB);
-        // b.transform.SetParent(parentA);
-        //
-        // (a.transform.position, b.transform.position) = (b.transform.position, a.transform.position);
-        // (a.PositionData.position, b.PositionData.position) = (b.PositionData.position, a.PositionData.position);
 
         EditorUtility.SetDirty(a);
         EditorUtility.SetDirty(b);

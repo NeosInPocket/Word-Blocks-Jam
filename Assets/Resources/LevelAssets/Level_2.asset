@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: Level_2
   m_EditorClassIdentifier: 
   levelId: 2
-  rows: 3
+  rows: 5
   columns: 5
   poolCount: 4
+  occupiedCellsCount: 10
+  cellsCount: 65
+  ghostCellsCount: 0
+  dispensersCount: 2
   words:
   - word: bold
     rowMin: 1
@@ -38,81 +42,468 @@ MonoBehaviour:
     minRowsNeeded: 0
     color: {r: 0, g: 0, b: 0, a: 0}
   board:
-  - character: l
+  - character: 
     position: {x: 0, y: 0}
-    isVisible: 1
-    color: {r: 0, g: 0, b: 0, a: 1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
     isOccupiedByDispenser: 0
+    isGhostCell: 0
   - character: e
     position: {x: 0, y: 1}
     isVisible: 1
     color: {r: 0, g: 0, b: 0, a: 1}
     isOccupiedByDispenser: 0
-  - character: d
+    isGhostCell: 0
+  - character: o
     position: {x: 0, y: 2}
     isVisible: 1
     color: {r: 0, g: 0, b: 0, a: 1}
     isOccupiedByDispenser: 0
-  - character: o
+    isGhostCell: 0
+  - character: l
     position: {x: 0, y: 3}
     isVisible: 1
     color: {r: 0, g: 0, b: 0, a: 1}
     isOccupiedByDispenser: 0
-  - character: p
+    isGhostCell: 0
+  - character: 
     position: {x: 0, y: 4}
-    isVisible: 1
-    color: {r: 0, g: 0, b: 0, a: 1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
     isOccupiedByDispenser: 0
-  - character: g
+    isGhostCell: 0
+  - character: d
     position: {x: 1, y: 0}
     isVisible: 1
     color: {r: 0, g: 0, b: 0, a: 1}
     isOccupiedByDispenser: 0
+    isGhostCell: 0
   - character: d
     position: {x: 1, y: 1}
     isVisible: 1
     color: {r: 0, g: 0, b: 0, a: 1}
     isOccupiedByDispenser: 0
-  - character: o
+    isGhostCell: 0
+  - character: 
     position: {x: 1, y: 2}
-    isVisible: 1
-    color: {r: 0, g: 0, b: 0, a: 1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
     isOccupiedByDispenser: 0
-  - character: s
+    isGhostCell: 0
+  - character: o
     position: {x: 1, y: 3}
     isVisible: 1
     color: {r: 0, g: 0, b: 0, a: 1}
     isOccupiedByDispenser: 0
-  - character: b
+    isGhostCell: 0
+  - character: o
     position: {x: 1, y: 4}
     isVisible: 1
     color: {r: 0, g: 0, b: 0, a: 1}
     isOccupiedByDispenser: 0
-  - character: 
-    position: {x: 2, y: 0}
+    isGhostCell: 0
+  - character: l
+    position: {x: 2, y: 1}
     isVisible: 1
-    color: {r: 0, g: 0, b: 0, a: 0}
-    isOccupiedByDispenser: 1
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: p
+    position: {x: 2, y: 2}
+    isVisible: 1
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: b
+    position: {x: 2, y: 3}
+    isVisible: 1
+    color: {r: 0, g: 0, b: 0, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
   - character: 
-    position: {x: 0, y: 0}
+    position: {x: 3, y: 0}
     isVisible: 0
     color: {r: 0, g: 0, b: 0, a: 0}
     isOccupiedByDispenser: 0
+    isGhostCell: 0
   - character: 
-    position: {x: 0, y: 0}
+    position: {x: 3, y: 1}
     isVisible: 0
     color: {r: 0, g: 0, b: 0, a: 0}
     isOccupiedByDispenser: 0
+    isGhostCell: 0
   - character: 
-    position: {x: 0, y: 0}
+    position: {x: 3, y: 2}
     isVisible: 0
     color: {r: 0, g: 0, b: 0, a: 0}
     isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 3, y: 3}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 3, y: 4}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 4, y: 0}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 4, y: 1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 4, y: 2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 4, y: 3}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 4, y: 4}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 0, y: -1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 1, y: -1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 2, y: -1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 3, y: -1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 4, y: -1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 4, y: 5}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 3, y: 5}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 1, y: 5}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 0, y: 5}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 2, y: 5}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 5, y: 5}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 5, y: 3}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 5, y: 4}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 5, y: 2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 5, y: -1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 5, y: 0}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 5, y: 1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 6, y: -1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 6, y: 0}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 6, y: 1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 6, y: 2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 6, y: 3}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 6, y: 4}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 6, y: 5}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 0, y: -2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 1, y: -2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 2, y: -2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 3, y: -2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 4, y: -2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 5, y: -2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 6, y: -2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 0, y: 6}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 1, y: 6}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 2, y: 6}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 3, y: 6}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 4, y: 6}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 5, y: 6}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 6, y: 6}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 7, y: -1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 7, y: 0}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 7, y: 1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 7, y: 2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 7, y: 3}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 7, y: 4}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 7, y: 5}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 8, y: 4}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 8, y: 5}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 8, y: 3}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 8, y: 1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 8, y: 0}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 8, y: -1}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: 
+    position: {x: 8, y: 2}
+    isVisible: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
   - character: 
     position: {x: 2, y: 4}
     isVisible: 1
     color: {r: 0, g: 0, b: 0, a: 0}
     isOccupiedByDispenser: 1
+    isGhostCell: 0
+  - character: 
+    position: {x: 2, y: 0}
+    isVisible: 1
+    color: {r: 0, g: 0, b: 0, a: 0}
+    isOccupiedByDispenser: 1
+    isGhostCell: 0
   dispensers:
   - cellCount: 2
     Board:
@@ -121,25 +512,30 @@ MonoBehaviour:
       isVisible: 1
       color: {r: 0, g: 0, b: 0, a: 1}
       isOccupiedByDispenser: 0
+      isGhostCell: 0
     - character: l
       position: {x: 2, y: 4}
       isVisible: 1
       color: {r: 0, g: 0, b: 0, a: 1}
       isOccupiedByDispenser: 0
+      isGhostCell: 0
   - cellCount: 3
     Board:
-    - character: o
+    - character: g
       position: {x: 2, y: 0}
       isVisible: 1
       color: {r: 0, g: 0, b: 0, a: 1}
       isOccupiedByDispenser: 0
-    - character: l
-      position: {x: 2, y: 0}
-      isVisible: 1
-      color: {r: 0, g: 0, b: 0, a: 1}
-      isOccupiedByDispenser: 0
+      isGhostCell: 0
     - character: a
       position: {x: 2, y: 0}
       isVisible: 1
       color: {r: 0, g: 0, b: 0, a: 1}
       isOccupiedByDispenser: 0
+      isGhostCell: 0
+    - character: s
+      position: {x: 2, y: 0}
+      isVisible: 1
+      color: {r: 0, g: 0, b: 0, a: 1}
+      isOccupiedByDispenser: 0
+      isGhostCell: 0

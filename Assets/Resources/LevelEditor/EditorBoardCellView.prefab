@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1632675981805164544}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -124,6 +124,7 @@ MonoBehaviour:
   spawnTransform: {fileID: 6197950248970315681}
   letterUnitPrefab: {fileID: 1256750083704104176, guid: 475a10348846c40429780ff53c1ab914,
     type: 3}
+  unitSizePerCellSize: 0.7
 --- !u!114 &313071262957500216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +163,7 @@ Transform:
   m_GameObject: {fileID: 6196995663782735802}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.889}
+  m_LocalPosition: {x: 0, y: 0.889, z: 0}
   m_LocalScale: {x: 1.63, y: 1.63, z: 1.63}
   m_ConstrainProportionsScale: 1
   m_Children: []

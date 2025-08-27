@@ -1,18 +1,39 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class EditorBoardView : BoardSpawner<EditorBoardCellView>
 {
     [SerializeField] private EditorGhostBoardCellView ghostPrefab;
     [SerializeField] private EditorLetterDispenserView dispenserPrefab;
-    public List<EditorBoardCellView> Cells => _cells;
 
+    public List<EditorBoardCellView> Cells
+    {
+        get
+        {
+            _cells.RemoveAll(obj => obj == null);
+            return _cells;
+        }
+    }
+
+    public List<EditorGhostBoardCellView> GhostCells
+    {
+        get
+        {
+            if (_ghostCells == null) 
+                _ghostCells = new List<EditorGhostBoardCellView>();
+            
+            _ghostCells.RemoveAll(obj => obj == null);
+            return _ghostCells;
+        }
+    }
+    private List<EditorGhostBoardCellView> _ghostCells;
+    
     private void Start()
     {
+        _ghostCells = new List<EditorGhostBoardCellView>();
         ClearBoard();
     }
 
@@ -54,12 +75,18 @@ public class EditorBoardView : BoardSpawner<EditorBoardCellView>
         {
             var data = levelAsset.Board.First(x => x.isOccupiedByDispenser && !usedEntities.Contains(x));
             var cellToDelete = _cells.FirstOrDefault(x => x.positionData.position == data.position && !occupiedCells.Contains(x));
-            if (cellToDelete == null) throw new NullReferenceException("Ячейка не найдена: " + dispensers[i].positionData.position);
-            occupiedCells.Add(cellToDelete);
-            usedEntities.Add(data);
+            if (cellToDelete == null)
+            {
+                dispensers[i].SetPosition(data.position, GetPositionFromPositionData(data.position));
+            }
+            else
+            {
+                occupiedCells.Add(cellToDelete);
+                dispensers[i].SetPosition(cellToDelete.positionData.position, cellToDelete.transform.position);
+                DestroyImmediate(cellToDelete.gameObject);
+            }
             
-            dispensers[i].SetPosition(cellToDelete.positionData.position, cellToDelete.transform.position);
-            DestroyImmediate(cellToDelete.gameObject);
+            usedEntities.Add(data);
         }
     }
     
@@ -76,20 +103,40 @@ public class EditorBoardView : BoardSpawner<EditorBoardCellView>
                 var cell = _cells.FirstOrDefault(x => x.positionData.position == new Vector2Int(i, j));
                 var entity = levelAsset.Board.FirstOrDefault(x => x.position == new Vector2Int(i, j));
 
-                if (entity == null)
+                if (entity == null || entity.isOccupiedByDispenser)
                 {
-                    var ghostCell = Instantiate(ghostPrefab, cell.transform.position, prefab.transform.rotation, cell.transform.parent);
-                    ghostCell.Initialize(cell.SideSize, cell.positionData.position);
-                    
                     _cells.Remove(cell);
                     DestroyImmediate(cell.gameObject);
+                    continue;
                 }
-                else
-                {
-                    if (!string.IsNullOrEmpty(entity.character))
-                        cell.SetData(entity);
-                }
+                
+                if (!string.IsNullOrEmpty(entity.character))
+                    cell.SetData(entity);
             }
+        }
+        
+        SpawnAdditionalCells(levelAsset.Board);
+    }
+
+    private void SpawnAdditionalCells(List<BoardEntityData> board)
+    {
+        var boardCellsPositions = Cells.Select(x => x.positionData.position).ToList();
+        var dataCellsPositions = board.Where(x => !x.isOccupiedByDispenser && !x.isGhostCell).Select(x => x.position).ToList();
+        
+        List<Vector2Int> newCellsPositions = boardCellsPositions
+            .Where(a => !dataCellsPositions.Contains(a))
+            .Concat(dataCellsPositions.Where(b => !boardCellsPositions.Contains(b)))
+            .ToList();
+
+        foreach (var pos in newCellsPositions)
+        {
+            var spawnPosition = GetPositionFromPositionData(pos);
+            
+            var cell = Instantiate(prefab, spawnPosition, prefab.transform.rotation, parentTransform);
+            cell.positionData.position = pos;
+                
+            cell.SideSize = PreferredCellSize;
+            _cells.Add(cell);
         }
     }
     

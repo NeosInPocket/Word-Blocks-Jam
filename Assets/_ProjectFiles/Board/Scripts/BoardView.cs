@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
@@ -19,8 +20,16 @@ public class BoardView : BoardSpawner<BoardCellView>
             {
                 var cell = _cells.FirstOrDefault(x => x.positionData.position == new Vector2Int(i, j));
                 var entity = levelAsset.Board.FirstOrDefault(x => x.position == new Vector2Int(i, j));
-
                 if (entity == null)
+                {
+                    _cells.Remove(cell);
+                    Destroy(cell.gameObject);
+                    continue;
+                }
+                
+                var isBlockCell = !entity.isOccupiedByDispenser && string.IsNullOrEmpty(entity.character);
+                
+                if (isBlockCell)
                 {
                     _cells.Remove(cell);
                     Destroy(cell.gameObject);

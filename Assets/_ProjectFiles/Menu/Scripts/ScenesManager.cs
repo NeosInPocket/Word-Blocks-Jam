@@ -9,7 +9,7 @@ public class ScenesManager : MonoBehaviour
 
     private void Start()
     {
-        levelText.text = "Level " + CurrentLevelInfo.Instance.LevelId;
+        //levelText.text = "Level " + CurrentLevelInfo.Instance.LevelId;
     }
 
     public void LoadMenu()

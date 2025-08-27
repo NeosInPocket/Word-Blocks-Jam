@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class WordLevelDownloader
 {
-    private string apiUrl = "https://script.google.com/macros/s/AKfycbxxg9W1HN3pnEystIKV9_bzn1g_Os1-eFLia0NTbZzKTlEhrK1NQvJVmQeRHaCk-NCD/exec";
+    private string apiUrl = "https://script.google.com/macros/s/AKfycbyb9koODQwTrzKzAjRfqyP2rlN631kHPI0GaBLnRwXQ00tdohcjJH6y_u1P6875jp9S/exec";
 
     public async Task<List<RawLevel>> LoadLevelsAsync()
     {

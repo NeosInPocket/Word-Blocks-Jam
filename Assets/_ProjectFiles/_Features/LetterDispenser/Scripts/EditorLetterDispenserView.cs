@@ -15,7 +15,7 @@ public class EditorLetterDispenserView : BoardSpawner<EditorBoardCellView>
     {
         if (data.Board.Count == 0) return;
         
-        for (int i = 0; i < data.CellCount; i++)
+        for (int i = 0; i < data.Board.Count; i++)
         {
             _cells[i].SetData(data.Board[i]);
         }

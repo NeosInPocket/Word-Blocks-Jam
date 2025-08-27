@@ -12,10 +12,11 @@ public class LetterUnitFactory
         _parent = parent;
     }
     
-    public T Create<T>(BoardEntityData data) where T : LetterUnitBase
+    public T Create<T>(BoardEntityData data, float size) where T : LetterUnitBase
     {
         var unit = Object.Instantiate(_prefab, _parent);
         unit.SetData(data);
+        unit.Size = size;
         return unit.GetComponent<T>();
     }
 }

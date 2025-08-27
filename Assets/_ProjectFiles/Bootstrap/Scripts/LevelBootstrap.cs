@@ -9,6 +9,7 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private CurrentWordView wordView;
     [SerializeField] private UnusedLettersPoolView unusedLettersPoolView;
     [SerializeField] private WordCompletionPool wordCompletionPool;
+    [SerializeField] private BoardEnvironmentObjectsSpawner environmentObjectsSpawner;
     private const string _levelsAssetsPath = "Assets/_ProjectFiles/Level/LevelAssets";
     private WordsQueue _queue;
     
@@ -40,6 +41,7 @@ public class LevelBootstrap : MonoBehaviour
         _queue.MoveNext();
         
         boardView.BuildBoard(level);
+        environmentObjectsSpawner.Spawn(level.Board);
         
         unusedLettersPoolView.BuildEmptyBoard(level.PoolCount);
         wordCompletionPool.BuildPool(_queue);

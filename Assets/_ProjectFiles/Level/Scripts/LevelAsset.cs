@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
+using UnityEditor;
 
 [CreateAssetMenu(fileName = "Level_", menuName = "Game/Level Asset")]
 public class LevelAsset : ScriptableObject
@@ -9,6 +11,10 @@ public class LevelAsset : ScriptableObject
     [SerializeField] private int rows;
     [SerializeField] private int columns;
     [SerializeField] private int poolCount;
+    public int occupiedCellsCount;
+    public int cellsCount;
+    public int ghostCellsCount;
+    public int dispensersCount;
     [SerializeField] private List<WordWithRange> words;
     [SerializeField] private List<BoardEntityData> board;
     [SerializeField] private List<LetterDispenserData> dispensers;
@@ -32,6 +38,11 @@ public class LevelAsset : ScriptableObject
         this.words = words;
         this.board = board;
         this.dispensers = dispensers;
+
+        occupiedCellsCount = board.Count(x => !string.IsNullOrEmpty(x.character));
+        cellsCount = board.Count(x => string.IsNullOrEmpty(x.character) && !x.isGhostCell && !x.isOccupiedByDispenser);
+        ghostCellsCount = board.Count(x => x.isGhostCell);
+        dispensersCount = board.Count(x => x.isOccupiedByDispenser);
     }
     
     public BoardEntityData[,] To2DArray(List<BoardEntityData> list, int rows, int columns)

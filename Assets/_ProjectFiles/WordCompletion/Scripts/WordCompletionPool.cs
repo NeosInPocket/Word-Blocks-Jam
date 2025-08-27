@@ -97,6 +97,9 @@ public class WordCompletionPool : BoardSpawner<WordPoolCell>
             {
                 winObject.SetActive(true);
                 tracker.gameObject.SetActive(false);
+                SaveManager.Load();
+                SaveManager.Data.levelsCompleted++;
+                SaveManager.Save();
             }
         }
     }
