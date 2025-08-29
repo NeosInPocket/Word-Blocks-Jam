@@ -41,7 +41,7 @@ public class LevelBootstrap : MonoBehaviour
         _queue.MoveNext();
         
         boardView.BuildBoard(level);
-        environmentObjectsSpawner.Spawn(level.Board);
+        environmentObjectsSpawner.Spawn(level.Board, boardView.RealCellSize);
         
         unusedLettersPoolView.BuildEmptyBoard(level.PoolCount);
         wordCompletionPool.BuildPool(_queue);

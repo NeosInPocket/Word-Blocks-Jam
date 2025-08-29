@@ -8,6 +8,6 @@ public class LevelPreviewContainer : MonoBehaviour
     public void ShowPreview(LevelAsset levelAsset)
     {
         boardView.BuildBoard(levelAsset);
-        environmentObjectsSpawner.Spawn(levelAsset.Board);
+        environmentObjectsSpawner.Spawn(levelAsset.Board, boardView.RealCellSize);
     }
 }

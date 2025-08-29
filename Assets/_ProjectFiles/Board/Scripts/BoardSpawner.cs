@@ -12,8 +12,10 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
     [SerializeField] protected Transform parentTransform;
     protected List<T> _cells;
     private float _preferredCellSize;
+    private float _realCellSize;
     private float _preferredSpacing;
     public float PreferredCellSize => _preferredCellSize;
+    public float RealCellSize => _realCellSize;
     public float PreferredSpacing => _preferredSpacing;
     
     public void BuildEmptyBoard(int rows, int cols, float cellSize = 0)
@@ -45,6 +47,8 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
                 cell.positionData.position = new Vector2Int(i, j);
                 
                 cell.SideSize = cellSideSize;
+                _realCellSize = cell.transform.localScale.x;
+                
                 spawnPosition.x += spacing + cellSideSize;
                 _cells.Add(cell);
             }

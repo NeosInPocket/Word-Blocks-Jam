@@ -16,7 +16,8 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
     [SerializeField] private float blockSizePerCellSize = 0.7f;
     
     private Dictionary<BlockType, GameObject> prefabs;
-
+    private float _cellSize;
+    
     private void SetPrefabs() {
         prefabs = new Dictionary<BlockType, GameObject>() {
             { BlockType.Cornered, corneredPrefab },
@@ -28,8 +29,9 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
         };
     }
 
-    public void Spawn(List<BoardEntityData> data)
+    public void Spawn(List<BoardEntityData> data, float cellSize)
     {
+        _cellSize = cellSize;
         var positions = data.Where(x => string.IsNullOrEmpty(x.character) && !x.isOccupiedByDispenser && !x.isGhostCell).Select(x => x.position).ToList();
         PlaceBlocks(positions);
     }
@@ -47,9 +49,8 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
             position.y += ySpawnDelta;
             
             var block = Instantiate(prefab, position, rotation, transform);
-            var renderer = block.GetComponent<Renderer>();
 
-            block.transform.localScale = 1f * Vector3.one;
+            block.transform.localScale = 2.475f * _cellSize * Vector3.one;
         }
     }
 

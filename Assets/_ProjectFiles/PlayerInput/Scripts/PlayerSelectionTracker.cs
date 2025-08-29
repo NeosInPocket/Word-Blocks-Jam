@@ -29,7 +29,7 @@ public class PlayerSelectionTracker : MonoBehaviour
 
         if (boardCellHit.collider != null)
         {
-            BoardCellView cellView = boardCellHit.collider.GetComponent<BoardCellView>();
+            BoardCellView cellView = boardCellHit.collider.transform.parent.GetComponent<BoardCellView>();
             OnBoardCellTapped?.Invoke(cellView);
         }
     }

@@ -451,7 +451,7 @@ public class LevelSceneEditor : MonoBehaviour
         var letterCell = unit.transform.parent.GetComponent<LetterCell>();
         
         var oldDispGrid = dispenser.positionData.position;
-        var oldUnitGrid = unit.PositionData.position;
+        var oldUnitGrid = letterCell.positionData.position;
 
         var oldDispWorld = dispenser.Pipe.transform.position;
         var oldCellWorld = letterCell.transform.position;
