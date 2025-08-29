@@ -55,7 +55,7 @@ public class EditorBoardCellView : LetterCell
 
     public void SetColor(Color color)
     {
-        var renderer = GetComponent<Renderer>();
+        var renderer = renderObject.GetComponent<Renderer>();
         var mpb = new MaterialPropertyBlock();
         
         renderer.GetPropertyBlock(mpb);

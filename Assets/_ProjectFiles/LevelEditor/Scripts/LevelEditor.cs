@@ -217,6 +217,8 @@ public class LevelEditor
         editorBoardView?.BuildEmptyBoard(Rows, Columns);
         BuildDispensers();
         editorBoardView.InsertDispensers(LetterDispenserViews);
+        
+        LevelSceneEditor.Instance.RefreshCells();
     }
 
     public void BuildLevelFromAsset()

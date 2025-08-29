@@ -25,7 +25,7 @@ public class PlayerSelectionTracker : MonoBehaviour
         Ray ray = MainCamera.ScreenPointToRay(touchPosition);
 
         var raycasts = Physics.RaycastAll(ray).ToList();
-        var boardCellHit = raycasts.FirstOrDefault(x => x.collider != null && x.collider.GetComponent<BoardCellView>() != null);
+        var boardCellHit = raycasts.FirstOrDefault(x => x.collider != null && x.collider.transform.parent.GetComponent<BoardCellView>() != null);
 
         if (boardCellHit.collider != null)
         {

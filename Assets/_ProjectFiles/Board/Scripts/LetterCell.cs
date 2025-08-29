@@ -4,6 +4,7 @@ public class LetterCell : MonoBehaviour
 {
     public PositionData positionData;
     [SerializeField] protected Transform spawnTransform;
+    [SerializeField] protected GameObject renderObject;
     protected LetterUnitBase _occupant;
     private Renderer _renderer;
     protected BoardEntityData _data;
@@ -15,7 +16,7 @@ public class LetterCell : MonoBehaviour
         {
             if (_renderer == null)
             {
-                _renderer = GetComponent<Renderer>();   
+                _renderer = renderObject.GetComponent<Renderer>();   
             }
 
             return _renderer.bounds.size.x;

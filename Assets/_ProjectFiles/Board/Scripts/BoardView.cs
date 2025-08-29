@@ -39,9 +39,22 @@ public class BoardView : BoardSpawner<BoardCellView>
                     if (entity.isOccupiedByDispenser)
                     {
                         var dispenser = Instantiate(dispenserPrefab, cell.transform.position, dispenserPrefab.transform.rotation, cell.transform.parent);
-                        var dispenserData = levelAsset.Dispensers.First(x => x.Board[0].position == new Vector2Int(i, j));
+
+                        try
+                        {
+                            var dispenserData =
+                                levelAsset.Dispensers.FirstOrDefault(x => x.Board[0].position == new Vector2Int(i, j));
+
+                            if (dispenserData != null)
+                            {
+                                dispenser.SetData(dispenserData);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            // ignored
+                        }
                         
-                        dispenser.SetData(dispenserData);
                         dispenser.SetPosition(new Vector2Int(i, j), cell.transform.position);
                         _dispensers.Add(dispenser);
 

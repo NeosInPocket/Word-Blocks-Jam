@@ -29,7 +29,7 @@ public class BoardDataGenerator
 
         for (int r = 0; r <= maxFilledRowIndex; r++)
         {
-            int lettersInThisRow = (r < maxFilledRowIndex) ? activeCellsPerRow[r] : partialRowLetters;
+            int lettersInThisRow = activeCellsPerRow[r];
             var indexesForRow = SelectIndexesForRow(lettersQueue, r, lettersInThisRow, levelData, TryPlaceInDispensers, ref letterIndex);
             MapLettersToRow(board, occupied, activeCells, r, columns, indexesForRow, lettersQueue, ref letterIndex, lettersInThisRow);
         }
@@ -45,7 +45,7 @@ public class BoardDataGenerator
             => TryPlaceLetterInDispensers(queueIndex, levelData, lettersQueue);
 
     }
-
+    
     private (int[] activeCellsPerRow, int totalActiveCells) CalculateActiveCellsPerRow(bool[,] activeCells, int rows, int columns)
     {
         int[] activeCellsPerRow = new int[rows];

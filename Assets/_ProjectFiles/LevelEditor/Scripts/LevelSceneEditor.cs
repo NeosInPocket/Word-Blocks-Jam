@@ -1,10 +1,12 @@
 #if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 [ExecuteInEditMode]
 public class LevelSceneEditor : MonoBehaviour
@@ -15,6 +17,7 @@ public class LevelSceneEditor : MonoBehaviour
     private EditorBoardCellView selectedCell;
     private EditorLetterDispenserView selectedDispenser;
     private EditorBoardView editorBoard;
+    public static LevelSceneEditor Instance => Object.FindAnyObjectByType<LevelSceneEditor>();
 
     private EditorBoardView EditorBoard
     {
@@ -229,8 +232,13 @@ public class LevelSceneEditor : MonoBehaviour
     private void OnUnitClicked(LetterUnitBase unit, Event e)
     {
         selectedCell = null;
-        selectedDispenser = null;
 
+        if (selectedDispenser != null)
+        {
+            SwapCellWithLetterUnitWithDispenser(unit, selectedDispenser);
+            ClearSelection();
+        }
+        
         if (selectedA == null)
         {
             selectedA = unit;
@@ -250,6 +258,7 @@ public class LevelSceneEditor : MonoBehaviour
             selectedB = unit;
             SwapUnits(selectedA, selectedB);
             ClearSelection();
+            return;
         }
     }
 
@@ -264,8 +273,9 @@ public class LevelSceneEditor : MonoBehaviour
 
         if (selectedA != null)
         {
+            SwapCellWithLetterUnitWithDispenser(selectedA, pipe.View);
             ClearSelection();
-            selectedDispenser = pipe.View;
+            
             SceneView.RepaintAll();
             return;
         }
@@ -289,13 +299,13 @@ public class LevelSceneEditor : MonoBehaviour
             return;
         }
 
-        if (selectedDispenser != null)
+        if (selectedCell == null && selectedDispenser != null)
         {
             SwapDispenserWithCell(selectedDispenser, cell);
             ClearSelection();
             return;
         }
-
+        
         if (selectedA != null)
         {
             MoveUnitToCell(selectedA, cell);
@@ -429,11 +439,32 @@ public class LevelSceneEditor : MonoBehaviour
         var position = cellView.SpawnPositionTransform.position;
         unit.transform.SetParent(cellView.SpawnPositionTransform);
         unit.transform.position = position;
-
+        cellView.SetOccupant(unit);
+        
         EditorUtility.SetDirty(unit);
         EditorSceneManager.MarkSceneDirty(unit.gameObject.scene);
     }
 
+    private void SwapCellWithLetterUnitWithDispenser(LetterUnitBase unit, EditorLetterDispenserView dispenser)
+    {
+        var letterCell = unit.transform.parent.GetComponent<LetterCell>();
+        
+        var oldDispGrid = dispenser.positionData.position;
+        var oldUnitGrid = unit.PositionData.position;
+
+        var oldDispWorld = dispenser.Pipe.transform.position;
+        var oldCellWorld = letterCell.transform.position;
+        
+        dispenser.SetPosition(oldUnitGrid, oldCellWorld);
+        letterCell.positionData.position = oldDispGrid;
+        letterCell.transform.position = oldDispWorld;
+        unit.PositionData.position = oldDispGrid;
+        
+        EditorUtility.SetDirty(dispenser);
+        EditorUtility.SetDirty(letterCell);
+        EditorSceneManager.MarkSceneDirty(dispenser.gameObject.scene);
+    }
+    
     private void SwapDispenserWithCell(EditorLetterDispenserView dispenser, EditorBoardCellView cell)
     {
         if (cell.TryGetComponentInChildren<LetterUnitBase>(out _))

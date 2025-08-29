@@ -1,3 +1,4 @@
+using System;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEngine;
 
@@ -30,6 +31,10 @@ public class EditorLetterDispenserView : BoardSpawner<EditorBoardCellView>
         foreach (var cell in _cells)
         {
             var boardData = cell.Data;
+
+            if (boardData == null)
+                throw new InvalidOperationException("Все ячейки трубы должны быть заполнены!");
+            
             boardData.position = cell.positionData.position;
             
             data.Board.Add(boardData);
