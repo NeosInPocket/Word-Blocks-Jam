@@ -250,6 +250,7 @@ public class LevelSceneEditor : MonoBehaviour
         if (unit == selectedA)
         {
             unit.ToggleVisibility();
+            EditorUtility.SetDirty(unit);
             ClearSelection();
             return;
         }
