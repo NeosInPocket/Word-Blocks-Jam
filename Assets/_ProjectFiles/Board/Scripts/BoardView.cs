@@ -13,67 +13,83 @@ public class BoardView : BoardSpawner<BoardCellView>
     {
         ClearBoard();
         BuildEmptyBoard(levelAsset.Rows,levelAsset.Columns);
+        SpawnAdditionalCells(levelAsset.Board);
+        FillBoard(levelAsset);
+        UnlockFirstRow();
+    }
 
-        for (int i = 0; i < levelAsset.Rows; i++)
+    private void FillBoard(LevelAsset levelAsset)
+    {
+        foreach (var entity in levelAsset.Board)
         {
-            for (int j = 0; j < levelAsset.Columns; j++)
+            var cell = _cells.FirstOrDefault(x => x.positionData.position == entity.position);
+            
+            var isBlockCell = !entity.isOccupiedByDispenser && string.IsNullOrEmpty(entity.character);
+                
+            if (isBlockCell)
             {
-                var cell = _cells.FirstOrDefault(x => x.positionData.position == new Vector2Int(i, j));
-                var entity = levelAsset.Board.FirstOrDefault(x => x.position == new Vector2Int(i, j));
-                if (entity == null)
+                _cells.Remove(cell);
+                Destroy(cell.gameObject);
+            }
+            else
+            {
+                if (entity.isOccupiedByDispenser)
                 {
-                    _cells.Remove(cell);
-                    Destroy(cell.gameObject);
-                    continue;
-                }
-                
-                var isBlockCell = !entity.isOccupiedByDispenser && string.IsNullOrEmpty(entity.character);
-                
-                if (isBlockCell)
-                {
-                    _cells.Remove(cell);
-                    Destroy(cell.gameObject);
-                }
-                else
-                {
-                    if (entity.isOccupiedByDispenser)
+                    var dispenser = Instantiate(dispenserPrefab, cell.transform.position, dispenserPrefab.transform.rotation, cell.transform.parent);
+
+                    try
                     {
-                        var dispenser = Instantiate(dispenserPrefab, cell.transform.position, dispenserPrefab.transform.rotation, cell.transform.parent);
+                        var dispenserData =
+                            levelAsset.Dispensers.FirstOrDefault(x => x.Board[0].position == entity.position);
 
-                        try
+                        if (dispenserData != null)
                         {
-                            var dispenserData =
-                                levelAsset.Dispensers.FirstOrDefault(x => x.Board[0].position == new Vector2Int(i, j));
-
-                            if (dispenserData != null)
-                            {
-                                dispenser.SetData(dispenserData);
-                            }
+                            dispenser.SetData(dispenserData);
                         }
-                        catch (Exception e)
-                        {
-                            // ignored
-                        }
+                    }
+                    catch (Exception e)
+                    {
+                        // ignored
+                    }
                         
-                        dispenser.SetPosition(new Vector2Int(i, j), cell.transform.position);
-                        _dispensers.Add(dispenser);
+                    dispenser.SetPosition(entity.position, cell.transform.position);
+                    _dispensers.Add(dispenser);
 
-                        _cells.Remove(cell);
-                        Destroy(cell.gameObject);
-                    }
-                    else 
-                    
-                    if (!string.IsNullOrEmpty(entity.character))
-                    {
-                        cell.SetData(entity);
-                        cell.Occupant.Available = false;
-                    }
-                   
+                    _cells.Remove(cell);
+                    Destroy(cell.gameObject);
                 }
+                else 
+                    
+                if (!string.IsNullOrEmpty(entity.character))
+                {
+                    cell.SetData(entity);
+                    cell.Occupant.Available = false;
+                }
+                   
             }
         }
+    }
+    
+    private void SpawnAdditionalCells(List<BoardEntityData> board)
+    {
+        var boardCellsPositions = _cells.Select(x => x.positionData.position).ToList();
+        var dataCellsPositions = board.Where(x => !x.isGhostCell).Select(x => x.position).ToList();
         
-        UnlockFirstRow();
+        List<Vector2Int> newCellsPositions = boardCellsPositions
+            .Where(a => !dataCellsPositions.Contains(a))
+            .Concat(dataCellsPositions.Where(b => !boardCellsPositions.Contains(b)))
+            .ToList();
+
+        foreach (var pos in newCellsPositions)
+        {
+            var spawnPosition = GetPositionFromPositionData(pos);
+            
+            var cell = Instantiate(prefab, spawnPosition, prefab.transform.rotation, parentTransform);
+            cell.positionData.position = pos;
+                
+            cell.SideSize = PreferredCellSize;
+            _cells.Add(cell);
+        }
     }
     
     public void ClearBoard()

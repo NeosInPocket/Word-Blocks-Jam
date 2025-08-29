@@ -237,6 +237,7 @@ public class LevelSceneEditor : MonoBehaviour
         {
             SwapCellWithLetterUnitWithDispenser(unit, selectedDispenser);
             ClearSelection();
+            return;
         }
         
         if (selectedA == null)

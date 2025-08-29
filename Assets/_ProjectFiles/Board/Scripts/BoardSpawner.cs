@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class BoardSpawner<T> : MonoBehaviour where T : LetterCell
+public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
 {
     [SerializeField] protected T prefab;
     [SerializeField] protected VisualArea spawnArea;
