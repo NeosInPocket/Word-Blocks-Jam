@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 344342516405779032}
   - component: {fileID: 2309237345697455760}
   - component: {fileID: 3668204419177927812}
+  - component: {fileID: 3775500015131321473}
   m_Layer: 0
   m_Name: Y
   m_TagString: Untagged
@@ -26,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2803389403252187545}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -7.850466e-17, z: -7.8504655e-17, w: 0.7071067}
+  m_LocalRotation: {x: 0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: 7.109934e-29, y: 0.5461885, z: 1.7763568e-15}
   m_LocalScale: {x: 0.16516998, y: 0.16516998, z: 0.24550524}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 89.98, y: 0, z: 0}
 --- !u!33 &2309237345697455760
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -62,7 +63,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -876546973899608171, guid: 35277e2a4e9cbf3409fc64e18b5e3ccf, type: 3}
-  - {fileID: 2100000, guid: 5a4e42a47974a8b4d8f43b9288c3857a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,3 +84,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3775500015131321473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2803389403252187545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineWidth: 4.24
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

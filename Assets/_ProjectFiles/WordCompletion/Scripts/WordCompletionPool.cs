@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WordCompletionPool : BoardSpawner<WordPoolCell>
+public class WordCompletionPool : UnusedLettersPoolView
 {
     [SerializeField] private GameObject winObject;
     [SerializeField] private PlayerSelectionTracker tracker;
@@ -13,9 +13,7 @@ public class WordCompletionPool : BoardSpawner<WordPoolCell>
     public void BuildPool(WordsQueue wordsQueue)
     {
         _queue = wordsQueue;
-        ClearPool();
-
-        BuildEmptyBoard(wordsQueue.CurrentWord.Length);
+        BuildPool(wordsQueue.CurrentWord.Length);
     }
 
     public bool HasNonFilledCharacter(string character)
@@ -24,30 +22,13 @@ public class WordCompletionPool : BoardSpawner<WordPoolCell>
         if (!containsCharacter) return false;
         
         var characterCount = _queue.CurrentWord.Count(x => x.ToString() == character);
-        var cells = _cells.Where(x => x.Character == character).Select(x => x.Character).ToList();
+        var cells = Cells.Where(x => x.Occupant != null && x.Occupant.Character == character).Select(x => x.Occupant.Character).ToList();
 
         var result =  cells.Count != characterCount;
         return result;
     }
 
-    public bool IsCharacterInPlace(string character)
-    {
-        var cells = _cells.Where(x => x.Character == character).ToList();
-        var cellsCount = cells.Count;
-        var characterCount = 0;
-
-        foreach (var ch in _queue.CurrentWord)
-        {
-            if (ch.ToString() == character)
-            {
-                characterCount++;
-            }
-        }
-        
-        return cellsCount == characterCount;
-    }
-
-    public void SetCharacter(string character)
+    public void SetCharacter(LetterUnitBase character)
     {
         List<int> characterPositions = new List<int>();
 
@@ -55,7 +36,7 @@ public class WordCompletionPool : BoardSpawner<WordPoolCell>
         
         for (int i = 0; i < word.Length; i++)
         {
-            if (word[i].ToString() == character)
+            if (word[i].ToString() == character.Character)
             {
                 characterPositions.Add(i);
             }
@@ -65,15 +46,16 @@ public class WordCompletionPool : BoardSpawner<WordPoolCell>
         
         foreach (var pos in characterPositions)
         {
-            if (_cells[pos].Character == character) continue;
+            if (Cells[pos].Occupant != null && Cells[pos].Occupant.Character == character.Character) continue;
 
             freePosition = pos;
             break;
         }
         
-        var cell = _cells[freePosition];
-        cell.SetCharacter(character);
-
+        var cell = Cells[freePosition];
+        cell.SetOccupant(character);
+        character.Navigation.SetTarget(_model.SpawnPositions[freePosition]);
+        
         if (TryCompleteWord())
         {
             if (_queue.MoveNext())
@@ -82,14 +64,17 @@ public class WordCompletionPool : BoardSpawner<WordPoolCell>
                 var lettersInPool = pool.Cells.Where(x => x.Occupant != null).Select(x => x.Occupant.Character).ToList();
                 
                 var matchingCharacters = _queue.CurrentWord.Where(x => lettersInPool.Contains(x.ToString())).ToList();
-
+        
                 if (matchingCharacters.Any())
                 {
                     foreach (var ch in matchingCharacters)
                     {
                         var poolCell = pool.Cells.FirstOrDefault(x => x.Occupant != null && x.Occupant.Character == ch.ToString());
-                        poolCell.DestroyOccupant();
-                        SetCharacter(ch.ToString());
+                        
+                        // перемещение мипла в основной пул
+                        
+                        //poolCell.DestroyOccupant();
+                        //SetCharacter(ch.ToString());
                     }
                 }
             }
@@ -108,19 +93,12 @@ public class WordCompletionPool : BoardSpawner<WordPoolCell>
     {
         string word = String.Empty;
         
-        foreach (var cell in _cells)
+        foreach (var cell in Cells)
         {
-            word += cell.Character;
+            if (cell.Occupant == null) continue;
+            word += cell.Occupant.Character;
         }
         
         return _queue.CurrentWord.Equals(word);
-    }
-
-    private void ClearPool()
-    {
-        foreach (Transform child in parentTransform)
-        {
-            Destroy(child.gameObject);
-        }
     }
 }

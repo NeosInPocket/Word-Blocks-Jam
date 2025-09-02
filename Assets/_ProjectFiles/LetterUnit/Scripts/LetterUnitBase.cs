@@ -7,6 +7,7 @@ public abstract class LetterUnitBase : MonoBehaviour
 {
     [SerializeField] private PositionData positionData;
     [SerializeField] protected GameObject rendererObject;
+    [SerializeField] protected LetterUnitNavigation navigation;
     private BoardEntityData _data;
     protected bool _available;
     protected string _character;
@@ -15,6 +16,7 @@ public abstract class LetterUnitBase : MonoBehaviour
     
     public BoardEntityData Data => _data;
     public PositionData PositionData => positionData;
+    public LetterUnitNavigation Navigation => navigation;
     public string Character => _character;
     public abstract bool Available { get; set; }
 

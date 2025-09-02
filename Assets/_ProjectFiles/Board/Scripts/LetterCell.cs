@@ -39,10 +39,4 @@ public class LetterCell : MonoBehaviour
     {
         _occupant = null;
     }
-
-    public void DestroyOccupant()
-    {
-        Destroy(_occupant.gameObject);
-        RemoveOccupant();
-    }
 }

@@ -13,18 +13,7 @@ public class LetterUnit : LetterUnitBase
     protected override void SetCharacterData(BoardEntityData data)
     {
         characterRenderer.SetCharacter(data.character);
-        SetUnitColor(data.color);
-    }
-
-    private void SetUnitColor(Color color)
-    {
-        if (_renderer == null)
-            _renderer = rendererObject.GetComponent<Renderer>();
-        
-        var mpb = new MaterialPropertyBlock();
-        _renderer.GetPropertyBlock(mpb);
-        mpb.SetColor("_Color", color);
-        _renderer.SetPropertyBlock(mpb);
+        characterRenderer.SetUnitColor(data.color);
     }
 
     public override void SetVisibility(bool value)

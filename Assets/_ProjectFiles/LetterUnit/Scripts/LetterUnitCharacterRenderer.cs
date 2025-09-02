@@ -7,7 +7,9 @@ public class LetterUnitCharacterRenderer : MonoBehaviour
 {
     [SerializeField] private Transform characterTransform;
     [SerializeField] private CharactersDictionary characters;
+    [SerializeField] private GameObject rendererObject;
     private GameObject characterObject;
+    private Renderer _renderer;
 
     public GameObject CharacterObject => characterObject;
 
@@ -32,9 +34,15 @@ public class LetterUnitCharacterRenderer : MonoBehaviour
         if (characterObject == null) return;
         Destroy(characterObject.gameObject);
     }
-
-    public void SetCharacterColor()
+    
+    public void SetUnitColor(Color color)
     {
+        if (_renderer == null)
+            _renderer = rendererObject.GetComponent<Renderer>();
         
+        var mpb = new MaterialPropertyBlock();
+        _renderer.GetPropertyBlock(mpb);
+        mpb.SetColor("_Color", color);
+        _renderer.SetPropertyBlock(mpb);
     }
 }

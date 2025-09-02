@@ -19,8 +19,8 @@ public class BoardCellRouter : MonoBehaviour
 
         if (mainPoolHasCharacter)
         {
-            wordPool.SetCharacter(obj.Occupant.Character);
-            obj.DestroyOccupant();
+            wordPool.SetCharacter(obj.Occupant);
+            obj.RemoveOccupant();
         }
         else
         {

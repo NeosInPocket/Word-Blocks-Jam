@@ -11,9 +11,11 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
     [SerializeField] public GameObject oneSmoothPrefab;
     [SerializeField] public GameObject twoSmoothPrefab;
     [SerializeField] public GameObject allSmoothPrefab;
+    [SerializeField] public int additionalHorizontalBlocksCount;
+    [SerializeField] public int additionalVerticalBlocksCount;
     [SerializeField] private BoardView boardView;
     [SerializeField] private float ySpawnDelta;
-    [SerializeField] private float blockSizePerCellSize = 0.7f;
+    [SerializeField] private float blockSizePerCellSize = 2.475f;
     
     private Dictionary<BlockType, GameObject> prefabs;
     private float _cellSize;
@@ -32,7 +34,21 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
     public void Spawn(List<BoardEntityData> data, float cellSize)
     {
         _cellSize = cellSize;
-        var positions = data.Where(x => string.IsNullOrEmpty(x.character) && !x.isOccupiedByDispenser && !x.isGhostCell).Select(x => x.position).ToList();
+        int maxRowIndex = data.Max(x => x.position.x) + additionalVerticalBlocksCount; 
+        int minRowIndex = data.Min(x => x.position.x); 
+        int maxColumnIndex = data.Max(x => x.position.y) + additionalHorizontalBlocksCount;
+        int minColumnIndex = data.Min(x => x.position.y) - additionalHorizontalBlocksCount;
+
+        List<Vector2Int> positions = new List<Vector2Int>();
+        
+        for (int i = minRowIndex; i <= maxRowIndex; i++)
+            for (int j = minColumnIndex; j <= maxColumnIndex; j++)
+                positions.Add(new Vector2Int(i, j));
+
+        var dataPositions = data.Where(x => !string.IsNullOrEmpty(x.character) || x.isOccupiedByDispenser).Select(x => x.position).ToList();
+        positions.RemoveAll(x => dataPositions.Contains(x));
+        
+        
         PlaceBlocks(positions);
     }
     
@@ -50,7 +66,7 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
             
             var block = Instantiate(prefab, position, rotation, transform);
 
-            block.transform.localScale = 2.475f * _cellSize * Vector3.one;
+            block.transform.localScale = blockSizePerCellSize * _cellSize * Vector3.one;
         }
     }
 

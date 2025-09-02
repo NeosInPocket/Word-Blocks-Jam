@@ -13,7 +13,7 @@ public class LevelBootstrap : MonoBehaviour
     private const string _levelsAssetsPath = "Assets/_ProjectFiles/Level/LevelAssets";
     private WordsQueue _queue;
     
-    private void Awake()
+    private void Start()
     {
         boardView.ClearBoard();
         SelectLevel();
@@ -43,7 +43,7 @@ public class LevelBootstrap : MonoBehaviour
         boardView.BuildBoard(level);
         environmentObjectsSpawner.Spawn(level.Board, boardView.RealCellSize);
         
-        unusedLettersPoolView.BuildEmptyBoard(level.PoolCount);
+        unusedLettersPoolView.BuildPool(level.PoolCount);
         wordCompletionPool.BuildPool(_queue);
     }
 }
