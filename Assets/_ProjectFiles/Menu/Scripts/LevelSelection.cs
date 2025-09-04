@@ -1,20 +1,19 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelSelection : MonoBehaviour
 {
    [SerializeField] private TMP_Text levelText;
 
-   public void Load()
+   public int Load()
    {
       SaveManager.Load();
+      UpdateLevel();
       
-      var levelInfo = new CurrentLevelInfo(SaveManager.Data.levelsCompleted + 1);
-      SceneManager.LoadScene(1);
+      return SaveManager.Data.levelsCompleted + 1;
    }
 
-   public void UpdateLevel()
+   private void UpdateLevel()
    {
       SaveManager.Load();
       var data = SaveManager.Data;

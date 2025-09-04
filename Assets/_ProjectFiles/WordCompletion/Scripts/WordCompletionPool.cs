@@ -14,6 +14,7 @@ public class WordCompletionPool : UnusedLettersPoolView
     {
         _queue = wordsQueue;
         BuildPool(wordsQueue.CurrentWord.Length);
+        _model.AddButtons();
     }
 
     public bool HasNonFilledCharacter(string character)
@@ -54,7 +55,7 @@ public class WordCompletionPool : UnusedLettersPoolView
         
         var cell = Cells[freePosition];
         cell.SetOccupant(character);
-        character.Navigation.SetTarget(_model.SpawnPositions[freePosition]);
+        character.Navigation.SetTarget(_model.SpawnPositions[freePosition], true);
         
         if (TryCompleteWord())
         {

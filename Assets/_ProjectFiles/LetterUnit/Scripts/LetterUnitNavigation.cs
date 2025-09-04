@@ -8,24 +8,51 @@ public class LetterUnitNavigation : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     [SerializeField] private Animator animator;
     [SerializeField] private Vector3 finalForward;
-    private Transform _target;
-    
-    public void SetTarget(Transform target)
+    [SerializeField] private float jumpTriggerDistance = 2f;
+    [SerializeField] private float jumpHeight = 2f;
+    [SerializeField] private float jumpDuration = 0.6f;
+
+    private bool _isJumping;
+    private bool _shouldJump;
+
+    public void SetTarget(Transform target, bool shouldJump = false)
     {
         agent.updateRotation = false;
+        agent.isStopped = false;
+
+        _isJumping = false;
+        _shouldJump = shouldJump;
+
         agent.SetDestination(target.position);
     }
 
     void Update()
     {
+        if (agent.velocity.magnitude == 0)
+        {
+            Vector3 direction = finalForward.normalized;
+            if (direction != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
+        }
+        
+        if (_isJumping || agent.isStopped) return;
+
         float speed = agent.velocity.magnitude;
         bool isRunning = speed > 0.1f;
-
         animator.SetBool("isRunning", isRunning);
 
-        if (agent.isOnOffMeshLink)
+        if (_shouldJump)
         {
-            StartCoroutine(JumpRoutine());
+            float distanceToDestination = Vector3.Distance(transform.position, agent.destination);
+            if (distanceToDestination <= jumpTriggerDistance)
+            {
+                animator.SetBool("isRunning", false);
+                StartCoroutine(JumpToTargetRoutine(agent.destination));
+                return;
+            }
         }
 
         if (agent.velocity.magnitude == 0)
@@ -49,33 +76,37 @@ public class LetterUnitNavigation : MonoBehaviour
         }
     }
 
-    private IEnumerator JumpRoutine()
+    private IEnumerator JumpToTargetRoutine(Vector3 targetPos)
     {
-        animator.SetBool("isJumping", true);
-
-        Vector3 startPos = transform.position;
-        Vector3 endPos = agent.currentOffMeshLinkData.endPos;
-
-        float jumpHeight = 2f;
-        float duration = 0.6f;
-        float t = 0f;
-
+        _isJumping = true;
+        agent.isStopped = true;
         agent.updatePosition = false;
 
-        while (t < duration)
+        animator.SetTrigger("JumpStart");
+        yield return new WaitForSeconds(0.15f);
+
+        animator.SetBool("JumpLoop", true);
+
+        Vector3 startPos = transform.position;
+        float t = 0f;
+
+        while (t < jumpDuration)
         {
-            float normalizedTime = t / duration;
-            Vector3 pos = Vector3.Lerp(startPos, endPos, normalizedTime);
+            float normalizedTime = t / jumpDuration;
+            Vector3 pos = Vector3.Lerp(startPos, targetPos, normalizedTime);
             pos.y += Mathf.Sin(normalizedTime * Mathf.PI) * jumpHeight;
             transform.position = pos;
             t += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = endPos;
-        agent.CompleteOffMeshLink();
-        agent.updatePosition = true;
+        transform.position = targetPos;
+        agent.nextPosition = transform.position;
+        
+        animator.SetBool("JumpLoop", false);
 
-        animator.SetBool("isJumping", false);
+        agent.isStopped = true;
+        agent.updatePosition = true;
+        _isJumping = false;
     }
 }

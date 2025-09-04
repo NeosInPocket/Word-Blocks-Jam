@@ -10,15 +10,30 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private UnusedLettersPoolView unusedLettersPoolView;
     [SerializeField] private WordCompletionPool wordCompletionPool;
     [SerializeField] private BoardEnvironmentObjectsSpawner environmentObjectsSpawner;
-    private const string _levelsAssetsPath = "Assets/_ProjectFiles/Level/LevelAssets";
+    [SerializeField] private LevelSelection levelSelection;
+    [SerializeField] private PlayerSelectionTracker tracker;
+    [SerializeField] private FadeScreenView fadeScreen;
     private WordsQueue _queue;
+    private int _currentLevel;
     
     private void Start()
     {
+        _currentLevel = levelSelection.Load();
+        
         boardView.ClearBoard();
         SelectLevel();
     }
 
+    public void OnPlay()
+    {
+        fadeScreen.CloseMenu(EnableLevelControls);
+    }
+
+    private void EnableLevelControls()
+    {
+        tracker.Enable(true);
+    }
+    
     private void SelectLevel()
     {
         var levels = LevelAssetLoader.LoadAllLevels();
@@ -27,7 +42,7 @@ public class LevelBootstrap : MonoBehaviour
 
         try
         {
-            level = levels.First(x => x.LevelId == CurrentLevelInfo.Instance.LevelId);
+            level = levels.First(x => x.LevelId == _currentLevel);
         }
         catch (Exception e)
         {

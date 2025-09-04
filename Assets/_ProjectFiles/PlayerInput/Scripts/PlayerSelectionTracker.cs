@@ -10,13 +10,23 @@ public class PlayerSelectionTracker : MonoBehaviour
     public static PlayerSelectionTracker Instance { get; private set; }
     private Camera MainCamera => Camera.main;
 
+    public void Enable(bool enabled)
+    {
+        if (enabled)
+        {
+            Touch.onFingerDown += OnTouch;
+        }
+        else
+        {
+            Touch.onFingerDown -= OnTouch;
+        }
+    } 
+    
     private void Awake()
     {
         Instance = this;
         EnhancedTouchSupport.Enable();
         TouchSimulation.Enable();
-        
-        Touch.onFingerDown += OnTouch;
     }
 
     private void OnTouch(Finger obj)
@@ -32,5 +42,10 @@ public class PlayerSelectionTracker : MonoBehaviour
             BoardCellView cellView = boardCellHit.collider.transform.parent.GetComponent<BoardCellView>();
             OnBoardCellTapped?.Invoke(cellView);
         }
+    }
+
+    private void OnDestroy()
+    {
+        OnBoardCellTapped = null;
     }
 }

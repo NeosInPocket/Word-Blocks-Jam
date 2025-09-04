@@ -34,7 +34,6 @@ public class BoardDataGenerator
             MapLettersToRow(board, occupied, activeCells, r, columns, indexesForRow, lettersQueue, ref letterIndex, lettersInThisRow);
         }
 
-        //FillRemainingRowsWithNull(board, occupied, activeCells, maxFilledRowIndex + 1, rows, columns);
         PlaceRemainingInDispensers(lettersQueue, levelData, TryPlaceInDispensers);
         ValidateAllLettersUsed(lettersQueue);
         ShuffleLettersBetweenRows(board, levelData, maxFilledRowIndex, columns);

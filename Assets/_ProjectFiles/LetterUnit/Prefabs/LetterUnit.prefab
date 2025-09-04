@@ -183,6 +183,9 @@ MonoBehaviour:
   rotationSpeed: 5
   animator: {fileID: 7797809398544683722}
   finalForward: {x: 0, y: 0, z: 1}
+  jumpTriggerDistance: 2
+  jumpHeight: 2
+  jumpDuration: 0.6
 --- !u!195 &4908140141508671231
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -30,9 +30,4 @@ public class BoardCellRouter : MonoBehaviour
         
         boardView.RefreshCells();
     }
-
-    private void OnDestroy()
-    {
-        PlayerSelectionTracker.Instance.OnBoardCellTapped -= OnBoardCellTapped;
-    }
 }

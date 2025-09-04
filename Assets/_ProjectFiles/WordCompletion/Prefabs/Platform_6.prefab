@@ -161,7 +161,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 834c9530d1a20c143840dabd058dac58, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -202,6 +202,8 @@ MonoBehaviour:
   - {fileID: 1431913265148960903}
   - {fileID: 3260390116962069809}
   - {fileID: 4976600544636292130}
+  buttonPrefab: {fileID: 7665725188280912036, guid: 2f6775b3362eede449c3cd9399504bd9,
+    type: 3}
 --- !u!1 &7105999698341129498
 GameObject:
   m_ObjectHideFlags: 0
