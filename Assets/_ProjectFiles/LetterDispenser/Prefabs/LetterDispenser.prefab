@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 329180981319676775}
   - component: {fileID: 5134433321194519778}
   - component: {fileID: 5772097929492849736}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LetterDispenser
   m_TagString: Untagged
   m_Icon: {fileID: 0}

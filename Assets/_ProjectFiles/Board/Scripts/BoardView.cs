@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEngine;
 
 public class BoardView : BoardSpawner<BoardCellView>
 {
     [SerializeField] private LetterDispenserView dispenserPrefab;
+    [SerializeField] private float dispenserUnitAppearDelay;
     private List<LetterDispenserView> _dispensers = new List<LetterDispenserView>();
+    private int currentPriority = 0;
     
     public void BuildBoard(LevelAsset levelAsset)
     {
@@ -62,8 +65,9 @@ public class BoardView : BoardSpawner<BoardCellView>
                     
                 if (!string.IsNullOrEmpty(entity.character))
                 {
-                    cell.SetData(entity);
+                    cell.SetData(entity, currentPriority);
                     cell.Occupant.Available = false;
+                    currentPriority++;
                 }
                    
             }
@@ -130,7 +134,7 @@ public class BoardView : BoardSpawner<BoardCellView>
     }
 
     
-    public void RefreshCells()
+    public async void RefreshCells()
     {
         foreach (var cell in _cells)
         {
@@ -150,8 +154,10 @@ public class BoardView : BoardSpawner<BoardCellView>
             {
                 if (dispenser.TryGetNext(out BoardEntityData data))
                 {
-                    nextCellToDispenser.SetData(data);
+                    await Task.Delay((int)(dispenserUnitAppearDelay * 1000));
+                    nextCellToDispenser.SetData(data, currentPriority);
                     nextCellToDispenser.Occupant.Available = true;
+                    currentPriority++;
                 }
             }
         }

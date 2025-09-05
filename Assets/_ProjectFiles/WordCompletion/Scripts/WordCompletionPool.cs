@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WordCompletionPool : UnusedLettersPoolView
@@ -8,13 +11,17 @@ public class WordCompletionPool : UnusedLettersPoolView
     [SerializeField] private GameObject winObject;
     [SerializeField] private PlayerSelectionTracker tracker;
     [SerializeField] private UnusedLettersPoolView pool;
+    [SerializeField] private float poolAnimationDuration;
     private WordsQueue _queue;
-    
+    private bool _isBuildingPool;
+    public bool IsBuildingPool => _isBuildingPool;
+
     public void BuildPool(WordsQueue wordsQueue)
     {
         _queue = wordsQueue;
         BuildPool(wordsQueue.CurrentWord.Length);
         _model.AddButtons();
+        _model.CanvasLetters.SetWord(wordsQueue.CurrentWord);
     }
 
     public bool HasNonFilledCharacter(string character)
@@ -29,7 +36,7 @@ public class WordCompletionPool : UnusedLettersPoolView
         return result;
     }
 
-    public void SetCharacter(LetterUnitBase character)
+    public async Task SetCharacter(LetterUnitBase character)
     {
         List<int> characterPositions = new List<int>();
 
@@ -54,16 +61,27 @@ public class WordCompletionPool : UnusedLettersPoolView
         }
         
         var cell = Cells[freePosition];
-        cell.SetOccupant(character);
-        character.Navigation.SetTarget(_model.SpawnPositions[freePosition], true);
+        cell.SetOccupant(character.GetComponent<LetterUnit>());
+        await character.Navigation.SetTarget(_model.SpawnPositions[freePosition], true, _model.Buttons[freePosition]);
+
+        var someAreNotInPlace = Cells.Any(x => !x.Occupant.Navigation.InPlace);
+        var missingLetters = Cells.Count(x => x.Occupant != null) != _queue.CurrentWord.Length;
+
+        Debug.Log("not in place: " + someAreNotInPlace);
+        Debug.Log("missing letters: " + missingLetters);
+        
+        if (missingLetters || someAreNotInPlace)
+        {
+            return;
+        }
         
         if (TryCompleteWord())
         {
             if (_queue.MoveNext())
             {
-                BuildPool(_queue);
-                var lettersInPool = pool.Cells.Where(x => x.Occupant != null).Select(x => x.Occupant.Character).ToList();
+                await BuildNextPool();
                 
+                var lettersInPool = pool.Cells.Where(x => x.Occupant != null).Select(x => x.Occupant.Character).ToList();
                 var matchingCharacters = _queue.CurrentWord.Where(x => lettersInPool.Contains(x.ToString())).ToList();
         
                 if (matchingCharacters.Any())
@@ -72,10 +90,8 @@ public class WordCompletionPool : UnusedLettersPoolView
                     {
                         var poolCell = pool.Cells.FirstOrDefault(x => x.Occupant != null && x.Occupant.Character == ch.ToString());
                         
-                        // перемещение мипла в основной пул
-                        
-                        //poolCell.DestroyOccupant();
-                        //SetCharacter(ch.ToString());
+                        SetCharacter(poolCell.Occupant);
+                        poolCell.RemoveOccupant();
                     }
                 }
             }
@@ -90,8 +106,52 @@ public class WordCompletionPool : UnusedLettersPoolView
         }
     }
 
+    private async Task WaitForAllUnits()
+    {
+        while (Cells.Any(x => !x.Occupant.Navigation.InPlace))
+        {
+            await Task.Yield();
+        }
+    }
+    
+    private async Task BuildNextPool()
+    {
+        _isBuildingPool = true;
+        
+        foreach (var cell in Cells)
+        {
+            var occupant = cell.Occupant;
+            occupant.PopEffect.Play(occupant.transform.position);
+            Destroy(occupant.gameObject);
+        }
+
+        foreach (var button in _model.Buttons)
+        {
+            button.StopMove();
+        }
+
+        await _model.transform
+            .DOMoveX(_model.transform.position.x - Camera.main.orthographicSize, poolAnimationDuration)
+            .SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+        
+        BuildPool(_queue);
+        
+        var modelOffsetPosition = _model.transform.position;
+        var modelStartPosition = modelOffsetPosition;
+        modelOffsetPosition.x += Camera.main.orthographicSize;
+        
+        _model.transform.position = modelOffsetPosition;
+        
+        await _model.transform.DOMove(modelStartPosition, poolAnimationDuration).SetEase(Ease.InOutQuad)
+            .AsyncWaitForCompletion();
+        
+        _isBuildingPool = false;
+    }
+    
     private bool TryCompleteWord()
     {
+        if (_queue.CurrentWord == null) return false;
+        
         string word = String.Empty;
         
         foreach (var cell in Cells)

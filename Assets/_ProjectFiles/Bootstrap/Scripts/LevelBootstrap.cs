@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using _ProjectFiles.WordCompletion.Scripts;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class LevelBootstrap : MonoBehaviour
@@ -13,6 +14,7 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private LevelSelection levelSelection;
     [SerializeField] private PlayerSelectionTracker tracker;
     [SerializeField] private FadeScreenView fadeScreen;
+    [SerializeField] private NavMeshSurface meshSurface;
     private WordsQueue _queue;
     private int _currentLevel;
     
@@ -60,5 +62,7 @@ public class LevelBootstrap : MonoBehaviour
         
         unusedLettersPoolView.BuildPool(level.PoolCount);
         wordCompletionPool.BuildPool(_queue);
+        
+        //meshSurface.BuildNavMesh();
     }
 }

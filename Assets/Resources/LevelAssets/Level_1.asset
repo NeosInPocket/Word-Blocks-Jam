@@ -21,7 +21,7 @@ MonoBehaviour:
   ghostCellsCount: 0
   dispensersCount: 1
   words:
-  - word: cat
+  - word: aat
     rowMin: 1
     rowMax: 3
     minRowsNeeded: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
     color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
-  - character: c
+  - character: a
     position: {x: 1, y: 4}
     isVisible: 1
     color: {r: 0.9, g: 0.17999998, b: 0.17999998, a: 1}

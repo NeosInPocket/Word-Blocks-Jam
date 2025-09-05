@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 652661962342054325}
   - component: {fileID: 8569621611561823956}
   - component: {fileID: 313071262957500216}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BoardCellView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6197950248970315681}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpawnPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 4585004979070179206}
   - component: {fileID: 3026315332087263224}
   - component: {fileID: 8324113851067872395}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BoardCellView
   m_TagString: Untagged
   m_Icon: {fileID: 0}

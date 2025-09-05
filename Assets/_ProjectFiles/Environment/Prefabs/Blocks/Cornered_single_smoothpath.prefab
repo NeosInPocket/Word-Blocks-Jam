@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2306097369797741009}
   - component: {fileID: 627578373648367355}
   - component: {fileID: 691942711827827097}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cornered_single_smoothpath
   m_TagString: Untagged
   m_Icon: {fileID: 0}

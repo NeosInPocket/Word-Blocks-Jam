@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 44516044663415299}
   - component: {fileID: 5080224797576483514}
   - component: {fileID: 8609223921964030109}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Two_corners
   m_TagString: Untagged
   m_Icon: {fileID: 0}

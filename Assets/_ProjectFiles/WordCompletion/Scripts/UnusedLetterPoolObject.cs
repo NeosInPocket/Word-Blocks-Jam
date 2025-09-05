@@ -5,9 +5,12 @@ public class UnusedLetterPoolObject : MonoBehaviour
 {
     [SerializeField] private List<Transform> spawnPositions;
     [SerializeField] private ButtonCellView buttonPrefab;
+    [SerializeField] private PoolCanvasLetters canvasLetters;
     private List<ButtonCellView> _buttons;
     
     public List<Transform> SpawnPositions => spawnPositions;
+    public List<ButtonCellView> Buttons => _buttons;
+    public PoolCanvasLetters CanvasLetters => canvasLetters;
 
     public void AddButtons()
     {

@@ -1,9 +1,9 @@
 public class LetterPoolData
 {
-    private LetterUnitBase _unit;
-    public LetterUnitBase Occupant => _unit;
+    private LetterUnit _unit;
+    public LetterUnit Occupant => _unit;
     
-    public void SetOccupant(LetterUnitBase unit)
+    public void SetOccupant(LetterUnit unit)
     {
         _unit = unit;
     }

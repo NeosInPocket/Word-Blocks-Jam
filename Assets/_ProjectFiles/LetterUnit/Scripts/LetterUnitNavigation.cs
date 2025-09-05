@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,10 +13,14 @@ public class LetterUnitNavigation : MonoBehaviour
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float jumpDuration = 0.6f;
 
+    private ButtonCellView _button;
     private bool _isJumping;
     private bool _shouldJump;
+    private bool _inPlace;
 
-    public void SetTarget(Transform target, bool shouldJump = false)
+    public bool InPlace => _inPlace;
+    
+    public async Task SetTarget(Transform target, bool shouldJump = false, ButtonCellView cellView = null)
     {
         agent.updateRotation = false;
         agent.isStopped = false;
@@ -24,8 +29,17 @@ public class LetterUnitNavigation : MonoBehaviour
         _shouldJump = shouldJump;
 
         agent.SetDestination(target.position);
-    }
+        _button = cellView;
 
+        await WaitForDestinationReach();
+    }
+    
+    private async Task WaitForDestinationReach()
+    {
+        while (!_inPlace)
+            await Task.Yield();
+    }
+    
     void Update()
     {
         if (agent.velocity.magnitude == 0)
@@ -108,5 +122,11 @@ public class LetterUnitNavigation : MonoBehaviour
         agent.isStopped = true;
         agent.updatePosition = true;
         _isJumping = false;
+        _inPlace = true;
+        
+        if (_button != null)
+        {
+            _button.OnButtonPressed();
+        }
     }
 }

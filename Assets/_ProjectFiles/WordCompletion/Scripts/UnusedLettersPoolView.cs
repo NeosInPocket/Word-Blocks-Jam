@@ -14,6 +14,8 @@ public class UnusedLettersPoolView : MonoBehaviour
 
     public void BuildPool(int poolCount)
     {
+        if (_model != null) Destroy(_model.gameObject);
+        
         var modelPrefab = poolInfos.First(x => x.CellsCount == poolCount).Model;
         _model = Instantiate(modelPrefab, spawnPosition.position, modelPrefab.transform.rotation, transform);
         _model.transform.localScale = Vector3.one * modelSize;
@@ -35,7 +37,7 @@ public class UnusedLettersPoolView : MonoBehaviour
             int cellIndex = _cells.IndexOf(freeCell);
             var target = _model.SpawnPositions[cellIndex];
             
-            freeCell.SetOccupant(unit);
+            freeCell.SetOccupant(unit.GetComponent<LetterUnit>());
             unit.Navigation.SetTarget(target);
             
             return true;
