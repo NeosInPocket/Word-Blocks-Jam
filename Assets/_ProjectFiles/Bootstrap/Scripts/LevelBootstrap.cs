@@ -35,6 +35,12 @@ public class LevelBootstrap : MonoBehaviour
     {
         tracker.Enable(true);
     }
+
+    public void SelectLevel(int levelId)
+    {
+        _currentLevel = levelId;
+        SelectLevel();
+    }
     
     private void SelectLevel()
     {

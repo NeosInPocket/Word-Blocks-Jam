@@ -14,6 +14,7 @@ public class BoardView : BoardSpawner<BoardCellView>
     
     public void BuildBoard(LevelAsset levelAsset)
     {
+        _dispensers = new List<LetterDispenserView>();
         ClearBoard();
         BuildEmptyBoard(levelAsset.Rows,levelAsset.Columns);
         SpawnAdditionalCells(levelAsset.Board);

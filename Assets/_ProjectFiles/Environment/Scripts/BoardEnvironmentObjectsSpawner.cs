@@ -21,6 +21,7 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
     
     private Dictionary<BlockType, GameObject> prefabs;
     private float _cellSize;
+    private List<GameObject> blocks;
     
     private void SetPrefabs() {
         prefabs = new Dictionary<BlockType, GameObject>() {
@@ -35,6 +36,9 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
 
     public void Spawn(List<BoardEntityData> data, float cellSize)
     {
+        Clear();
+        blocks = new List<GameObject>();
+        
         _cellSize = cellSize;
         int maxRowIndex = data.Max(x => x.position.x) + additionalVerticalBlocksCount; 
         int minRowIndex = data.Min(x => x.position.x); 
@@ -61,6 +65,16 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
         Vector2 minMaxZ = new Vector2(startBlockPosition.z, lastBlockPosition.z);
         decorations.Spawn(minMaxX, minMaxZ);
     }
+
+    private void Clear()
+    {
+        if (blocks == null || blocks.Count == 0) return;
+        
+        foreach (var block in blocks)
+        {
+            Destroy(block);
+        }
+    }
     
     private void PlaceBlocks(List<Vector2Int> positions)
     {
@@ -77,6 +91,7 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
             var block = Instantiate(prefab, position, rotation, transform);
 
             block.transform.localScale = blockSizePerCellSize * _cellSize * Vector3.one;
+            blocks.Add(block);
         }
     }
 
