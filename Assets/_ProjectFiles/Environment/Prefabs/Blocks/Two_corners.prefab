@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 44516044663415299}
   - component: {fileID: 5080224797576483514}
   - component: {fileID: 8609223921964030109}
+  - component: {fileID: -2292423002102773316}
   m_Layer: 3
   m_Name: Two_corners
   m_TagString: Untagged
@@ -84,3 +85,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &-2292423002102773316
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099232184626788945}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.15, y: 0.397, z: 0.15}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.404, z: 0}
+  m_TimeToStationary: 0.5

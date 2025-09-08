@@ -308,6 +308,7 @@ MonoBehaviour:
   spacingPerCellSize: 0.5
   ySpawnTransform: {fileID: 444065030322578673}
   parentTransform: {fileID: 6242137920874564116}
+  maxCellSize: 10000000
   pipe: {fileID: 5194527174270539895}
   positionData: {fileID: 1845742823867653942}
 --- !u!114 &1845742823867653942

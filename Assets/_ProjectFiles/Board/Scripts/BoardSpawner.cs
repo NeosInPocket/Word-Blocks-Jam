@@ -14,17 +14,22 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
     protected List<T> _cells;
     private float _preferredCellSize;
     private float _realCellSize;
+    private int _rows;
+    private int _cols;
     public float PreferredCellSize => _preferredCellSize;
     public float RealCellSize => _realCellSize;
     
     public void BuildEmptyBoard(int rows, int cols, float cellSize = 0)
     {
+        _rows = rows;
+        _cols = cols;
         int cellsPerRow = cols;
         var boardBounds = spawnArea.Collider.bounds;
         
         var minX = boardBounds.min.x;
         var maxX = boardBounds.max.x;
         var minZ = boardBounds.min.z;
+        var centerX = (boardBounds.min.x + boardBounds.max.x) / 2;
 
         float xBoardSize = maxX - minX;
         float cellSideSize = cellSize == 0 ? xBoardSize / (cellsPerRow + spacingPerCellSize * (cellsPerRow - 1)) : cellSize;
@@ -38,7 +43,8 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
         _preferredCellSize = cellSideSize;
         
         float spacing = spacingPerCellSize * cellSideSize;
-        float startX = minX + cellSideSize / 2;
+        float startX = centerX - cols / 2 * cellSideSize - (cols - 1) / 2 * spacing;
+        //float startX = minX + cellSideSize / 2;
         float startZ = minZ + cellSideSize / 2;
         
         Vector3 spawnPosition = new Vector3(startX, ySpawnTransform.position.y, startZ);
@@ -67,12 +73,12 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
     {
         var boardBounds = spawnArea.Collider.bounds;
         
-        var minX = boardBounds.min.x;
         var minZ = boardBounds.min.z;
+        var centerX = (boardBounds.min.x + boardBounds.max.x) / 2;
         
-        float startX = minX + _preferredCellSize / 2;
-        float startZ = minZ + _preferredCellSize / 2;
         float spacing = spacingPerCellSize * _preferredCellSize;
+        float startX = centerX - _cols / 2 * _preferredCellSize - (_cols - 1) / 2 * spacing;
+        float startZ = minZ + _preferredCellSize / 2;
         
         Vector3 spawnPosition = new Vector3(startX + (spacing + _preferredCellSize) * position.y, ySpawnTransform.position.y, startZ + (spacing + _preferredCellSize) * position.x);
         return spawnPosition;
