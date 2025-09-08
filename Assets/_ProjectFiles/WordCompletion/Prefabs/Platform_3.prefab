@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6909964614624949385}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpawnPositions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   m_Component:
   - component: {fileID: 129907975996625403}
   - component: {fileID: 3283465122164980542}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Letters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8755653023400173468}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 743366999592725735}
   - component: {fileID: 4863065816951476209}
   - component: {fileID: 5162089199792799489}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 171716566469696481}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 7221446184365196071}
   - component: {fileID: 1824697842616039802}
   - component: {fileID: -7901181968203561868}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Platform_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,7 +412,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2369198283437796545}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,7 +443,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1798801253016871973}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 2811272546127542570}
   - component: {fileID: 2079584843799246176}
   - component: {fileID: 892502757563142664}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -609,7 +609,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3466514862524846965}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -640,7 +640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4461924828574183201}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LetterUnitPositions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -674,7 +674,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 295961893999330156}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -709,7 +709,7 @@ GameObject:
   - component: {fileID: 2119558553703525684}
   - component: {fileID: 6715218689866573226}
   - component: {fileID: 6335746226880612478}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -826,7 +826,7 @@ GameObject:
   - component: {fileID: 6162347694092443134}
   - component: {fileID: 8968040523873196170}
   - component: {fileID: 92684606521956818}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

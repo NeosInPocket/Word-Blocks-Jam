@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class LevelSelection : MonoBehaviour
 {
-   [SerializeField] private TMP_Text levelText;
+   [SerializeField] private List<TMP_Text> levelTexts;
 
    public int Load()
    {
@@ -13,11 +14,11 @@ public class LevelSelection : MonoBehaviour
       return SaveManager.Data.levelsCompleted + 1;
    }
 
-   private void UpdateLevel()
+   public void UpdateLevel()
    {
       SaveManager.Load();
       var data = SaveManager.Data;
-      levelText.text = "LEVEL " + (data.levelsCompleted + 1);
+      levelTexts.ForEach(x => x.text = "LEVEL " + (data.levelsCompleted + 1));
    }
 
    public void ResetProgress()

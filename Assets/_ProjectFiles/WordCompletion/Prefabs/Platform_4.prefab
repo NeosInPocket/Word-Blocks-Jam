@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5903214361300114089}
   - component: {fileID: 3929480261753334990}
   - component: {fileID: 2565070198229709129}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 9165591252806154360}
   - component: {fileID: 4026116199633961551}
   - component: {fileID: 4989417590793452538}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2912818020122918383}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5781819269763648525}
   - component: {fileID: 8292877122040742641}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Letters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 2078271650684910561}
   - component: {fileID: 7989699092811813659}
   - component: {fileID: 4697309169656632249}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,7 +511,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6383731991576910976}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -544,7 +544,7 @@ GameObject:
   - component: {fileID: 6237881526745563889}
   - component: {fileID: 7027712849222625385}
   - component: {fileID: 4922930856779768441}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -680,7 +680,7 @@ GameObject:
   - component: {fileID: 3950425296104873658}
   - component: {fileID: 8887316932811778050}
   - component: {fileID: 8154274040846267416}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Platform_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -787,7 +787,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3410546084559754904}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -818,7 +818,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2808287438891758746}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -853,7 +853,7 @@ GameObject:
   - component: {fileID: 4137158486268687327}
   - component: {fileID: 4228693574976043003}
   - component: {fileID: 645131455473166894}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

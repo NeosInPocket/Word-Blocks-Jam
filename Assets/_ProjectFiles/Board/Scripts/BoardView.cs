@@ -11,13 +11,21 @@ public class BoardView : BoardSpawner<BoardCellView>
     [SerializeField] private float dispenserUnitAppearDelay;
     private List<LetterDispenserView> _dispensers = new List<LetterDispenserView>();
     private int currentPriority = 0;
+    private LevelAsset _levelAsset;
     
     public void BuildBoard(LevelAsset levelAsset)
     {
         _dispensers = new List<LetterDispenserView>();
+        _levelAsset = levelAsset;
         ClearBoard();
         BuildEmptyBoard(levelAsset.Rows,levelAsset.Columns);
-        FillBoard(levelAsset);
+        // FillBoard(levelAsset);
+        // UnlockFirstRow();
+    }
+
+    public void FillBoard()
+    {
+        FillBoard(_levelAsset);
         UnlockFirstRow();
     }
 

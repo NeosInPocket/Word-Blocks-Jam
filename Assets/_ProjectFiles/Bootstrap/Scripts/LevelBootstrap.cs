@@ -15,18 +15,22 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private PlayerSelectionTracker tracker;
     [SerializeField] private FadeScreenView fadeScreen;
     [SerializeField] private NavMeshSurface meshSurface;
-    [SerializeField] private int selectedLevelId;
     private WordsQueue _queue;
     private int _currentLevel;
     
     private void Start()
     {
-        _currentLevel = selectedLevelId;//levelSelection.Load();
-        
-        boardView.ClearBoard();
-        SelectLevel();
+        UpdateLevel();
     }
 
+    public void UpdateLevel()
+    {
+        _currentLevel = levelSelection.Load();
+        boardView.ClearBoard();
+        SelectLevel();
+        levelSelection.UpdateLevel();
+    }
+    
     public void OnPlay()
     {
         fadeScreen.CloseMenu(EnableLevelControls);
@@ -55,7 +59,8 @@ public class LevelBootstrap : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError("Данный уровень не найден");
+            Debug.LogError("Данный уровень не найден: " + _currentLevel);
+            return;
         }
 
         _queue = new(level.Words.Select(x => x.word).ToList());
@@ -66,6 +71,7 @@ public class LevelBootstrap : MonoBehaviour
         
         boardView.BuildBoard(level);
         environmentObjectsSpawner.Spawn(level.Board, boardView.RealCellSize);
+        boardView.FillBoard();
         
         unusedLettersPoolView.BuildPool(level.PoolCount);
         wordCompletionPool.BuildPool(_queue);

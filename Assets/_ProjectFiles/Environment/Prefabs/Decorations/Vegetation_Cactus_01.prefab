@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2465607051970891080}
   - component: {fileID: 5131182158646387835}
   - component: {fileID: 3043069960436603198}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Vegetation_Cactus_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1908876573073510915}
   - component: {fileID: 3180233509921803158}
   - component: {fileID: 3233123709618325671}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Vegetation_Bush_Large_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
