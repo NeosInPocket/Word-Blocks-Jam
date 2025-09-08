@@ -16,6 +16,8 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
     [SerializeField] private BoardView boardView;
     [SerializeField] private float ySpawnDelta;
     [SerializeField] private float blockSizePerCellSize = 2.475f;
+    [SerializeField] private EnvironmentDecorationsSpawner decorations;
+    [SerializeField] private int decorationsAdditiveCellsCount;
     
     private Dictionary<BlockType, GameObject> prefabs;
     private float _cellSize;
@@ -48,8 +50,16 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
         var dataPositions = data.Where(x => !string.IsNullOrEmpty(x.character) || x.isOccupiedByDispenser).Select(x => x.position).ToList();
         positions.RemoveAll(x => dataPositions.Contains(x));
         
-        
         PlaceBlocks(positions);
+
+        Vector2Int startBlockPositionData = new Vector2Int(data.Max(x => x.position.x) + 1, minColumnIndex);
+        Vector2Int lastBlockPositionData = new Vector2Int(data.Max(x => x.position.x) + decorationsAdditiveCellsCount, maxColumnIndex);
+        
+        Vector3 startBlockPosition = boardView.GetPositionFromPositionData(startBlockPositionData);
+        Vector3 lastBlockPosition = boardView.GetPositionFromPositionData(lastBlockPositionData);
+        Vector2 minMaxX = new Vector2(startBlockPosition.x, lastBlockPosition.x);
+        Vector2 minMaxZ = new Vector2(startBlockPosition.z, lastBlockPosition.z);
+        decorations.Spawn(minMaxX, minMaxZ);
     }
     
     private void PlaceBlocks(List<Vector2Int> positions)

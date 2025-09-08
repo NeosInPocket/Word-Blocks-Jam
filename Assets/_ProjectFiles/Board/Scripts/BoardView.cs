@@ -56,6 +56,9 @@ public class BoardView : BoardSpawner<BoardCellView>
                     }
                         
                     dispenser.SetPosition(entity.position, cell.transform.position);
+                    var dispenserCell = _cells.First(x => x.positionData.position == new Vector2Int(entity.position.x - 1, entity.position.y));
+                    dispenserCell.ConnectedDispenser = dispenser;
+                    
                     _dispensers.Add(dispenser);
 
                     _cells.Remove(cell);
@@ -134,18 +137,39 @@ public class BoardView : BoardSpawner<BoardCellView>
     }
 
     
-    public async void RefreshCells()
+    public void RefreshCells()
     {
+        RefreshDispensers();
+        
         foreach (var cell in _cells)
         {
             if (cell.Occupant == null || cell.Occupant.Available) continue;
-
+            
             var cellNeighbors = FindNeighborsForCell(cell);
-            bool isAvaliable = cellNeighbors.Any(x => x.Occupant == null);
-            cell.Occupant.Available = isAvaliable;
-            cell.Occupant.SetVisibility(isAvaliable || cell.Occupant.GetVisibility());
+            var availableCells = cellNeighbors.Where(x => x.Occupant == null);
+            
+            if (availableCells.All(x => x.ConnectedDispenser == null))
+            {
+                bool isAvaliable = cellNeighbors.Any(x => x.Occupant == null);
+                cell.Occupant.Available = isAvaliable;
+                cell.Occupant.SetVisibility(isAvaliable || cell.Occupant.GetVisibility());
+            }
+            else
+            {
+                var dispenserCells = availableCells.Where(x => x.ConnectedDispenser != null).ToList();
+                
+                bool anyAvailable = dispenserCells.Any(x => x.ConnectedDispenser.IsEmpty);
+                if (anyAvailable)
+                {
+                    cell.Occupant.Available = true;
+                    cell.Occupant.SetVisibility(true);
+                }
+            }
         }
+    }
 
+    private async void RefreshDispensers()
+    {
         foreach (var dispenser in _dispensers)
         {
             var nextCellToDispenser = _cells.First(x => x.positionData.position == new Vector2Int(dispenser.Position.x - 1, dispenser.Position.y));

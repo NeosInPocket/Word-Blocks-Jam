@@ -1,3 +1,4 @@
+using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEngine;
 
 public class LetterCell : MonoBehaviour
@@ -9,6 +10,8 @@ public class LetterCell : MonoBehaviour
     private Renderer _renderer;
     protected BoardEntityData _data;
     public BoardEntityData Data => _data;
+    public LetterDispenserView ConnectedDispenser { get; set; }
+    
     
     public float SideSize
     {

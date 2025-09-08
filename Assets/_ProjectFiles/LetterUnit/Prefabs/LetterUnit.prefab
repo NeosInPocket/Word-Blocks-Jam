@@ -80,6 +80,11 @@ MonoBehaviour:
   characterTransform: {fileID: 716194810128648407}
   characters: {fileID: 11400000, guid: 3fbbe3089a7a680429b039d1203401f8, type: 2}
   rendererObject: {fileID: 5108794026427356907}
+  characterUnavailableColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+  unitNotVisibleColor: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 1}
+  questionMarkElement: {fileID: 8729674522892990398, guid: 206aef63323d145408f13e2202bddcf7,
+    type: 3}
+  animator: {fileID: 7797809398544683722}
 --- !u!1 &8427265733194921941
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +160,7 @@ MonoBehaviour:
   rendererObject: {fileID: 5108794026427356907}
   navigation: {fileID: 3164645386868606090}
   agent: {fileID: 4908140141508671231}
-  characterRenderer: {fileID: 3235615461136737900}
+  renderer: {fileID: 3235615461136737900}
   characterPopEffect: {fileID: 81453971721444223}
 --- !u!114 &6568459836143247821
 MonoBehaviour:
@@ -186,9 +191,9 @@ MonoBehaviour:
   rotationSpeed: 5
   animator: {fileID: 7797809398544683722}
   finalForward: {x: 0, y: 0, z: 1}
-  jumpTriggerDistance: 2
+  jumpTriggerDistance: 3
   jumpHeight: 2
-  jumpDuration: 0.6
+  jumpDuration: 0.45
 --- !u!195 &4908140141508671231
 NavMeshAgent:
   m_ObjectHideFlags: 0

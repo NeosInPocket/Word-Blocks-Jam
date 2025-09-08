@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using UnityEngine;
 
 namespace _ProjectFiles._Features.LetterDispenser.Scripts
 {
     public class LetterDispenserView : MonoBehaviour
     {
-        private Queue<BoardEntityData> _queue;
-        public Vector2Int Position => _position;
         private Vector2Int _position;
+        private Queue<BoardEntityData> _queue;
+        private bool _isEmpty;
+        public Vector2Int Position => _position;
+        public bool IsEmpty => _isEmpty;
         
         public void SetData(LetterDispenserData data)
         {
@@ -31,6 +34,7 @@ namespace _ProjectFiles._Features.LetterDispenser.Scripts
             catch (Exception ex)
             {
                 data = null;
+                _isEmpty = true;
                 return false;
             }  
         }

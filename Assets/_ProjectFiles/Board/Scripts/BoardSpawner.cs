@@ -57,15 +57,6 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
             spawnPosition.z += spacing + cellSideSize;
         }
     }
-
-    protected void SpawnCell(Vector2 spawnPosition, int i, int j, float cellSideSize)
-    {
-        var cell = Instantiate(prefab, spawnPosition, prefab.transform.rotation, parentTransform);
-        cell.positionData.position = new Vector2Int(i, j);
-                
-        cell.SideSize = cellSideSize;
-        _cells.Add(cell);
-    }
     
     public Vector3 GetPositionFromPositionData(Vector2Int position)
     {
@@ -100,34 +91,5 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
         }
         
         return result;
-    }
-    
-    public void BuildEmptyBoard(int count)
-    {
-        var spawnAreaBounds = spawnArea.Collider.bounds;
-        var minX = spawnAreaBounds.min.x;
-        var maxX = spawnAreaBounds.max.x;
-        var minZ = spawnAreaBounds.min.z;
-        var maxZ = spawnAreaBounds.max.z;
-
-        var zCenter = (maxZ + minZ) / 2;
-        
-        float poolLength = maxX - minX;
-        
-        float cellSize = poolLength / (count + spacingPerCellSize * (count - 1));
-        float spacing = spacingPerCellSize * cellSize;
-
-        Vector3 spawnPosition = new Vector3(minX + cellSize / 2, ySpawnTransform.position.y, zCenter);
-        _cells = new List<T>();
-        
-        for (int i = 0; i < count; i++)
-        {
-            var cell = Instantiate(prefab, spawnPosition, prefab.transform.rotation, parentTransform);
-            cell.SideSize = cellSize;
-            
-            _cells.Add(cell);
-
-            spawnPosition.x += cellSize + spacing;
-        }
     }
 }

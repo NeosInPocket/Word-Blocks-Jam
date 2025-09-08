@@ -9,7 +9,7 @@ public class LetterUnitCharacterColorApplier : MonoBehaviour
     
     private void GetRenderers()
     {
-        renderers = FindObjectsByType<LetterUnitCharacterRenderer>(FindObjectsSortMode.None).Select(x => x.CharacterObject.GetComponent<Renderer>()).ToList();
+        renderers = FindObjectsByType<LetterUnitRenderer>(FindObjectsSortMode.None).Select(x => x.CharacterObject.GetComponent<Renderer>()).ToList();
     }
 
     private void Update()
