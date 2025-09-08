@@ -17,7 +17,7 @@ public class BoardView : BoardSpawner<BoardCellView>
         _dispensers = new List<LetterDispenserView>();
         ClearBoard();
         BuildEmptyBoard(levelAsset.Rows,levelAsset.Columns);
-        SpawnAdditionalCells(levelAsset.Board);
+        //SpawnAdditionalCells(levelAsset.Board);
         FillBoard(levelAsset);
         UnlockFirstRow();
     }
@@ -76,6 +76,13 @@ public class BoardView : BoardSpawner<BoardCellView>
                    
             }
         }
+
+        DeleteFreeCells();
+    }
+
+    private void DeleteFreeCells()
+    {
+        _cells.RemoveAll(x => x.Occupant == null);
     }
     
     private void SpawnAdditionalCells(List<BoardEntityData> board)

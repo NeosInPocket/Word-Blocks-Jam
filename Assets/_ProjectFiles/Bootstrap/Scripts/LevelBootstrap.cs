@@ -15,12 +15,13 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private PlayerSelectionTracker tracker;
     [SerializeField] private FadeScreenView fadeScreen;
     [SerializeField] private NavMeshSurface meshSurface;
+    [SerializeField] private int selectedLevelId;
     private WordsQueue _queue;
     private int _currentLevel;
     
     private void Start()
     {
-        _currentLevel = levelSelection.Load();
+        _currentLevel = selectedLevelId;//levelSelection.Load();
         
         boardView.ClearBoard();
         SelectLevel();
