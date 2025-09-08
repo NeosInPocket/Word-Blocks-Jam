@@ -10,13 +10,12 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
     [SerializeField] protected float spacingPerCellSize;
     [SerializeField] protected Transform ySpawnTransform;
     [SerializeField] protected Transform parentTransform;
+    [SerializeField] protected float maxCellSize;
     protected List<T> _cells;
     private float _preferredCellSize;
     private float _realCellSize;
-    private float _preferredSpacing;
     public float PreferredCellSize => _preferredCellSize;
     public float RealCellSize => _realCellSize;
-    public float PreferredSpacing => _preferredSpacing;
     
     public void BuildEmptyBoard(int rows, int cols, float cellSize = 0)
     {
@@ -29,10 +28,16 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
 
         float xBoardSize = maxX - minX;
         float cellSideSize = cellSize == 0 ? xBoardSize / (cellsPerRow + spacingPerCellSize * (cellsPerRow - 1)) : cellSize;
+        Debug.Log(cellSideSize);
+        
+        if (cellSideSize > maxCellSize)
+        {
+            cellSideSize = maxCellSize;
+        }
+        
         _preferredCellSize = cellSideSize;
         
         float spacing = spacingPerCellSize * cellSideSize;
-        _preferredSpacing = spacing;
         float startX = minX + cellSideSize / 2;
         float startZ = minZ + cellSideSize / 2;
         

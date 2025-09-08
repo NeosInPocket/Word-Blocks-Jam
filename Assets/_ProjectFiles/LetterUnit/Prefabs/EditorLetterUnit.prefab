@@ -377,7 +377,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 415e8c84795466f408c21c0b6225ab83, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -433,9 +433,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positionData: {fileID: 6568459836143247821}
+  rendererObject: {fileID: 8427265733194921941}
+  navigation: {fileID: 0}
   characterText: {fileID: 8851795967235212747}
   characterFrame: {fileID: 3610771724581601621}
-  rendererObject: {fileID: 8427265733194921941}
 --- !u!114 &6568459836143247821
 MonoBehaviour:
   m_ObjectHideFlags: 0

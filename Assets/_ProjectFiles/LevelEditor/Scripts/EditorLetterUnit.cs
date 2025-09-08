@@ -14,11 +14,24 @@ public class EditorLetterUnit : LetterUnitBase
         {
             _color = value;
             characterText.color = value;
+            if (LevelEditingToggleState.EnableColoring)
+            {
+                SetUnitColor(value);
+            }
         }
     }
     
     private Color _color;
 
+    private void SetUnitColor(Color color)
+    {
+        var renderer = rendererObject.GetComponent<Renderer>();
+        MaterialPropertyBlock block = new MaterialPropertyBlock();
+        renderer.GetPropertyBlock(block);
+        block.SetColor("_Color", color);
+        renderer.SetPropertyBlock(block);
+    }
+    
     public override bool Available
     {
         get => _available;
