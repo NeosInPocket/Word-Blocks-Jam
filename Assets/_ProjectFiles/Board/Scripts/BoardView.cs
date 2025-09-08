@@ -17,7 +17,6 @@ public class BoardView : BoardSpawner<BoardCellView>
         _dispensers = new List<LetterDispenserView>();
         ClearBoard();
         BuildEmptyBoard(levelAsset.Rows,levelAsset.Columns);
-        //SpawnAdditionalCells(levelAsset.Board);
         FillBoard(levelAsset);
         UnlockFirstRow();
     }
@@ -83,28 +82,6 @@ public class BoardView : BoardSpawner<BoardCellView>
     private void DeleteFreeCells()
     {
         _cells.RemoveAll(x => x.Occupant == null);
-    }
-    
-    private void SpawnAdditionalCells(List<BoardEntityData> board)
-    {
-        var boardCellsPositions = _cells.Select(x => x.positionData.position).ToList();
-        var dataCellsPositions = board.Where(x => !x.isGhostCell).Select(x => x.position).ToList();
-        
-        List<Vector2Int> newCellsPositions = boardCellsPositions
-            .Where(a => !dataCellsPositions.Contains(a))
-            .Concat(dataCellsPositions.Where(b => !boardCellsPositions.Contains(b)))
-            .ToList();
-
-        foreach (var pos in newCellsPositions)
-        {
-            var spawnPosition = GetPositionFromPositionData(pos);
-            
-            var cell = Instantiate(prefab, spawnPosition, prefab.transform.rotation, parentTransform);
-            cell.positionData.position = pos;
-                
-            cell.SideSize = PreferredCellSize;
-            _cells.Add(cell);
-        }
     }
     
     public void ClearBoard()
