@@ -13,22 +13,30 @@ MonoBehaviour:
   m_Name: Level_1
   m_EditorClassIdentifier: 
   levelId: 1
+<<<<<<< Updated upstream
   rows: 9
   columns: 9
   poolCount: 4
   occupiedCellsCount: 15
   cellsCount: 66
+=======
+  rows: 3
+  columns: 5
+  poolCount: 4
+  occupiedCellsCount: 15
+  cellsCount: 0
+>>>>>>> Stashed changes
   ghostCellsCount: 0
   dispensersCount: 0
   words:
-  - word: aat
+  - word: cat
     rowMin: 1
-    rowMax: 3
+    rowMax: 1
     minRowsNeeded: 0
     color: {r: 0.9, g: 0.17999998, b: 0.17999998, a: 1}
   - word: dog
     rowMin: 1
-    rowMax: 3
+    rowMax: 2
     minRowsNeeded: 0
     color: {r: 0.7559999, g: 0.9, b: 0.17999998, a: 1}
   - word: fox
@@ -37,16 +45,17 @@ MonoBehaviour:
     minRowsNeeded: 0
     color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
   - word: yak
-    rowMin: 1
+    rowMin: 2
     rowMax: 3
     minRowsNeeded: 0
     color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
   - word: pig
-    rowMin: 1
+    rowMin: 3
     rowMax: 3
     minRowsNeeded: 0
     color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
   board:
+<<<<<<< Updated upstream
   - character: i
     position: {x: 0, y: 0}
     isVisible: 1
@@ -92,15 +101,25 @@ MonoBehaviour:
   - character: t
     position: {x: 0, y: 7}
     isVisible: 1
+=======
+  - character: t
+    position: {x: 0, y: 0}
+    isVisible: 1
+>>>>>>> Stashed changes
     color: {r: 0.9, g: 0.17999998, b: 0.17999998, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: f
+<<<<<<< Updated upstream
     position: {x: 0, y: 8}
+=======
+    position: {x: 0, y: 1}
+>>>>>>> Stashed changes
     isVisible: 1
     color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
+<<<<<<< Updated upstream
   - character: x
     position: {x: 1, y: 0}
     isVisible: 1
@@ -133,28 +152,65 @@ MonoBehaviour:
     isGhostCell: 0
   - character: d
     position: {x: 1, y: 5}
+=======
+  - character: o
+    position: {x: 0, y: 2}
+>>>>>>> Stashed changes
     isVisible: 1
     color: {r: 0.7559999, g: 0.9, b: 0.17999998, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
+<<<<<<< Updated upstream
   - character: a
     position: {x: 1, y: 6}
+=======
+  - character: c
+    position: {x: 0, y: 3}
+    isVisible: 1
+    color: {r: 0.9, g: 0.17999998, b: 0.17999998, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: a
+    position: {x: 0, y: 4}
+>>>>>>> Stashed changes
     isVisible: 1
     color: {r: 0.9, g: 0.17999998, b: 0.17999998, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: o
+<<<<<<< Updated upstream
     position: {x: 1, y: 7}
+=======
+    position: {x: 1, y: 0}
+>>>>>>> Stashed changes
     isVisible: 1
     color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
+<<<<<<< Updated upstream
   - character: o
     position: {x: 1, y: 8}
+=======
+  - character: g
+    position: {x: 1, y: 1}
+    isVisible: 1
+    color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: y
+    position: {x: 1, y: 2}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: d
+    position: {x: 1, y: 3}
+>>>>>>> Stashed changes
     isVisible: 1
     color: {r: 0.7559999, g: 0.9, b: 0.17999998, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
+<<<<<<< Updated upstream
   - character: 
     position: {x: 2, y: 0}
     isVisible: 0
@@ -162,11 +218,27 @@ MonoBehaviour:
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: 
-    position: {x: 2, y: 1}
-    isVisible: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+=======
+  - character: g
+    position: {x: 1, y: 4}
+    isVisible: 1
+    color: {r: 0.7559999, g: 0.9, b: 0.17999998, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
+  - character: k
+    position: {x: 2, y: 0}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: x
+>>>>>>> Stashed changes
+    position: {x: 2, y: 1}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+<<<<<<< Updated upstream
   - character: 
     position: {x: 2, y: 2}
     isVisible: 0
@@ -531,6 +603,24 @@ MonoBehaviour:
     position: {x: 8, y: 8}
     isVisible: 0
     color: {r: 0, g: 0, b: 0, a: 0}
+=======
+  - character: p
+    position: {x: 2, y: 2}
+    isVisible: 1
+    color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: a
+    position: {x: 2, y: 3}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: i
+    position: {x: 2, y: 4}
+    isVisible: 1
+    color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
+>>>>>>> Stashed changes
     isOccupiedByDispenser: 0
     isGhostCell: 0
   dispensers: []
