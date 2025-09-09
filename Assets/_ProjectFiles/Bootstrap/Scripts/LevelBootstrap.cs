@@ -21,6 +21,7 @@ public class LevelBootstrap : MonoBehaviour
     private void Start()
     {
         UpdateLevel();
+        AudioManager.Instance.PlayMusic();
     }
 
     public void UpdateLevel()
