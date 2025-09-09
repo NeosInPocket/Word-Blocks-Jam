@@ -34,9 +34,11 @@ public class LetterUnitRenderer : MonoBehaviour
         _characterRenderer = characterObject.GetComponent<Renderer>();
         
         var rotation = characterTransform.rotation;
-        rotation *= Quaternion.Euler(-90, 0, 0);
+        rotation *= Quaternion.Euler(-109.88f, 0, 0);
+        var position = characterTransform.position;
+        position.y += 0.02f;
         
-        questionMarkObject = Instantiate(questionMarkElement, characterTransform.position, rotation, transform);
+        questionMarkObject = Instantiate(questionMarkElement, position, rotation, transform);
         questionMarkObject.transform.localScale =  characterTransform.localScale.x * questionMarkObject.transform.localScale;
     }
 

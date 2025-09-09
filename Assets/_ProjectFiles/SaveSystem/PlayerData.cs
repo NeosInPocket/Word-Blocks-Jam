@@ -3,6 +3,8 @@ using System;
 [Serializable]
 public class PlayerData
 {
-    public int boosters = 0;
+    public float MusicVolume = 1f;
+    public float SFXVolume = 1f;
+    public bool hapticsEnabled = true;
     public int levelsCompleted = 0;
 }
