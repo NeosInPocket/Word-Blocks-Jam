@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7908255711768269110}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3984719294288401391}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 2785050528845522137}
   - component: {fileID: 8640734359084058310}
   - component: {fileID: 7089069776914096350}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2767688543520630299}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 6840994584364360847}
   - component: {fileID: 7911417492487817508}
   - component: {fileID: 2585308601206069334}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 1723300902765420025}
   - component: {fileID: 6605777121027370297}
   - component: {fileID: 2935158940180797946}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +507,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9112801238114409050}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -539,7 +539,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8382914683720573751}
   - component: {fileID: 3411119334330663362}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Letters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,7 +611,7 @@ GameObject:
   - component: {fileID: 5874268161159826787}
   - component: {fileID: 5819840442892683497}
   - component: {fileID: 3842852067305006276}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 7088623569832954572}
   - component: {fileID: 708254572796161792}
   - component: {fileID: 1333140448259661850}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Platform_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -846,7 +846,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1233055867867789447}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -877,7 +877,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5365231521229715133}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -908,7 +908,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 960849543732878911}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawnposition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -941,7 +941,7 @@ GameObject:
   - component: {fileID: 2491715638704362234}
   - component: {fileID: 3429345225315923897}
   - component: {fileID: 2298651603950319600}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1076,7 +1076,7 @@ GameObject:
   - component: {fileID: 4992030264104163068}
   - component: {fileID: 2020286259906591843}
   - component: {fileID: 4423980570918521285}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1211,7 +1211,7 @@ GameObject:
   - component: {fileID: 9218581652431098885}
   - component: {fileID: 3525647314334329309}
   - component: {fileID: 8505807192664635051}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1346,7 +1346,7 @@ GameObject:
   - component: {fileID: 1083046640950697789}
   - component: {fileID: 4659290482682104367}
   - component: {fileID: 4332379297558193805}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP) (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

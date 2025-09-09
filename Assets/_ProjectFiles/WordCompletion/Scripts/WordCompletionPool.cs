@@ -66,9 +66,6 @@ public class WordCompletionPool : UnusedLettersPoolView
 
         var someAreNotInPlace = Cells.Any(x => !x.Occupant.Navigation.InPlace);
         var missingLetters = Cells.Count(x => x.Occupant != null) != _queue.CurrentWord.Length;
-
-        Debug.Log("not in place: " + someAreNotInPlace);
-        Debug.Log("missing letters: " + missingLetters);
         
         if (missingLetters || someAreNotInPlace)
         {
@@ -98,7 +95,7 @@ public class WordCompletionPool : UnusedLettersPoolView
             else
             {
                 winObject.SetActive(true);
-                tracker.gameObject.SetActive(false);
+                tracker.Enable(false);
                 SaveManager.Load();
                 SaveManager.Data.levelsCompleted++;
                 SaveManager.Save();
