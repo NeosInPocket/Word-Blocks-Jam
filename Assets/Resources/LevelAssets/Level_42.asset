@@ -130,12 +130,6 @@ MonoBehaviour:
     color: {r: 0.17999998, g: 0.9, b: 0.17999998, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
-  - character: a
-    position: {x: 6, y: 3}
-    isVisible: 0
-    color: {r: 0.9, g: 0.17999998, b: 0.9, a: 1}
-    isOccupiedByDispenser: 0
-    isGhostCell: 0
   - character: m
     position: {x: 4, y: 1}
     isVisible: 0
@@ -144,12 +138,6 @@ MonoBehaviour:
     isGhostCell: 0
   - character: i
     position: {x: 4, y: 3}
-    isVisible: 1
-    color: {r: 0.9, g: 0.17999998, b: 0.9, a: 1}
-    isOccupiedByDispenser: 0
-    isGhostCell: 0
-  - character: t
-    position: {x: 6, y: 1}
     isVisible: 1
     color: {r: 0.9, g: 0.17999998, b: 0.9, a: 1}
     isOccupiedByDispenser: 0
@@ -170,6 +158,18 @@ MonoBehaviour:
     position: {x: 5, y: 3}
     isVisible: 1
     color: {r: 0.17999998, g: 0.17999998, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: t
+    position: {x: 6, y: 1}
+    isVisible: 1
+    color: {r: 0.9, g: 0.17999998, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: a
+    position: {x: 6, y: 3}
+    isVisible: 0
+    color: {r: 0.9, g: 0.17999998, b: 0.9, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: 
