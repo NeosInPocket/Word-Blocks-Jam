@@ -1,0 +1,206 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f4d0b136ae4661478d11119b3a38025, type: 3}
+  m_Name: Level_43
+  m_EditorClassIdentifier: 
+  levelId: 43
+  rows: 7
+  columns: 5
+  poolCount: 4
+  occupiedCellsCount: 26
+  cellsCount: 0
+  ghostCellsCount: 0
+  dispensersCount: 0
+  words:
+  - word: glue
+    rowMin: 1
+    rowMax: 4
+    minRowsNeeded: 0
+    color: {r: 0.9, g: 0.17999998, b: 0.17999998, a: 1}
+  - word: chalk
+    rowMin: 1
+    rowMax: 5
+    minRowsNeeded: 0
+    color: {r: 0.7559999, g: 0.9, b: 0.17999998, a: 1}
+  - word: crayon
+    rowMin: 1
+    rowMax: 6
+    minRowsNeeded: 0
+    color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
+  - word: pencil
+    rowMin: 1
+    rowMax: 6
+    minRowsNeeded: 0
+    color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
+  - word: paper
+    rowMin: 3
+    rowMax: 7
+    minRowsNeeded: 0
+    color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
+  board:
+  - character: a
+    position: {x: 0, y: 0}
+    isVisible: 1
+    color: {r: 0.7559999, g: 0.9, b: 0.17999998, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: g
+    position: {x: 0, y: 1}
+    isVisible: 1
+    color: {r: 0.9, g: 0.17999998, b: 0.17999998, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: h
+    position: {x: 0, y: 2}
+    isVisible: 1
+    color: {r: 0.7559999, g: 0.9, b: 0.17999998, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: l
+    position: {x: 0, y: 4}
+    isVisible: 1
+    color: {r: 0.9, g: 0.17999998, b: 0.17999998, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: k
+    position: {x: 1, y: 0}
+    isVisible: 1
+    color: {r: 0.7559999, g: 0.9, b: 0.17999998, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: r
+    position: {x: 1, y: 1}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: c
+    position: {x: 1, y: 3}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: u
+    position: {x: 1, y: 4}
+    isVisible: 1
+    color: {r: 0.9, g: 0.17999998, b: 0.17999998, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: y
+    position: {x: 2, y: 0}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: n
+    position: {x: 2, y: 2}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: l
+    position: {x: 2, y: 3}
+    isVisible: 1
+    color: {r: 0.7559999, g: 0.9, b: 0.17999998, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: e
+    position: {x: 3, y: 0}
+    isVisible: 1
+    color: {r: 0.9, g: 0.17999998, b: 0.17999998, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: p
+    position: {x: 3, y: 1}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: n
+    position: {x: 3, y: 3}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: a
+    position: {x: 3, y: 4}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: e
+    position: {x: 4, y: 1}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: a
+    position: {x: 4, y: 2}
+    isVisible: 1
+    color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: c
+    position: {x: 4, y: 4}
+    isVisible: 1
+    color: {r: 0.7559999, g: 0.9, b: 0.17999998, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: i
+    position: {x: 5, y: 0}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: p
+    position: {x: 5, y: 1}
+    isVisible: 1
+    color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: o
+    position: {x: 5, y: 3}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: l
+    position: {x: 5, y: 4}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: r
+    position: {x: 6, y: 0}
+    isVisible: 1
+    color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: e
+    position: {x: 6, y: 2}
+    isVisible: 1
+    color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: c
+    position: {x: 6, y: 3}
+    isVisible: 1
+    color: {r: 0.17999998, g: 0.46799988, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  - character: p
+    position: {x: 6, y: 4}
+    isVisible: 1
+    color: {r: 0.7560001, g: 0.17999998, b: 0.9, a: 1}
+    isOccupiedByDispenser: 0
+    isGhostCell: 0
+  dispensers: []
