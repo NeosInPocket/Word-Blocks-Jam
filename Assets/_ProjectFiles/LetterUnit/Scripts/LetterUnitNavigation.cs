@@ -18,6 +18,12 @@ public class LetterUnitNavigation : MonoBehaviour
     private bool _shouldJump;
     private bool _inPlace;
 
+    public bool Enabled
+    {
+        get => agent.enabled;
+        set  => agent.enabled = value;
+    }
+    
     public bool InPlace => _inPlace;
 
     private void Start()

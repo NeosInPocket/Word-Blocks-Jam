@@ -12,7 +12,7 @@ public class EnvironmentBlock : MonoBehaviour
         var size = _obstacle.size;
         size.x *= 1.24f;
         size.z *= 1.24f;
-        _obstacle.size = Vector3.one * 0.001f;
+        _obstacle.size = Vector3.one * 0.5f;//0.00002f;
         _obstacle.carving = true;
     }
 }

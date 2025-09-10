@@ -211,16 +211,10 @@ MonoBehaviour:
   dispensers:
   - cellCount: 4
     Board:
-    - character: o
+    - character: b
       position: {x: 3, y: 2}
       isVisible: 1
-      color: {r: 0.9, g: 0.17999998, b: 0.9, a: 1}
-      isOccupiedByDispenser: 0
-      isGhostCell: 0
-    - character: g
-      position: {x: 3, y: 2}
-      isVisible: 1
-      color: {r: 0.17999998, g: 0.17999998, b: 0.9, a: 1}
+      color: {r: 0.17999998, g: 0.9, b: 0.17999998, a: 1}
       isOccupiedByDispenser: 0
       isGhostCell: 0
     - character: p
@@ -229,9 +223,15 @@ MonoBehaviour:
       color: {r: 0.17999998, g: 0.9, b: 0.9, a: 1}
       isOccupiedByDispenser: 0
       isGhostCell: 0
-    - character: b
+    - character: g
       position: {x: 3, y: 2}
       isVisible: 1
-      color: {r: 0.17999998, g: 0.9, b: 0.17999998, a: 1}
+      color: {r: 0.17999998, g: 0.17999998, b: 0.9, a: 1}
+      isOccupiedByDispenser: 0
+      isGhostCell: 0
+    - character: o
+      position: {x: 3, y: 2}
+      isVisible: 1
+      color: {r: 0.9, g: 0.17999998, b: 0.9, a: 1}
       isOccupiedByDispenser: 0
       isGhostCell: 0

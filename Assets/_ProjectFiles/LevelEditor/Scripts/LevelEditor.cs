@@ -292,7 +292,7 @@ public class LevelEditor
         ClearBoard();
         LoadedLevels.Clear();
         LoadedLevelAssets.Clear();
-        LoadedLevelAssets = LevelAssetLoader.LoadAllLevels();
+        LoadedLevelAssets = LevelAssetLoader.LoadAllLevels().OrderBy(x => x.LevelId).ToList();
         
         LetterDispensersDatas = LoadedLevelAssets[SelectedLevelIndex].Dispensers.Select(x => new LetterDispenserData { CellCount = x.cellCount, Board = x.CopyBoard() }).ToList();
     }
