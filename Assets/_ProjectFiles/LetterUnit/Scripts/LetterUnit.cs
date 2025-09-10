@@ -31,6 +31,6 @@ public class LetterUnit : LetterUnitBase
     
     public void SetAvoidancePriority(int priority)
     {
-        //agent.avoidancePriority = priority;
+        agent.avoidancePriority = priority;
     } 
 }

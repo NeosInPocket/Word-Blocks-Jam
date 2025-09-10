@@ -21,6 +21,6 @@ public class BoardCellView : LetterCell
         
         _occupant = _factory.Create<LetterUnit>(data, SideSize * unitSizePerCellSize);
         _occupant.transform.position = SpawnPositionTransform.position;
-        _occupant.GetComponent<LetterUnit>().SetAvoidancePriority(priority);
+        //_occupant.GetComponent<LetterUnit>().SetAvoidancePriority(priority);
     }
 }

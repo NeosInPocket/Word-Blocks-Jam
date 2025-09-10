@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 44516044663415299}
   - component: {fileID: 5080224797576483514}
   - component: {fileID: 8609223921964030109}
+  - component: {fileID: 6214198233306836838}
+  - component: {fileID: 5435401023209485893}
   m_Layer: 0
   m_Name: Two_corners
   m_TagString: Untagged
@@ -84,3 +86,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6214198233306836838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099232184626788945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4f116286305456ab36447efa9d0e588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  positionData: {fileID: 5435401023209485893}
+--- !u!114 &5435401023209485893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099232184626788945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ac7d76cecf7ac4bb769f88f758226e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}

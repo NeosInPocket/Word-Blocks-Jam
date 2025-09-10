@@ -53,7 +53,7 @@ public class EnvironmentDecorationsSpawner : MonoBehaviour
             _decorations.Add(temp);
         }
     }
-    
+
     private bool IsOverlapping(Collider testCollider)
     {
         foreach (var decoration in _decorations)

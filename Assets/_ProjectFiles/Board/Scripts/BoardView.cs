@@ -19,8 +19,6 @@ public class BoardView : BoardSpawner<BoardCellView>
         _levelAsset = levelAsset;
         ClearBoard();
         BuildEmptyBoard(levelAsset.Rows,levelAsset.Columns);
-        // FillBoard(levelAsset);
-        // UnlockFirstRow();
     }
 
     public void FillBoard()
