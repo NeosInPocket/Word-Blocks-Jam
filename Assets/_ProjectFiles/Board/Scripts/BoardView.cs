@@ -12,15 +12,15 @@ public class BoardView : BoardSpawner<BoardCellView>
     private List<LetterDispenserView> _dispensers = new List<LetterDispenserView>();
     private int currentPriority = 0;
     private LevelAsset _levelAsset;
+    private bool _agentsEnabled;
     
     public void BuildBoard(LevelAsset levelAsset)
     {
+        _agentsEnabled = false;
         _dispensers = new List<LetterDispenserView>();
         _levelAsset = levelAsset;
         ClearBoard();
         BuildEmptyBoard(levelAsset.Rows,levelAsset.Columns);
-        // FillBoard(levelAsset);
-        // UnlockFirstRow();
     }
 
     public void FillBoard()
@@ -161,6 +161,14 @@ public class BoardView : BoardSpawner<BoardCellView>
         }
     }
 
+    public void EnableAgents()
+    {
+        if (_agentsEnabled) return;
+
+        _agentsEnabled = true;
+        _cells.Select(x => x.Occupant.Navigation).ToList().ForEach(x => x.Enabled = true);
+    }
+    
     private async void RefreshDispensers()
     {
         foreach (var dispenser in _dispensers)
@@ -174,6 +182,7 @@ public class BoardView : BoardSpawner<BoardCellView>
                     await Task.Delay((int)(dispenserUnitAppearDelay * 1000));
                     nextCellToDispenser.SetData(data, currentPriority);
                     nextCellToDispenser.Occupant.Available = true;
+                    nextCellToDispenser.Occupant.Navigation.Enabled = true;
                     currentPriority++;
                 }
             }

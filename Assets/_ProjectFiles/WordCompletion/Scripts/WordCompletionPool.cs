@@ -86,6 +86,7 @@ public class WordCompletionPool : UnusedLettersPoolView
                     foreach (var ch in matchingCharacters)
                     {
                         var poolCell = pool.Cells.FirstOrDefault(x => x.Occupant != null && x.Occupant.Character == ch.ToString());
+                        if (poolCell == null) continue;
                         
                         SetCharacter(poolCell.Occupant);
                         poolCell.RemoveOccupant();

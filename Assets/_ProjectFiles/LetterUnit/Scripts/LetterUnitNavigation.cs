@@ -18,10 +18,23 @@ public class LetterUnitNavigation : MonoBehaviour
     private bool _shouldJump;
     private bool _inPlace;
 
-    public bool InPlace => _inPlace;
+    public bool Enabled
+    {
+        get => agent.enabled;
+        set  => agent.enabled = value;
+    }
     
+    public bool InPlace => _inPlace;
+
+    private void Start()
+    {
+        agent.enabled = false;
+    }
+
     public async Task SetTarget(Transform target, bool shouldJump = false, ButtonCellView cellView = null)
     {
+        agent.enabled = true;
+        
         agent.updateRotation = false;
         agent.isStopped = false;
 
@@ -42,6 +55,8 @@ public class LetterUnitNavigation : MonoBehaviour
     
     void Update()
     {
+        if (!agent.enabled) return;
+        
         if (agent.velocity.magnitude == 0)
         {
             Vector3 direction = finalForward.normalized;
@@ -68,7 +83,7 @@ public class LetterUnitNavigation : MonoBehaviour
                 return;
             }
         }
-
+        
         if (agent.velocity.magnitude == 0)
         {
             Vector3 direction = finalForward.normalized;

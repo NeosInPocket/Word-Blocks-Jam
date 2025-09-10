@@ -4,16 +4,7 @@
     <package>com.appsflyer:af-android-sdk:6.15.0</package>
     <package>com.appsflyer:unity-wrapper:6.15.2</package>
   </packages>
-  <files>
-    <file>Assets/Plugins/Android/com.android.installreferrer.installreferrer-2.1.aar</file>
-    <file>Assets/Plugins/Android/com.appsflyer.af-android-sdk-6.15.0.aar</file>
-    <file>Assets/Plugins/Android/com.appsflyer.unity-wrapper-6.15.2.aar</file>
-    <file>Assets/Plugins/Android/org.jetbrains.annotations-13.0.jar</file>
-    <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-1.6.20.jar</file>
-    <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-common-1.6.20.jar</file>
-    <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-jdk7-1.6.20.jar</file>
-    <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-jdk8-1.6.20.jar</file>
-  </files>
+  <files />
   <settings>
     <setting name="androidAbis" value="armeabi-v7a" />
     <setting name="bundleId" value="com.UnityTechnologies.com.unity.template.urpblank" />
@@ -29,6 +20,6 @@
     <setting name="projectExportEnabled" value="False" />
     <setting name="useFullCustomMavenRepoPathWhenExport" value="True" />
     <setting name="useFullCustomMavenRepoPathWhenNotExport" value="False" />
-    <setting name="useJetifier" value="True" />
+    <setting name="useJetifier" value="False" />
   </settings>
 </dependencies>

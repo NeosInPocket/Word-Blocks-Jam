@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2306097369797741009}
   - component: {fileID: 627578373648367355}
   - component: {fileID: 691942711827827097}
+  - component: {fileID: 6395156330336616227}
+  - component: {fileID: 2555216296574812687}
   m_Layer: 0
   m_Name: Cornered_single_smoothpath
   m_TagString: Untagged
@@ -87,3 +89,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6395156330336616227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571096759366838521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4f116286305456ab36447efa9d0e588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  positionData: {fileID: 2555216296574812687}
+--- !u!114 &2555216296574812687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571096759366838521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ac7d76cecf7ac4bb769f88f758226e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}

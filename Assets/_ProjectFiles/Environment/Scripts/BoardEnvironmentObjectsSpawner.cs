@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BoardEnvironmentObjectsSpawner : MonoBehaviour
 {
-    [SerializeField] public GameObject corneredPrefab;
-    [SerializeField] public GameObject corneredOneSmoothPathPrefab;
-    [SerializeField] public GameObject corneredTwoSmoothPathPrefab;
-    [SerializeField] public GameObject oneSmoothPrefab;
-    [SerializeField] public GameObject twoSmoothPrefab;
-    [SerializeField] public GameObject allSmoothPrefab;
+    [SerializeField] public EnvironmentBlock corneredPrefab;
+    [SerializeField] public EnvironmentBlock corneredOneSmoothPathPrefab;
+    [SerializeField] public EnvironmentBlock corneredTwoSmoothPathPrefab;
+    [SerializeField] public EnvironmentBlock oneSmoothPrefab;
+    [SerializeField] public EnvironmentBlock twoSmoothPrefab;
+    [SerializeField] public EnvironmentBlock allSmoothPrefab;
     [SerializeField] public int additionalHorizontalBlocksCount;
     [SerializeField] public int additionalVerticalBlocksCount;
     [SerializeField] private BoardView boardView;
@@ -19,12 +20,12 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
     [SerializeField] private EnvironmentDecorationsSpawner decorations;
     [SerializeField] private int decorationsAdditiveCellsCount;
     
-    private Dictionary<BlockType, GameObject> prefabs;
+    private Dictionary<BlockType, EnvironmentBlock> prefabs;
     private float _cellSize;
-    private List<GameObject> blocks;
+    private List<EnvironmentBlock> blocks;
     
     private void SetPrefabs() {
-        prefabs = new Dictionary<BlockType, GameObject>() {
+        prefabs = new Dictionary<BlockType, EnvironmentBlock>() {
             { BlockType.Cornered, corneredPrefab },
             { BlockType.CorneredWithOneSmoothPath, corneredOneSmoothPathPrefab },
             { BlockType.CorneredWithTwoSmoothPath, corneredTwoSmoothPathPrefab },
@@ -37,7 +38,7 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
     public void Spawn(List<BoardEntityData> data, float cellSize)
     {
         Clear();
-        blocks = new List<GameObject>();
+        blocks = new List<EnvironmentBlock>();
         
         _cellSize = cellSize;
         int maxRowIndex = data.Max(x => x.position.x) + additionalVerticalBlocksCount; 
@@ -64,15 +65,66 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
         Vector2 minMaxX = new Vector2(startBlockPosition.x, lastBlockPosition.x);
         Vector2 minMaxZ = new Vector2(startBlockPosition.z, lastBlockPosition.z);
         decorations.Spawn(minMaxX, minMaxZ);
+        
+        SetObstaclesToOuterDecorations();
     }
 
+    private void SetObstaclesToOuterDecorations()
+    {
+        var outerBlocks = GetOuterObstacles();
+        foreach (var block in outerBlocks)
+        {
+            block.AddObstacleComponent();
+        }
+    }
+    
+    private List<EnvironmentBlock> GetOuterObstacles()
+    {
+        HashSet<Vector2Int> filledPositions = new HashSet<Vector2Int>(
+            blocks.Select(d => d.positionData.position)
+        );
+
+        List<EnvironmentBlock> outerCells = new List<EnvironmentBlock>();
+
+        foreach (var block in blocks)
+        {
+            int neighbors = 0;
+            Vector2Int[] directions =
+            {
+                Vector2Int.up,
+                Vector2Int.down,
+                Vector2Int.left,
+                Vector2Int.right
+            };
+
+            foreach (var dir in directions)
+            {
+                Vector2Int neighborPos = block.positionData.position + dir;
+                if (filledPositions.Contains(neighborPos))
+                {
+                    neighbors++;
+                }
+            }
+
+            if (neighbors < 4)
+            {
+                outerCells.Add(block);
+            }
+        }
+
+        var maxRowIndex = outerCells.Max(x => x.positionData.position.x);
+        outerCells.RemoveAll(x => x.positionData.position.x == maxRowIndex);
+        
+        return outerCells;
+    }
+    
     private void Clear()
     {
         if (blocks == null || blocks.Count == 0) return;
         
         foreach (var block in blocks)
         {
-            Destroy(block);
+            Destroy(block.gameObject);
         }
     }
     
@@ -90,6 +142,7 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
             
             var block = Instantiate(prefab, position, rotation, transform);
 
+            block.positionData.position = pos;
             block.transform.localScale = blockSizePerCellSize * _cellSize * Vector3.one;
             blocks.Add(block);
         }

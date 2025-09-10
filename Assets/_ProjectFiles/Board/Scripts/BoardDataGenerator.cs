@@ -237,18 +237,6 @@ public class BoardDataGenerator
         return activePositions;
     }
 
-    private void FillRemainingRowsWithNull(BoardEntityData[,] board, bool[,] occupied, bool[,] activeCells, int startRow, int rows, int columns)
-    {
-        for (int r = startRow; r < rows; r++)
-        {
-            for (int c = 0; c < columns; c++)
-            {
-                board[r, c] = null;
-                occupied[r, c] = true;
-            }
-        }
-    }
-
     private void PlaceRemainingInDispensers(
         List<(char letter, WordWithRange word)> lettersQueue,
         LevelData levelData,
