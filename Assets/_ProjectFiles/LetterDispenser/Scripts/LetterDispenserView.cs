@@ -28,6 +28,7 @@ namespace _ProjectFiles._Features.LetterDispenser.Scripts
             try
             {
                 data = _queue.Dequeue();
+                data.position = new Vector2Int(_position.x - 1, _position.y);
                 return true;
             }
             catch (Exception ex)

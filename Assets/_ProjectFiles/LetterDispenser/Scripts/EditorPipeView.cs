@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 namespace _ProjectFiles._Features.LetterDispenser.Scripts
@@ -8,3 +9,4 @@ namespace _ProjectFiles._Features.LetterDispenser.Scripts
         public EditorLetterDispenserView View => view;
     }
 }
+#endif

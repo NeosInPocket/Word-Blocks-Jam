@@ -6,6 +6,7 @@ public class BoardCellView : LetterCell
     [SerializeField] private float unitSizePerCellSize = 0.7f;
     private LetterUnitFactory _factory;
     public Transform SpawnPositionTransform => spawnTransform;
+    public bool IsOccupiedByMovingUnit { get; set; }
     
     private void Start()
     {

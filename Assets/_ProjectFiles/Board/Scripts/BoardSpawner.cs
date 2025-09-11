@@ -18,6 +18,7 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
     private int _cols;
     public float PreferredCellSize => _preferredCellSize;
     public float RealCellSize => _realCellSize;
+    public List<T> Cells => _cells;
     
     public void BuildEmptyBoard(int rows, int cols, float cellSize = 0)
     {

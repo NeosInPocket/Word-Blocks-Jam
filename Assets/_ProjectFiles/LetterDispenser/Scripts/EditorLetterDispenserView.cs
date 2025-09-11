@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEngine;
@@ -92,3 +93,4 @@ public class EditorLetterDispenserView : BoardSpawner<EditorBoardCellView>
         renderer.SetPropertyBlock(mpb);
     }
 }
+#endif

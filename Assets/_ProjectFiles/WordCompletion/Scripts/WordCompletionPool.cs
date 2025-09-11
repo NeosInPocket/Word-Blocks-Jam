@@ -36,7 +36,7 @@ public class WordCompletionPool : UnusedLettersPoolView
         return result;
     }
 
-    public async Task SetCharacter(LetterUnitBase character)
+    public async Task SetCharacter(LetterUnitBase character, bool findPath = true)
     {
         List<int> characterPositions = new List<int>();
 
@@ -62,9 +62,18 @@ public class WordCompletionPool : UnusedLettersPoolView
         
         var cell = Cells[freePosition];
         cell.SetOccupant(character.GetComponent<LetterUnit>());
-        await character.Navigation.SetTarget(_model.SpawnPositions[freePosition], true, _model.Buttons[freePosition]);
 
-        var someAreNotInPlace = Cells.Any(x => !x.Occupant.Navigation.InPlace);
+        if (findPath)
+        {
+            var gridPath = GetLetterUnitPathGrid(character.PositionData.position);
+            await character.Navigation.SetTarget(_model.SpawnPositions[freePosition], true, _model.Buttons[freePosition], gridPath);
+        }
+        else
+        {
+            await character.Navigation.SetTarget(_model.SpawnPositions[freePosition], true, _model.Buttons[freePosition], null);
+        }
+
+        var someAreNotInPlace = Cells.Any(x => !x.Occupant.Navigation.InFinalPlace);
         var missingLetters = Cells.Count(x => x.Occupant != null) != _queue.CurrentWord.Length;
         
         if (missingLetters || someAreNotInPlace)
@@ -88,7 +97,7 @@ public class WordCompletionPool : UnusedLettersPoolView
                         var poolCell = pool.Cells.FirstOrDefault(x => x.Occupant != null && x.Occupant.Character == ch.ToString());
                         if (poolCell == null) continue;
                         
-                        SetCharacter(poolCell.Occupant);
+                        SetCharacter(poolCell.Occupant, false);
                         poolCell.RemoveOccupant();
                     }
                 }
@@ -101,14 +110,6 @@ public class WordCompletionPool : UnusedLettersPoolView
                 SaveManager.Data.levelsCompleted++;
                 SaveManager.Save();
             }
-        }
-    }
-
-    private async Task WaitForAllUnits()
-    {
-        while (Cells.Any(x => !x.Occupant.Navigation.InPlace))
-        {
-            await Task.Yield();
         }
     }
     

@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 public class EditorGhostBoardCellView : MonoBehaviour
@@ -33,3 +34,4 @@ public class EditorGhostBoardCellView : MonoBehaviour
         //cell.SetData(new BoardEntityData(null, positionData.position, true,  Color.white,false));
     }
 }
+#endif

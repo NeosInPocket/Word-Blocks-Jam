@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,3 +54,4 @@ public class EditorLetterUnit : LetterUnitBase
         characterFrame.color = value ? Color.white : Color.black;
     }
 }
+#endif
