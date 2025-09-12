@@ -12,6 +12,7 @@ public class UnusedLettersPoolView : MonoBehaviour
     
     public List<LetterPoolData> Cells => _cells;
     private List<LetterPoolData> _cells;
+    public bool IsFull => _cells.All(x => x.Occupant != null);
 
     public void BuildPool(int poolCount)
     {

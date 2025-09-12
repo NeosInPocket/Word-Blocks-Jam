@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WordCompletionPool : UnusedLettersPoolView
 {
     [SerializeField] private GameObject winObject;
+    [SerializeField] private GameObject loseObject;
     [SerializeField] private PlayerSelectionTracker tracker;
-    [SerializeField] private UnusedLettersPoolView pool;
+    [SerializeField] private UnusedLettersPoolView unusedLettersPool;
     [SerializeField] private float poolAnimationDuration;
     private WordsQueue _queue;
     private bool _isBuildingPool;
@@ -36,7 +37,7 @@ public class WordCompletionPool : UnusedLettersPoolView
         return result;
     }
 
-    public async Task SetCharacter(LetterUnitBase character, bool findPath = true)
+    public async UniTask SetCharacter(LetterUnitBase character, bool findPath = true)
     {
         List<int> characterPositions = new List<int>();
 
@@ -72,9 +73,12 @@ public class WordCompletionPool : UnusedLettersPoolView
         {
             await character.Navigation.SetTarget(_model.SpawnPositions[freePosition], true, _model.Buttons[freePosition], null);
         }
-
-        var someAreNotInPlace = Cells.Any(x => !x.Occupant.Navigation.InFinalPlace);
-        var missingLetters = Cells.Count(x => x.Occupant != null) != _queue.CurrentWord.Length;
+        
+        Debug.Log(CheckLose());
+        
+        var cellWithOccupants = Cells.Where(x => x.Occupant != null).ToList();
+        var someAreNotInPlace = cellWithOccupants.Any(x => !x.Occupant.Navigation.InFinalPlace);
+        var missingLetters = cellWithOccupants.Count != _queue.CurrentWord.Length;
         
         if (missingLetters || someAreNotInPlace)
         {
@@ -87,17 +91,17 @@ public class WordCompletionPool : UnusedLettersPoolView
             {
                 await BuildNextPool();
                 
-                var lettersInPool = pool.Cells.Where(x => x.Occupant != null).Select(x => x.Occupant.Character).ToList();
+                var lettersInPool = unusedLettersPool.Cells.Where(x => x.Occupant != null).Select(x => x.Occupant.Character).ToList();
                 var matchingCharacters = _queue.CurrentWord.Where(x => lettersInPool.Contains(x.ToString())).ToList();
         
                 if (matchingCharacters.Any())
                 {
                     foreach (var ch in matchingCharacters)
                     {
-                        var poolCell = pool.Cells.FirstOrDefault(x => x.Occupant != null && x.Occupant.Character == ch.ToString());
+                        var poolCell = unusedLettersPool.Cells.FirstOrDefault(x => x.Occupant != null && x.Occupant.Character == ch.ToString());
                         if (poolCell == null) continue;
                         
-                        SetCharacter(poolCell.Occupant, false);
+                        SetCharacter(poolCell.Occupant, false).Forget(x => Debug.Log(x.Message));
                         poolCell.RemoveOccupant();
                     }
                 }
@@ -111,9 +115,43 @@ public class WordCompletionPool : UnusedLettersPoolView
                 SaveManager.Save();
             }
         }
+        else
+        {
+            if (CheckLose())
+            {
+                winObject.SetActive(true);
+                tracker.Enable(false);
+                SaveManager.Load();
+                SaveManager.Data.levelsCompleted++;
+                SaveManager.Save();
+            }
+        }
+    }
+
+    private bool CheckLose()
+    {
+        if (unusedLettersPool.IsFull)
+        {
+            Debug.Log("is full");
+            var missingLetters = Cells.Where(x => x.Occupant == null).Select(x => x.Occupant.Character).ToList();
+            
+            if (missingLetters.Any())
+            {
+                Debug.Log("missing characters");
+                
+                var availableBoardLetters = boardView.Cells.Where(x => x.Occupant.Available);
+                var matchingCharacters = availableBoardLetters.Where(x => missingLetters.Contains(x.Occupant.Character)).ToList();
+                var isLose = !matchingCharacters.Any();
+
+                Debug.Log("lose " + isLose);
+                return isLose;
+            }
+        }
+
+        return false;
     }
     
-    private async Task BuildNextPool()
+    private async UniTask BuildNextPool()
     {
         _isBuildingPool = true;
         

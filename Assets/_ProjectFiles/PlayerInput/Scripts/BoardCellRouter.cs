@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class BoardCellRouter : MonoBehaviour
@@ -22,7 +23,7 @@ public class BoardCellRouter : MonoBehaviour
         {
             if (wordPool.IsBuildingPool) return;
             
-            wordPool.SetCharacter(obj.Occupant);
+            wordPool.SetCharacter(obj.Occupant).Forget(x => Debug.Log(x.Message));
             obj.RemoveOccupant();
         }
         else

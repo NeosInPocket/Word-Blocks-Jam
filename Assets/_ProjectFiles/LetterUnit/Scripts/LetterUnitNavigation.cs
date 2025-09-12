@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -34,7 +35,7 @@ public class LetterUnitNavigation : MonoBehaviour
         agent.enabled = false;
     }
 
-    public async Task SetTarget(Transform target, bool shouldJump = false, ButtonCellView cellView = null, List<BoardCellView> keyPositions = null)
+    public async UniTask SetTarget(Transform target, bool shouldJump = false, ButtonCellView cellView = null, List<BoardCellView> keyPositions = null)
     {
         agent.enabled = true;
         agent.updateRotation = false;
@@ -47,8 +48,6 @@ public class LetterUnitNavigation : MonoBehaviour
         
         if (keyPositions is { Count: > 0 })
         {
-            Debug.Log(keyPositions.Count);
-            
             foreach (var cell in keyPositions)
             {
                 await WaitForCellFree(cell);
@@ -62,9 +61,10 @@ public class LetterUnitNavigation : MonoBehaviour
 
         agent.SetDestination(target.position);
         await WaitForDestinationReach();
+        Debug.Log("reached");
     }
 
-    private async Task WaitForCellFree(BoardCellView cellView)
+    private async UniTask WaitForCellFree(BoardCellView cellView)
     {
         while (cellView.IsOccupiedByMovingUnit)
         {
@@ -72,13 +72,22 @@ public class LetterUnitNavigation : MonoBehaviour
         }
     }
     
-    private async Task WaitForDestinationReach()
+    private async UniTask WaitForDestinationReach()
     {
-        while (!_inFinalPlace)
+        Vector2 flatAgentPosition = new Vector2(agent.transform.position.x, agent.transform.position.z);
+        Vector2 flatDestination = new Vector2(_finalDestination.x, _finalDestination.z);
+        var distance = Vector2.Distance(flatAgentPosition, flatDestination);
+
+        while (!_inFinalPlace && distance > 0.01f)
+        {
+            flatAgentPosition = new Vector2(agent.transform.position.x, agent.transform.position.z);
+            flatDestination = new Vector2(_finalDestination.x, _finalDestination.z);
+            distance = Vector2.Distance(flatAgentPosition, flatDestination);
             await Task.Yield();
+        }
     }
     
-    private async Task WaitUntilReached(Vector3 destination)
+    private async UniTask WaitUntilReached(Vector3 destination)
     {
         bool inPlace = false;
         
