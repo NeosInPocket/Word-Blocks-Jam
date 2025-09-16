@@ -63,7 +63,7 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
         Vector3 startBlockPosition = boardView.GetPositionFromPositionData(startBlockPositionData);
         Vector3 lastBlockPosition = boardView.GetPositionFromPositionData(lastBlockPositionData);
         Vector2 minMaxX = new Vector2(startBlockPosition.x, lastBlockPosition.x);
-        Vector2 minMaxZ = new Vector2(startBlockPosition.z, lastBlockPosition.z);
+        Vector2 minMaxZ = new Vector2(startBlockPosition.z + 1f, lastBlockPosition.z);
         decorations.Spawn(minMaxX, minMaxZ);
         
         SetObstaclesToOuterDecorations();

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class BoardView : BoardSpawner<BoardCellView>
@@ -10,7 +10,6 @@ public class BoardView : BoardSpawner<BoardCellView>
     [SerializeField] private LetterDispenserView dispenserPrefab;
     [SerializeField] private float dispenserUnitAppearDelay;
     private List<LetterDispenserView> _dispensers = new List<LetterDispenserView>();
-    private int currentPriority = 0;
     private LevelAsset _levelAsset;
     private bool _agentsEnabled;
     
@@ -51,7 +50,7 @@ public class BoardView : BoardSpawner<BoardCellView>
                     try
                     {
                         var dispenserData =
-                            levelAsset.Dispensers.FirstOrDefault(x => x.Board[0].position == entity.position);
+                            levelAsset.Dispensers.FirstOrDefault(x => x.Board.Last().position == new Vector2Int(entity.position.x, entity.position.y));
 
                         if (dispenserData != null)
                         {
@@ -60,7 +59,7 @@ public class BoardView : BoardSpawner<BoardCellView>
                     }
                     catch (Exception e)
                     {
-                        // ignored
+                        Debug.Log(e.Message);
                     }
                         
                     dispenser.SetPosition(entity.position, cell.transform.position);
@@ -76,9 +75,8 @@ public class BoardView : BoardSpawner<BoardCellView>
                     
                 if (!string.IsNullOrEmpty(entity.character))
                 {
-                    cell.SetData(entity, currentPriority);
+                    cell.SetData(entity);
                     cell.Occupant.Available = false;
-                    currentPriority++;
                 }
                    
             }
@@ -166,10 +164,10 @@ public class BoardView : BoardSpawner<BoardCellView>
         if (_agentsEnabled) return;
 
         _agentsEnabled = true;
-        _cells.Select(x => x.Occupant.Navigation).ToList().ForEach(x => x.Enabled = true);
+        _cells.Where(x => x.Occupant != null).Select(x => x.Occupant.Navigation).ToList().ForEach(x => x.Enabled = true);
     }
     
-    private async void RefreshDispensers()
+    private async UniTask RefreshDispensers()
     {
         foreach (var dispenser in _dispensers)
         {
@@ -179,11 +177,15 @@ public class BoardView : BoardSpawner<BoardCellView>
             {
                 if (dispenser.TryGetNext(out BoardEntityData data))
                 {
-                    await Task.Delay((int)(dispenserUnitAppearDelay * 1000));
-                    nextCellToDispenser.SetData(data, currentPriority);
-                    nextCellToDispenser.Occupant.Available = true;
+                    nextCellToDispenser.SetData(data);
+                    nextCellToDispenser.Occupant.gameObject.SetActive(false);
+                    
+                    await UniTask.Delay((int)(dispenserUnitAppearDelay * 1000));
+                    nextCellToDispenser.Occupant.gameObject.SetActive(true);
                     nextCellToDispenser.Occupant.Navigation.Enabled = true;
-                    currentPriority++;
+                    nextCellToDispenser.Occupant.Available = true;
+                    
+                    RefreshDispensers();
                 }
             }
         }

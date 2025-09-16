@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,23 +20,40 @@ public class LetterUnitNavigation : MonoBehaviour
     private ButtonCellView _button;
     private bool _isJumping;
     private bool _shouldJump;
-    private bool _inFinalPlace;
     private Vector3 _finalDestination;
-
+    
     public bool Enabled
     {
         get => agent.enabled;
-        set => agent.enabled = value;
+        set
+        {
+            agent.enabled = value;
+            agent.isStopped = !value;
+            agent.updatePosition = value;
+        }
     }
 
-    public bool InFinalPlace => _inFinalPlace;
+    public bool InFinalPlace
+    {
+        get
+        {
+            if (_finalDestination == Vector3.zero) return false;
+            
+            Vector2 flatAgentPosition = new Vector2(agent.transform.position.x, agent.transform.position.z);
+            Vector2 flatDestination = new Vector2(_finalDestination.x, _finalDestination.z);
+            var distance = Vector2.Distance(flatAgentPosition, flatDestination);
+
+            var result = distance < 0.01f;
+            return result;
+        }
+    }
 
     private void Start()
     {
         agent.enabled = false;
     }
 
-    public async UniTask SetTarget(Transform target, bool shouldJump = false, ButtonCellView cellView = null, List<BoardCellView> keyPositions = null)
+    public async UniTask SetTarget(Vector3 target, bool shouldJump = false, ButtonCellView cellView = null, List<BoardCellView> keyPositions = null)
     {
         agent.enabled = true;
         agent.updateRotation = false;
@@ -44,8 +62,8 @@ public class LetterUnitNavigation : MonoBehaviour
         _isJumping = false;
         _shouldJump = shouldJump;
         _button = cellView;
-        _finalDestination = target.position;
-        
+        _finalDestination = target;
+
         if (keyPositions is { Count: > 0 })
         {
             foreach (var cell in keyPositions)
@@ -59,9 +77,8 @@ public class LetterUnitNavigation : MonoBehaviour
             }
         }
 
-        agent.SetDestination(target.position);
+        agent.SetDestination(target);
         await WaitForDestinationReach();
-        Debug.Log("reached");
     }
 
     private async UniTask WaitForCellFree(BoardCellView cellView)
@@ -74,15 +91,8 @@ public class LetterUnitNavigation : MonoBehaviour
     
     private async UniTask WaitForDestinationReach()
     {
-        Vector2 flatAgentPosition = new Vector2(agent.transform.position.x, agent.transform.position.z);
-        Vector2 flatDestination = new Vector2(_finalDestination.x, _finalDestination.z);
-        var distance = Vector2.Distance(flatAgentPosition, flatDestination);
-
-        while (!_inFinalPlace && distance > 0.01f)
+        while (!InFinalPlace)
         {
-            flatAgentPosition = new Vector2(agent.transform.position.x, agent.transform.position.z);
-            flatDestination = new Vector2(_finalDestination.x, _finalDestination.z);
-            distance = Vector2.Distance(flatAgentPosition, flatDestination);
             await Task.Yield();
         }
     }
@@ -108,7 +118,7 @@ public class LetterUnitNavigation : MonoBehaviour
     void Update()
     {
         if (!agent.enabled) return;
-
+        
         if (agent.isStopped)
         {
             Vector3 direction = finalForward.normalized;
@@ -120,10 +130,10 @@ public class LetterUnitNavigation : MonoBehaviour
         }
         
         if (_isJumping || agent.isStopped) return;
-
+        
         float speed = agent.velocity.magnitude;
         animator.SetBool("isRunning", speed > 0.1f);
-
+        
         if (_shouldJump)
         {
             float distanceToDestination = Vector3.Distance(transform.position, _finalDestination);
@@ -134,7 +144,7 @@ public class LetterUnitNavigation : MonoBehaviour
                 return;
             }
         }
-
+        
         if (agent.velocity.magnitude > 0.01f)
         {
             Vector3 velocity = agent.velocity;
@@ -185,7 +195,6 @@ public class LetterUnitNavigation : MonoBehaviour
         agent.isStopped = true;
         agent.updatePosition = true;
         _isJumping = false;
-        _inFinalPlace = true;
         
         _button?.OnButtonPressed();
     }

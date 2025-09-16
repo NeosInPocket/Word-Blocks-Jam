@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class UnusedLettersPoolView : MonoBehaviour
@@ -8,6 +9,7 @@ public class UnusedLettersPoolView : MonoBehaviour
     [SerializeField] private List<UnusedLetterPoolInfo> poolInfos;
     [SerializeField] private float modelSize;
     [SerializeField] protected BoardView boardView;
+    [SerializeField] protected WordCompletionPool wordCompletionPool;
     protected UnusedLetterPoolObject _model;
     
     public List<LetterPoolData> Cells => _cells;
@@ -30,12 +32,15 @@ public class UnusedLettersPoolView : MonoBehaviour
         }
     }
     
-    public bool TryAdd(LetterUnitBase unit)
+    public async UniTask TryAdd(BoardCellView cell)
     {
+        var unit = cell.Occupant;
         var freeCell = _cells.FirstOrDefault(x => x.Occupant == null);
 
         if (freeCell != null)
         {
+            cell.RemoveOccupant();
+            
             int cellIndex = _cells.IndexOf(freeCell);
             var target = _model.SpawnPositions[cellIndex];
 
@@ -43,12 +48,9 @@ public class UnusedLettersPoolView : MonoBehaviour
             freeCell.SetOccupant(letterUnit);
             
             var gridPath = GetLetterUnitPathGrid(letterUnit.PositionData.position);
-            unit.Navigation.SetTarget(target, false, null, gridPath);
-            
-            return true;
+            await unit.Navigation.SetTarget(target.position, false, null, gridPath);
+            await wordCompletionPool.CheckLose();
         }
-        
-        return false;
     }
 
     protected List<BoardCellView> GetLetterUnitPathGrid(Vector2Int unitPosition)

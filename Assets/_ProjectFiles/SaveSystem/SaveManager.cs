@@ -14,9 +14,9 @@ public static class SaveManager
         {
             string json = JsonUtility.ToJson(Data, true);
             File.WriteAllText(saveFilePath, json);
-            #if UNITY_EDITOR
-                Debug.Log($"Данные сохранены: {saveFilePath}\n{json}");
-            #endif
+            // #if UNITY_EDITOR
+            //     Debug.Log($"Данные сохранены: {saveFilePath}\n{json}");
+            // #endif
         }
         catch (Exception ex)
         {

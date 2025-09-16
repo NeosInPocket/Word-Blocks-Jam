@@ -13,7 +13,7 @@ public class BoardCellView : LetterCell
         _factory = new LetterUnitFactory(letterUnitPrefab, transform);
     }
     
-    public void SetData(BoardEntityData data, int priority)
+    public void SetData(BoardEntityData data)
     {
         if (_factory == null)
         {
@@ -22,6 +22,5 @@ public class BoardCellView : LetterCell
         
         _occupant = _factory.Create<LetterUnit>(data, SideSize * unitSizePerCellSize);
         _occupant.transform.position = SpawnPositionTransform.position;
-        //_occupant.GetComponent<LetterUnit>().SetAvoidancePriority(priority);
     }
 }

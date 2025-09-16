@@ -1,4 +1,7 @@
+using System;
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
+using NSubstitute;
 using UnityEngine;
 
 public class BoardCellRouter : MonoBehaviour
@@ -14,8 +17,21 @@ public class BoardCellRouter : MonoBehaviour
 
     private void OnBoardCellTapped(BoardCellView obj)
     {
-        if (obj.Occupant == null || !obj.Occupant.Available) return;
-
+        if (obj.Occupant != null)
+        {
+            if (!obj.Occupant.Available)
+            {
+                obj.Occupant.GetComponent<LetterUnit>().Blink(true);
+                return;
+            }
+            
+            obj.Occupant.GetComponent<LetterUnit>().Blink(false);
+        }
+        else
+        {
+            return;
+        }
+        
         boardView.EnableAgents();
         var mainPoolHasCharacter = wordPool.HasNonFilledCharacter(obj.Occupant.Character);
 
@@ -28,8 +44,7 @@ public class BoardCellRouter : MonoBehaviour
         }
         else
         {
-            if (unusedLettersPoolView.TryAdd(obj.Occupant))
-                obj.RemoveOccupant();
+            unusedLettersPoolView.TryAdd(obj);
         }
         
         boardView.RefreshCells();

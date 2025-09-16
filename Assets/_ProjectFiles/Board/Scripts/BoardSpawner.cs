@@ -17,6 +17,7 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
     private int _rows;
     private int _cols;
     public float PreferredCellSize => _preferredCellSize;
+    public float MaxCellSize => maxCellSize;
     public float RealCellSize => _realCellSize;
     public List<T> Cells => _cells;
     
@@ -34,7 +35,6 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
 
         float xBoardSize = maxX - minX;
         float cellSideSize = cellSize == 0 ? xBoardSize / (cellsPerRow + spacingPerCellSize * (cellsPerRow - 1)) : cellSize;
-        Debug.Log(cellSideSize);
         
         if (cellSideSize > maxCellSize)
         {
@@ -45,7 +45,6 @@ public abstract class  BoardSpawner<T> : MonoBehaviour where T : LetterCell
         
         float spacing = spacingPerCellSize * cellSideSize;
         float startX = centerX - cols / 2 * cellSideSize - (cols - 1) / 2 * spacing;
-        //float startX = minX + cellSideSize / 2;
         float startZ = minZ + cellSideSize / 2;
         
         Vector3 spawnPosition = new Vector3(startX, ySpawnTransform.position.y, startZ);

@@ -6,6 +6,7 @@ public class LetterUnit : LetterUnitBase
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private LetterUnitRenderer renderer;
     [SerializeField] private CharacterEffect characterPopEffect;
+    [SerializeField] private LetterUnitBlinkRenderer blinkRenderer;
     public CharacterEffect PopEffect => characterPopEffect;
     
     public override bool Available
@@ -21,6 +22,7 @@ public class LetterUnit : LetterUnitBase
     protected override void SetCharacterData(BoardEntityData data)
     {
         renderer.SetCharacter(data.character, data.color);
+        blinkRenderer.Initialize(data.color);
     }
 
     public override void SetVisibility(bool value)
@@ -28,9 +30,9 @@ public class LetterUnit : LetterUnitBase
         _visible = value;
         renderer.SetCharacterVisibility(value);
     }
-    
-    public void SetAvoidancePriority(int priority)
+
+    public void Blink(bool darken)
     {
-        agent.avoidancePriority = priority;
-    } 
+        blinkRenderer.Blink(darken);
+    }
 }

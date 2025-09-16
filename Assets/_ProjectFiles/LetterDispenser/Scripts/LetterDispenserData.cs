@@ -19,7 +19,7 @@ namespace _ProjectFiles._Features.LetterDispenser.Scripts
         public bool IsFull => Board.Count == CellCount;
         
         public int cellCount;
-        public List<BoardEntityData> Board = new();
+        public List<BoardEntityData> Board = new List<BoardEntityData>();
 
         public bool TryAdd(BoardEntityData data)
         {
