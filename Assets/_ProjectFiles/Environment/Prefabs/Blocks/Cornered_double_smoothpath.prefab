@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 5144971661062164382}
   - component: {fileID: 947483888707451017}
   - component: {fileID: -5456324570644958869}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cornered_double_smoothpath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 126
   m_IsActive: 1
 --- !u!4 &7052503844924153997
 Transform:
@@ -51,7 +51,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7481004683150295526}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -63,11 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9f9e9b1b672db144fbedfe9e777f1d98, type: 2}
-  - {fileID: -876546973899608171, guid: 3031d4a27f0ffe440b2cdc8c3517576b, type: 3}
-  - {fileID: 2100000, guid: 9f9e9b1b672db144fbedfe9e777f1d98, type: 2}
-  - {fileID: 2100000, guid: 9f9e9b1b672db144fbedfe9e777f1d98, type: 2}
-  - {fileID: 2100000, guid: 9f9e9b1b672db144fbedfe9e777f1d98, type: 2}
+  - {fileID: 2100000, guid: ca7264d786da1ff43a50e948d75168f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
