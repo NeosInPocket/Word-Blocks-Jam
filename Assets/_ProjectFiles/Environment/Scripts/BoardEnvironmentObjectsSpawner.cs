@@ -57,13 +57,13 @@ public class BoardEnvironmentObjectsSpawner : MonoBehaviour
         
         PlaceBlocks(positions);
 
-        Vector2Int startBlockPositionData = new Vector2Int(data.Max(x => x.position.x) + 1, minColumnIndex);
+        Vector2Int startBlockPositionData = new Vector2Int(data.Max(x => x.position.x), minColumnIndex);
         Vector2Int lastBlockPositionData = new Vector2Int(data.Max(x => x.position.x) + decorationsAdditiveCellsCount, maxColumnIndex);
         
         Vector3 startBlockPosition = boardView.GetPositionFromPositionData(startBlockPositionData);
         Vector3 lastBlockPosition = boardView.GetPositionFromPositionData(lastBlockPositionData);
         Vector2 minMaxX = new Vector2(startBlockPosition.x, lastBlockPosition.x);
-        Vector2 minMaxZ = new Vector2(startBlockPosition.z + 1f, lastBlockPosition.z);
+        Vector2 minMaxZ = new Vector2(startBlockPosition.z, lastBlockPosition.z);
         decorations.Spawn(minMaxX, minMaxZ);
         
         SetObstaclesToOuterDecorations();

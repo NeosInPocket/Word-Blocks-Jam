@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5579819124588074001}
   - component: {fileID: 319388947361997194}
   - component: {fileID: -1335961665702582043}
+  - component: {fileID: -4315927372921123176}
   m_Layer: 6
   m_Name: One_corner
   m_TagString: Untagged
@@ -98,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positionData: {fileID: -1335961665702582043}
+  blockCollider: {fileID: -4315927372921123176}
 --- !u!114 &-1335961665702582043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,3 +113,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
+--- !u!65 &-4315927372921123176
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8912904886545058949}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0001438, y: 0.7943942, z: 1.0002518}
+  m_Center: {x: 0.0000718832, y: 0.4035785, z: -0.000036031008}

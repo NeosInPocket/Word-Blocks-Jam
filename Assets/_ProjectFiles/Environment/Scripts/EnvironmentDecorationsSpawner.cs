@@ -7,6 +7,10 @@ public class EnvironmentDecorationsSpawner : MonoBehaviour
     [SerializeField] private float ySpawnPosition = 0f;
     [SerializeField] private int maxSpawnAttempts = 500;
 
+    [Header("Distance Constraints")]
+    [SerializeField] private float minDistance = 1f;
+    [SerializeField] private float maxDistance = 5f;
+
     private readonly List<GameObject> _decorations = new();
 
     public void Spawn(Vector2 minMaxX, Vector2 minMaxZ)
@@ -32,19 +36,10 @@ public class EnvironmentDecorationsSpawner : MonoBehaviour
                 Random.Range(minMaxZ.x, minMaxZ.y)
             );
 
-            Quaternion rotation = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
+            GameObject temp = Instantiate(prefab, position, Quaternion.identity, transform);
 
-            GameObject temp = Instantiate(prefab, position, rotation, transform);
-            Collider tempCollider = temp.GetComponentInChildren<Collider>();
-
-            if (tempCollider == null)
-            {
-                Debug.LogWarning($"Prefab {prefab.name} не содержит Collider!");
-                Destroy(temp);
-                continue;
-            }
-
-            if (IsOverlapping(tempCollider))
+            // Проверка расстояний между объектами
+            if (IsOverlapping(position))
             {
                 Destroy(temp);
                 continue;
@@ -54,16 +49,15 @@ public class EnvironmentDecorationsSpawner : MonoBehaviour
         }
     }
 
-    private bool IsOverlapping(Collider testCollider)
+    private bool IsOverlapping(Vector3 testPosition)
     {
         foreach (var decoration in _decorations)
         {
             if (decoration == null) continue;
 
-            Collider otherCollider = decoration.GetComponentInChildren<Collider>();
-            if (otherCollider == null) continue;
+            float distance = Vector3.Distance(testPosition, decoration.transform.position);
 
-            if (testCollider.bounds.Intersects(otherCollider.bounds))
+            if (distance < minDistance || distance > maxDistance)
             {
                 return true;
             }

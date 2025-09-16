@@ -86,7 +86,13 @@ public class BoardView : BoardSpawner<BoardCellView>
 
     private void DeleteFreeCells()
     {
+        var nullOccupantCells = _cells.Where(x => x.Occupant == null).ToList();
         _cells.RemoveAll(x => x.Occupant == null);
+        
+        foreach (var cell in nullOccupantCells)
+        {
+            Destroy(cell.gameObject);   
+        }
     }
     
     public void ClearBoard()

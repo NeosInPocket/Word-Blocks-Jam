@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6406723765953819730}
   - component: {fileID: 4316033712610975937}
   - component: {fileID: -2484977284295629149}
+  - component: {fileID: 6952644067284648915}
   m_Layer: 6
   m_Name: Cornered
   m_TagString: Untagged
@@ -98,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positionData: {fileID: -2484977284295629149}
+  blockCollider: {fileID: 6952644067284648915}
 --- !u!114 &-2484977284295629149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,3 +113,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
+--- !u!65 &6952644067284648915
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8224761376865964589}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.7943941, z: 1.0000002}
+  m_Center: {x: 0, y: 0.4035785, z: 0.000000029802322}

@@ -4,7 +4,9 @@ using UnityEngine.AI;
 public class EnvironmentBlock : MonoBehaviour
 {
     public PositionData positionData;
+    [SerializeField] private BoxCollider blockCollider;
     private NavMeshObstacle _obstacle;
+    public BoxCollider BlockCollider => blockCollider;
     
     public void AddObstacleComponent()
     {

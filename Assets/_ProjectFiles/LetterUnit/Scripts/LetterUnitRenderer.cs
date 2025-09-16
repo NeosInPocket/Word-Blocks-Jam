@@ -82,7 +82,7 @@ public class LetterUnitRenderer : MonoBehaviour
         
         var mpb = new MaterialPropertyBlock();
         _renderer.GetPropertyBlock(mpb);
-        mpb.SetColor("_Color", color);
+        mpb.SetColor("_AlbedoColor", color);
         _renderer.SetPropertyBlock(mpb);
     }
 }

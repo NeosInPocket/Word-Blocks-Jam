@@ -46,6 +46,7 @@ public class LevelAssetManager : MonoBehaviour
                     element.color = data.Colors[counter];
                 }
 
+                word.color = data.Colors[counter];
                 counter++;
             }
             

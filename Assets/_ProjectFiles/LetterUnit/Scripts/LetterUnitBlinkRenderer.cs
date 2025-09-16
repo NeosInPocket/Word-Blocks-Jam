@@ -49,13 +49,13 @@ public class LetterUnitBlinkRenderer : MonoBehaviour
             float t = elapsed / blinkDuration;
             Color currentColor = Color.Lerp(_blinkColor, _originalColor, t);
             _renderer.GetPropertyBlock(_block);
-            _block.SetColor("_Color", currentColor);
+            _block.SetColor("_AlbedoColor", currentColor);
             _renderer.SetPropertyBlock(_block);
             yield return null;
         }
 
         _renderer.GetPropertyBlock(_block);
-        _block.SetColor("_Color", _originalColor);
+        _block.SetColor("_AlbedoColor", _originalColor);
         _renderer.SetPropertyBlock(_block);
     }
 }
