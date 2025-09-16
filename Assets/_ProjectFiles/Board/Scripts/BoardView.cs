@@ -33,7 +33,6 @@ public class BoardView : BoardSpawner<BoardCellView>
         foreach (var entity in levelAsset.Board)
         {
             var cell = _cells.FirstOrDefault(x => x.positionData.position == entity.position);
-            
             var isBlockCell = !entity.isOccupiedByDispenser && string.IsNullOrEmpty(entity.character);
                 
             if (isBlockCell)
