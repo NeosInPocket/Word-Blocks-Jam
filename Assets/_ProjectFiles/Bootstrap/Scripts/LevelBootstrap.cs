@@ -3,6 +3,7 @@ using System.Linq;
 using _ProjectFiles.WordCompletion.Scripts;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelBootstrap : MonoBehaviour
 {
@@ -15,12 +16,21 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private PlayerSelectionTracker tracker;
     [SerializeField] private FadeScreenView fadeScreen;
     [SerializeField] private NavMeshSurface meshSurface;
+    [SerializeField] private Image maskImage;
+    [SerializeField] private Camera gameCamera;
+    [SerializeField] private CameraTransition cameraTransition;
+    
     private WordsQueue _queue;
     private int _currentLevel;
+    private GameCameraPositionAdjuster _cameraAdjuster;
+    private Vector3 _optimalCameraPosition;
+    private float _optimalCameraSize;
+    
     
     private void Start()
     {
         UpdateLevel();
+        //cameraTransition.SetDefaultState();
         AudioManager.Instance.PlayMusic();
     }
 
@@ -76,7 +86,22 @@ public class LevelBootstrap : MonoBehaviour
         
         unusedLettersPoolView.BuildPool(level.PoolCount);
         wordCompletionPool.BuildPool(_queue);
+
+        var units = boardView.Cells.Select(x => x.Occupant.gameObject).ToList();
+        units.RemoveAll(x => x == null);
         
-        //meshSurface.BuildNavMesh();
+        // _cameraAdjuster = new GameCameraPositionAdjuster(units, maskImage, gameCamera);
+        // _cameraAdjuster.GetOptimalCamera(out Vector3 optimalCameraPos, out var size);
+        //
+        // _optimalCameraPosition = optimalCameraPos;
+        // _optimalCameraSize = size;
+        //
+        // cameraTransition.Initialize(optimalCameraPos, size);
     }
+
+    public void CameraMenuTransition()
+    {
+        cameraTransition.MoveToMenuState();
+    }
+    
 }
