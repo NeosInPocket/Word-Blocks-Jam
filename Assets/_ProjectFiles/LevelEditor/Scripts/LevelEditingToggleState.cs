@@ -5,7 +5,7 @@ using UnityEngine;
 [InitializeOnLoad]
 public static class LevelEditingToggleState
 {
-    public static bool State = true;
+    public static bool State = false;
     public static bool EnableColoring = true;
     
     static LevelEditingToggleState()

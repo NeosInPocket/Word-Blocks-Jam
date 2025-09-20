@@ -18,6 +18,7 @@ public class WordCompletionPool : UnusedLettersPoolView
     [SerializeField] private float modelSizePerUnitSize;
     [SerializeField] private float modelDisappearOffset;
     [SerializeField] private float letterUnitExtraY;
+    [SerializeField] private int buildDelay;
     private WordsQueue _queue;
     private bool _isBuildingPool;
     public bool IsBuildingPool => _isBuildingPool;
@@ -100,6 +101,8 @@ public class WordCompletionPool : UnusedLettersPoolView
                 _model.Buttons[freePosition], null);
         }
         
+        _model.Feedbacks[freePosition].SetActive(true);
+        
         var cellWithOccupants = Cells.Where(x => x.Occupant != null).ToList();
         var someAreNotInPlace = cellWithOccupants.Any(x => !x.Occupant.Navigation.InFinalPlace);
         var missingLetters = cellWithOccupants.Count != _queue.CurrentWord.Length;
@@ -115,6 +118,7 @@ public class WordCompletionPool : UnusedLettersPoolView
         {
             if (_queue.MoveNext())
             {
+                await UniTask.Delay(buildDelay);
                 await BuildNextPool();
 
                 var lettersInPool = unusedLettersPool.Cells.Where(x => x.Occupant != null)
@@ -186,11 +190,13 @@ public class WordCompletionPool : UnusedLettersPoolView
     {
         _isBuildingPool = true;
         
-        foreach (var cell in Cells)
+        var occupants = Cells.Select(x => x.Occupant).ToList();
+            
+        foreach (var unit in occupants)
         {
-            var occupant = cell.Occupant;
-            occupant.PopEffect.Play(occupant.transform.position);
-            Destroy(occupant.gameObject);
+            unit.DisableNavMesh();
+            unit.transform.SetParent(_model.transform);
+            unit.EnableVFXFeedback();
         }
 
         foreach (var button in _model.Buttons)
@@ -201,6 +207,13 @@ public class WordCompletionPool : UnusedLettersPoolView
         await _model.transform
             .DOMoveX(_model.transform.position.x - modelDisappearOffset, poolAnimationDuration)
             .SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+        
+        
+        foreach (var cell in Cells)
+        {
+            var occupant = cell.Occupant;
+            Destroy(occupant.gameObject);
+        }
         
         BuildPool(_queue);
         

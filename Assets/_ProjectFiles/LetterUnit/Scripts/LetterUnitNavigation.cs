@@ -25,12 +25,7 @@ public class LetterUnitNavigation : MonoBehaviour
     public bool Enabled
     {
         get => agent.enabled;
-        set
-        {
-            agent.enabled = value;
-            agent.isStopped = !value;
-            agent.updatePosition = value;
-        }
+        set => agent.enabled = value;
     }
 
     public bool InFinalPlace

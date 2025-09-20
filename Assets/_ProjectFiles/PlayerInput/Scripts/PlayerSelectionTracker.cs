@@ -7,6 +7,7 @@ using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 public class PlayerSelectionTracker : MonoBehaviour
 {
     public Action<BoardCellView> OnBoardCellTapped { get; set; }
+    public Action<BoardCellView> TutorialCellTapped { get; set; }
     public static PlayerSelectionTracker Instance { get; private set; }
     private Camera MainCamera => Camera.main;
 
@@ -43,10 +44,22 @@ public class PlayerSelectionTracker : MonoBehaviour
         if (boardCellHit.collider != null)
         {
             BoardCellView cellView = boardCellHit.collider.transform.parent.GetComponent<BoardCellView>();
-            OnBoardCellTapped?.Invoke(cellView);
+            
+            if (TutorialCellTapped != null)
+            {
+                TutorialCellTapped.Invoke(cellView);
+                return;
+            }
+
+            ProcessCellTapped(cellView);
         }
     }
 
+    public void ProcessCellTapped(BoardCellView cellView)
+    {
+        OnBoardCellTapped?.Invoke(cellView);
+    }
+    
     private void OnDestroy()
     {
         OnBoardCellTapped = null;

@@ -4,11 +4,13 @@ using UnityEngine;
 public class UnusedLetterPoolObject : MonoBehaviour
 {
     [SerializeField] private List<Transform> spawnPositions;
+    [SerializeField] private List<GameObject> feedbacks;
     [SerializeField] private ButtonCellView buttonPrefab;
     [SerializeField] private PoolCanvasLetters canvasLetters;
     private List<ButtonCellView> _buttons;
     
     public List<Transform> SpawnPositions => spawnPositions;
+    public List<GameObject> Feedbacks => feedbacks;
     public List<ButtonCellView> Buttons => _buttons;
     public PoolCanvasLetters CanvasLetters => canvasLetters;
 

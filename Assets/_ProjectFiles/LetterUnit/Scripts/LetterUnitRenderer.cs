@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using _ProjectFiles.LetterUnit.Scripts;
 using UnityEngine;
@@ -11,7 +12,9 @@ public class LetterUnitRenderer : MonoBehaviour
     [SerializeField] private Color characterUnavailableColor;
     [SerializeField] private Color unitNotVisibleColor;
     [SerializeField] private GameObject questionMarkElement; 
-    [SerializeField] private Animator animator; 
+    [SerializeField] private Animator animator;
+    [SerializeField] private List<ParticleSystem> particleSystems;
+    [SerializeField] private GameObject vFXFeedback;
     private GameObject characterObject;
     private GameObject questionMarkObject;
     private Renderer _renderer;
@@ -25,6 +28,7 @@ public class LetterUnitRenderer : MonoBehaviour
         _defaultColor = defaultColor;
         RemoveCharacter();
         SetUnitColor(defaultColor);
+        SetParticlesColor(defaultColor);
         
         var characterData = characters.Characters.FirstOrDefault(x => x.character == character);
         characterObject = Instantiate(characterData.model, characterTransform.position, characterTransform.rotation, transform);
@@ -42,6 +46,24 @@ public class LetterUnitRenderer : MonoBehaviour
         questionMarkObject.transform.localScale =  characterTransform.localScale.x * questionMarkObject.transform.localScale;
     }
 
+    public void EnableFeedback()
+    {
+        vFXFeedback.SetActive(true);
+    }
+    
+    private void SetParticlesColor(Color color)
+    {
+        foreach (var ps in particleSystems)
+        {
+            var psRenderer = ps.GetComponent<ParticleSystemRenderer>();
+            var materialBlock = new MaterialPropertyBlock();
+            
+            psRenderer.GetPropertyBlock(materialBlock);
+            materialBlock.SetColor("_AlbedoColor", color);
+            psRenderer.SetPropertyBlock(materialBlock);
+        }
+    }
+    
     public void SetCharacterVisibility(bool visible)
     {
         characterObject.SetActive(visible);
@@ -71,7 +93,7 @@ public class LetterUnitRenderer : MonoBehaviour
     {
         var mpb = new MaterialPropertyBlock();
         _characterRenderer.GetPropertyBlock(mpb);
-        mpb.SetColor("_Color", color);
+        mpb.SetColor("_AlbedoColor", color);
         _characterRenderer.SetPropertyBlock(mpb);
     }
     

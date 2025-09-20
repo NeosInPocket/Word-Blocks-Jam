@@ -7,4 +7,5 @@ public class PlayerData
     public float SFXVolume = 1f;
     public bool hapticsEnabled = true;
     public int levelsCompleted = 0;
+    public bool tutorialCompleted = false;
 }

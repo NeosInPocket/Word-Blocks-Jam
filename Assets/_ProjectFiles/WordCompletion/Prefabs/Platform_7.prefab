@@ -2069,7 +2069,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4592109758288983694}
   m_LocalRotation: {x: 0.49477625, y: 0, z: 0, w: 0.8690204}
-  m_LocalPosition: {x: 0, y: 0, z: -1.03}
+  m_LocalPosition: {x: 0, y: 0, z: -6.82}
   m_LocalScale: {x: 1.4, y: 1.3999999, z: 1.3999999}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2078,7 +2078,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 59.31, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.468}
+  m_AnchoredPosition: {x: 0, y: 10.22}
   m_SizeDelta: {x: 3.487, y: 0.5109}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8573298280685809163
@@ -2268,6 +2268,14 @@ MonoBehaviour:
   - {fileID: 9112801238114409050}
   - {fileID: 3984719294288401391}
   - {fileID: 960849543732878911}
+  feedbacks:
+  - {fileID: 2988771531009037532}
+  - {fileID: 2510073558050081100}
+  - {fileID: 4511874804232436264}
+  - {fileID: 6300428364567266557}
+  - {fileID: 8722807432728977750}
+  - {fileID: 6006085562704820538}
+  - {fileID: 7611401893965661933}
   buttonPrefab: {fileID: 7665725188280912036, guid: 2f6775b3362eede449c3cd9399504bd9,
     type: 3}
   canvasLetters: {fileID: 3842852067305006276}

@@ -19,14 +19,23 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private Image maskImage;
     [SerializeField] private Camera gameCamera;
     [SerializeField] private CameraTransition cameraTransition;
+    [SerializeField] private TutorialManager tutorialManager;
+    [SerializeField] private bool clearPlayerData;
     
     private WordsQueue _queue;
     private int _currentLevel;
     private GameCameraPositionAdjuster _cameraAdjuster;
     private Vector3 _optimalCameraPosition;
     private float _optimalCameraSize;
-    
-    
+
+    private void Awake()
+    {
+        if (clearPlayerData)
+        {
+            SaveManager.ResetProgress();
+        }
+    }
+
     private void Start()
     {
         UpdateLevel();
@@ -45,6 +54,11 @@ public class LevelBootstrap : MonoBehaviour
     public void OnPlay()
     {
         fadeScreen.CloseMenu(EnableLevelControls);
+        
+        if (!SaveManager.Data.tutorialCompleted)
+        {
+            tutorialManager.StartTutorial(_queue);
+        }
     }
 
     private void EnableLevelControls()

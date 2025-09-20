@@ -5,9 +5,12 @@ public class LetterUnit : LetterUnitBase
 {
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private LetterUnitRenderer renderer;
-    [SerializeField] private CharacterEffect characterPopEffect;
     [SerializeField] private LetterUnitBlinkRenderer blinkRenderer;
-    public CharacterEffect PopEffect => characterPopEffect;
+
+    public void DisableNavMesh()
+    {
+        navigation.Enabled = false;
+    }
     
     public override bool Available
     {
@@ -34,5 +37,10 @@ public class LetterUnit : LetterUnitBase
     public void Blink(bool darken)
     {
         blinkRenderer.Blink(darken);
+    }
+
+    public void EnableVFXFeedback()
+    {
+        renderer.EnableFeedback();
     }
 }
