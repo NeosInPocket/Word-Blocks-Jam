@@ -230,8 +230,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -682,8 +682,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -917,7 +917,7 @@ GameObject:
   - component: {fileID: 2682533282829497743}
   - component: {fileID: 5962501349229641214}
   - component: {fileID: 1908824437647316475}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -932,7 +932,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663484863848398737}
   m_LocalRotation: {x: 0.49477625, y: 0, z: 0, w: 0.8690204}
-  m_LocalPosition: {x: 0, y: 0, z: -6.9}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1.4, y: 1.3999999, z: 1.3999999}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -941,7 +941,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 59.31, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 10.07}
+  m_AnchoredPosition: {x: 0, y: 0.4}
   m_SizeDelta: {x: 2.767, y: 0.5109}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5997536505703780077
@@ -1256,8 +1256,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -1489,7 +1489,7 @@ GameObject:
   - component: {fileID: 8938473290224541309}
   - component: {fileID: 5373883356601050842}
   - component: {fileID: 8399029751869404309}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1656,7 +1656,7 @@ GameObject:
   - component: {fileID: 6094865176501321479}
   - component: {fileID: 7264226630884151135}
   - component: {fileID: 7160541504781527972}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2042,8 +2042,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -2390,7 +2390,7 @@ GameObject:
   - component: {fileID: 7722228221500875035}
   - component: {fileID: 4280608351044101710}
   - component: {fileID: 2843978486643915793}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2636,7 +2636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3750441507412400025}
   - component: {fileID: 7499986449676453421}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Letters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2955,8 +2955,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -3188,7 +3188,7 @@ GameObject:
   - component: {fileID: 2971732048023166569}
   - component: {fileID: 6526615577398469907}
   - component: {fileID: 40720187757268838}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3355,7 +3355,7 @@ GameObject:
   - component: {fileID: 2946998921856284116}
   - component: {fileID: 8004866132087971339}
   - component: {fileID: 7202442961825850185}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3710,8 +3710,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -3943,7 +3943,7 @@ GameObject:
   - component: {fileID: 1576973850326933122}
   - component: {fileID: 7556270735451558260}
   - component: {fileID: 8425336506865548280}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

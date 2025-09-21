@@ -230,8 +230,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -463,7 +463,7 @@ GameObject:
   - component: {fileID: 735446517130611412}
   - component: {fileID: 8527990015465202657}
   - component: {fileID: 8348624590189246865}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +678,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1224648359359591158}
   m_LocalRotation: {x: 0.49477625, y: 0, z: 0, w: 0.8690204}
-  m_LocalPosition: {x: 0, y: 0, z: -6.76}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1.4, y: 1.3999999, z: 1.3999999}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -687,7 +687,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 59.31, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 10.01}
+  m_AnchoredPosition: {x: 0, y: 0.4}
   m_SizeDelta: {x: 2.4453, y: 0.5109}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7929557327858863701
@@ -782,7 +782,7 @@ GameObject:
   - component: {fileID: 3541098460124373919}
   - component: {fileID: 2275960118087448463}
   - component: {fileID: 3219242767746722732}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1261,8 +1261,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -1713,8 +1713,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -1977,7 +1977,7 @@ GameObject:
   - component: {fileID: 5689445296677635370}
   - component: {fileID: 6994171260006150589}
   - component: {fileID: 2537398586886353483}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2113,7 +2113,7 @@ GameObject:
   - component: {fileID: 897160569718137958}
   - component: {fileID: 5120013006611188767}
   - component: {fileID: 5675424775242698537}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2249,7 +2249,7 @@ GameObject:
   - component: {fileID: 4808095787456694674}
   - component: {fileID: 6089949955402337645}
   - component: {fileID: 7192686029449509924}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2702,8 +2702,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -2949,7 +2949,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7217158277523289472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.000000022351738}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3252,8 +3252,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:

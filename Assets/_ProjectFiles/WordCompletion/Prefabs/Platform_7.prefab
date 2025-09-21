@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 2785050528845522137}
   - component: {fileID: 8640734359084058310}
   - component: {fileID: 7089069776914096350}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -543,8 +543,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -995,8 +995,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -1228,7 +1228,7 @@ GameObject:
   - component: {fileID: 6840994584364360847}
   - component: {fileID: 7911417492487817508}
   - component: {fileID: 2585308601206069334}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1364,7 +1364,7 @@ GameObject:
   - component: {fileID: 1723300902765420025}
   - component: {fileID: 6605777121027370297}
   - component: {fileID: 2935158940180797946}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1530,7 +1530,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8382914683720573751}
   - component: {fileID: 3411119334330663362}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Letters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1819,8 +1819,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -2054,7 +2054,7 @@ GameObject:
   - component: {fileID: 5874268161159826787}
   - component: {fileID: 5819840442892683497}
   - component: {fileID: 3842852067305006276}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2069,7 +2069,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4592109758288983694}
   m_LocalRotation: {x: 0.49477625, y: 0, z: 0, w: 0.8690204}
-  m_LocalPosition: {x: 0, y: 0, z: -6.82}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1.4, y: 1.3999999, z: 1.3999999}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2078,7 +2078,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 59.31, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 10.22}
+  m_AnchoredPosition: {x: 0, y: 0.4}
   m_SizeDelta: {x: 3.487, y: 0.5109}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8573298280685809163
@@ -2540,8 +2540,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -3054,8 +3054,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -3506,8 +3506,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -3739,7 +3739,7 @@ GameObject:
   - component: {fileID: 2491715638704362234}
   - component: {fileID: 3429345225315923897}
   - component: {fileID: 2298651603950319600}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3875,7 +3875,7 @@ GameObject:
   - component: {fileID: 4992030264104163068}
   - component: {fileID: 2020286259906591843}
   - component: {fileID: 4423980570918521285}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4011,7 +4011,7 @@ GameObject:
   - component: {fileID: 9218581652431098885}
   - component: {fileID: 3525647314334329309}
   - component: {fileID: 8505807192664635051}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4366,8 +4366,8 @@ MonoBehaviour:
         Mode: 2
         MoveToScaleMin: {x: 1, y: 1, z: 1}
         MoveToScaleMax: {x: 2, y: 2, z: 2}
-        BumpScaleMin: {x: 8, y: 8, z: 8}
-        BumpScaleMax: {x: 8, y: 8, z: 8}
+        BumpScaleMin: {x: 15, y: 15, z: 15}
+        BumpScaleMax: {x: 15, y: 15, z: 15}
     - rid: 2381680043893981199
       type: {class: MMF_TMPColor, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
@@ -4599,7 +4599,7 @@ GameObject:
   - component: {fileID: 1083046640950697789}
   - component: {fileID: 4659290482682104367}
   - component: {fileID: 4332379297558193805}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Text (TMP) (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
