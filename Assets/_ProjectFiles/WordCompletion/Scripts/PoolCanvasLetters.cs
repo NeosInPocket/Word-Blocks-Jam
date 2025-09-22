@@ -5,7 +5,15 @@ using UnityEngine;
 public class PoolCanvasLetters : MonoBehaviour
 {
     [SerializeField] private List<TMP_Text> letters;
+    private Canvas _canvas;
+    
     public List<TMP_Text> Letters => letters;
+
+    private void Start()
+    {
+        _canvas = GetComponent<Canvas>();
+        _canvas.worldCamera = GameObject.Find("UI Camera").GetComponent<Camera>();
+    }
 
     public void SetWord(string word)
     {

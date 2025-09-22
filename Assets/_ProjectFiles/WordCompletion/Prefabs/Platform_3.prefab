@@ -2490,6 +2490,7 @@ MonoBehaviour:
   - {fileID: 5162089199792799489}
   - {fileID: 892502757563142664}
   - {fileID: 92684606521956818}
+  canvas: {fileID: 3041237223364521081}
 --- !u!1 &8998480528299124500
 GameObject:
   m_ObjectHideFlags: 0

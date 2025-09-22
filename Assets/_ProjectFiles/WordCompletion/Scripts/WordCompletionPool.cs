@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class WordCompletionPool : UnusedLettersPoolView
     [SerializeField] private float modelDisappearOffset;
     [SerializeField] private float letterUnitExtraY;
     [SerializeField] private int buildDelay;
+    [SerializeField] private int modelDestroyDelay;
     private WordsQueue _queue;
     private bool _isBuildingPool;
     public bool IsBuildingPool => _isBuildingPool;
@@ -204,17 +206,13 @@ public class WordCompletionPool : UnusedLettersPoolView
             button.StopMove();
         }
 
+        var oldModel = _model;
+        
         await _model.transform
             .DOMoveX(_model.transform.position.x - modelDisappearOffset, poolAnimationDuration)
             .SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
         
-        
-        foreach (var cell in Cells)
-        {
-            var occupant = cell.Occupant;
-            Destroy(occupant.gameObject);
-        }
-        
+        DestroyPoolDelayed(oldModel.gameObject);
         BuildPool(_queue);
         
         var modelOffsetPosition = _model.transform.position;
@@ -227,6 +225,12 @@ public class WordCompletionPool : UnusedLettersPoolView
             .AsyncWaitForCompletion();
         
         _isBuildingPool = false;
+    }
+
+    private async UniTask DestroyPoolDelayed(GameObject pool)
+    {
+        await Task.Delay(modelDestroyDelay);
+        Destroy(pool);
     }
     
     private bool TryCompleteWord()

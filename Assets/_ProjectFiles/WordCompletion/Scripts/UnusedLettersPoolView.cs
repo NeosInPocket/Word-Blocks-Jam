@@ -18,8 +18,6 @@ public class UnusedLettersPoolView : MonoBehaviour
 
     public void BuildPool(int poolCount)
     {
-        if (_model != null) Destroy(_model.gameObject);
-        
         var modelPrefab = poolInfos.First(x => x.CellsCount == poolCount).Model;
         _model = Instantiate(modelPrefab, spawnPosition.position, modelPrefab.transform.rotation, transform);
         _model.transform.localScale = Vector3.one * modelSize;
@@ -31,6 +29,11 @@ public class UnusedLettersPoolView : MonoBehaviour
             _cells.Add(new LetterPoolData());
         }
     }
+
+    public void DestroyPlatform()
+    {
+        if (_model != null) Destroy(_model.gameObject);
+    } 
     
     public async UniTask TryAdd(BoardCellView cell)
     {

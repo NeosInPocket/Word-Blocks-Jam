@@ -173,6 +173,7 @@ MonoBehaviour:
   - {fileID: 8043946554109184014}
   - {fileID: 2844067548424846308}
   vFXFeedback: {fileID: 4969670713201901626}
+  wordCompletionEffect: {fileID: 2844067548410528368}
 --- !u!1 &1838685714154754603
 GameObject:
   m_ObjectHideFlags: 0
@@ -1409,6 +1410,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44b1f509542375d4cb0eddf2544c085e, type: 3}
+--- !u!1 &2844067548410528368 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1912209034997110884, guid: 44b1f509542375d4cb0eddf2544c085e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4463541814132103700}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2844067548410750944 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1912209034997366260, guid: 44b1f509542375d4cb0eddf2544c085e,

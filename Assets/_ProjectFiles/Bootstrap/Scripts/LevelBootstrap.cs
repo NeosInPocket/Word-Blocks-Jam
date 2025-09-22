@@ -24,12 +24,14 @@ public class LevelBootstrap : MonoBehaviour
     
     private WordsQueue _queue;
     private int _currentLevel;
-    private GameCameraPositionAdjuster _cameraAdjuster;
-    private Vector3 _optimalCameraPosition;
-    private float _optimalCameraSize;
+    
+    private CameraWidthApplier _cameraWidthApplier;
+    [SerializeField] private GameCameraPositionAdjuster cameraAdjuster;
 
     private void Awake()
     {
+        _cameraWidthApplier = new CameraWidthApplier(gameCamera);
+        
         if (clearPlayerData)
         {
             SaveManager.ResetProgress();
@@ -39,7 +41,6 @@ public class LevelBootstrap : MonoBehaviour
     private void Start()
     {
         UpdateLevel();
-        //cameraTransition.SetDefaultState();
         AudioManager.Instance.PlayMusic();
     }
 
@@ -98,19 +99,16 @@ public class LevelBootstrap : MonoBehaviour
         environmentObjectsSpawner.Spawn(level.Board, boardView.RealCellSize);
         boardView.FillBoard();
         
+        unusedLettersPoolView.DestroyPlatform();
         unusedLettersPoolView.BuildPool(level.PoolCount);
+        
+        wordCompletionPool.DestroyPlatform();
         wordCompletionPool.BuildPool(_queue);
 
         var units = boardView.Cells.Select(x => x.Occupant.gameObject).ToList();
         units.RemoveAll(x => x == null);
         
-        // _cameraAdjuster = new GameCameraPositionAdjuster(units, maskImage, gameCamera);
-        // _cameraAdjuster.GetOptimalCamera(out Vector3 optimalCameraPos, out var size);
-        //
-        // _optimalCameraPosition = optimalCameraPos;
-        // _optimalCameraSize = size;
-        //
-        // cameraTransition.Initialize(optimalCameraPos, size);
+        cameraAdjuster.FitCamera(boardView.Cells.Select(x => x.Occupant.transform).ToList());
     }
 
     public void CameraMenuTransition()
