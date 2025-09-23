@@ -5,11 +5,22 @@ using UnityEngine.UI;
 
 public class GameCameraPositionAdjuster : MonoBehaviour
 {
-    public Camera targetCamera;
-    public Image maskRect;
-    
-    public void FitCamera(List<Transform> objectsToFit)
+    [SerializeField] public Camera targetCamera;
+    [SerializeField] public Image maskRect;
+    [SerializeField] public float additionalCameraSize;
+    private GraphicRaycaster gr;
+    public Vector3 PreferredPosition { get; private set; }
+    public float PreferredSize { get; private set; }
+
+    public void ApplyPreferredCameraParameters()
     {
+        targetCamera.transform.position = PreferredPosition;
+        targetCamera.orthographicSize = PreferredSize;
+    }
+    
+    public void CalculateCameraParameters(List<Transform> objectsToFit)
+    {
+        gr = maskRect.canvas.GetComponent<GraphicRaycaster>();
         Vector3[] v = new Vector3[4];
         maskRect.rectTransform.GetWorldCorners(v);
         List<Vector3> worldVectors = new();
@@ -25,43 +36,45 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         Vector3 toMaskTarget = maskCenter - targetCamera.transform.position;
         
         Vector3 objectsCenter = GetCenterOfObjects(objectsToFit);
-
+        
         Vector3 toTarget = objectsCenter - targetCamera.transform.position;
         Vector3 forward = targetCamera.transform.forward;
         
         Vector3 projection = Vector3.ProjectOnPlane(toTarget, forward);
         Vector3 maskCenterProjection = Vector3.ProjectOnPlane(toMaskTarget, forward);
-
-        targetCamera.transform.position += projection - maskCenterProjection;
         
-        // List<Vector3> objectProjections = new List<Vector3>();
-        // foreach (var obj in objectsToFit)
-        // {
-        //     Vector3 toObj = obj.position;
-        //     Vector3 localProj = Vector3.ProjectOnPlane(toObj, forward);
-        //     objectProjections.Add(localProj);
-        // }
-        //
-        // float sizeIncrement = 0.1f;
-        // float minSize = 7f;
-        // float maxSize = 50f;
-        // float currentSize = minSize;
-        //
-        // while (currentSize < maxSize)
-        // {
-        //     //targetCamera.orthographicSize = currentSize;
-        //     bool areAllInside = true;
-        //     
-        //     foreach (var obj in objectsToFit)
-        //     {
-        //         areAllInside &= IsRayHittingImage(targetCamera, obj, maskRect);
-        //     }
-        //
-        //     if (areAllInside)
-        //         return;
-        //     
-        //     currentSize += sizeIncrement;
-        // }
+        
+        targetCamera.transform.position += projection - maskCenterProjection;
+        PreferredPosition = targetCamera.transform.position;
+        
+        float sizeIncrement = 0.1f;
+        float minSize = 3f;
+        float maxSize = 50f;
+        float size = minSize;
+        
+        float startCameraSize = targetCamera.orthographicSize;
+        
+        while (size < maxSize)
+        {
+            targetCamera.orthographicSize = size;
+            bool areAllInside = true;
+            
+            foreach (var obj in objectsToFit)
+            {
+                areAllInside &= IsRayHittingImage(targetCamera, obj, maskRect);
+            }
+
+            if (areAllInside)
+            {
+                size += additionalCameraSize;
+                PreferredSize = size;
+                
+                targetCamera.orthographicSize = size;
+                return;
+            }
+            
+            size += sizeIncrement;
+        }
     }
     
     private Vector3 GetCenterOfObjects(List<Transform> objects)
@@ -91,10 +104,7 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         if (!canvasPlane.Raycast(new Ray(origin, direction), out float enter))
             return false;
 
-        Vector3 hitPoint = origin + direction * enter;
-
-        Debug.DrawRay(origin, direction * enter, Color.red, 100f);
-
+        Vector3 hitPoint = origin + direction * (enter + 1f);
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(cam, hitPoint);
 
         PointerEventData pointerData = new PointerEventData(EventSystem.current)
@@ -103,15 +113,15 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         };
 
         List<RaycastResult> results = new List<RaycastResult>();
-        GraphicRaycaster gr = canvas.GetComponent<GraphicRaycaster>();
-        if (gr == null) return false;
 
         gr.Raycast(pointerData, results);
-
+        
         foreach (RaycastResult result in results)
         {
             if (result.gameObject == targetImage.gameObject)
+            {
                 return true;
+            }
         }
 
         return false;

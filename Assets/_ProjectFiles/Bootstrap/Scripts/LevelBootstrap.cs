@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using _ProjectFiles.WordCompletion.Scripts;
+using Cysharp.Threading.Tasks;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +32,7 @@ public class LevelBootstrap : MonoBehaviour
     private void Awake()
     {
         _cameraWidthApplier = new CameraWidthApplier(gameCamera);
+        _cameraWidthApplier.CalculateScale();
         
         if (clearPlayerData)
         {
@@ -60,6 +62,8 @@ public class LevelBootstrap : MonoBehaviour
         {
             tutorialManager.StartTutorial(_queue);
         }
+
+        CameraGameTransition();
     }
 
     private void EnableLevelControls()
@@ -73,7 +77,7 @@ public class LevelBootstrap : MonoBehaviour
         SelectLevel();
     }
     
-    private void SelectLevel()
+    private async void SelectLevel()
     {
         var levels = LevelAssetLoader.LoadAllLevels();
 
@@ -107,13 +111,20 @@ public class LevelBootstrap : MonoBehaviour
 
         var units = boardView.Cells.Select(x => x.Occupant.gameObject).ToList();
         units.RemoveAll(x => x == null);
-        
-        //cameraAdjuster.FitCamera(boardView.Cells.Select(x => x.Occupant.transform).ToList());
+
+        await UniTask.WaitForEndOfFrame(this);
+        cameraAdjuster.CalculateCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
+        cameraAdjuster.ApplyPreferredCameraParameters();
     }
 
     public void CameraMenuTransition()
     {
-        cameraTransition.MoveToMenuState();
+        cameraAdjuster.CalculateCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
+        cameraTransition.MoveToMenuState(cameraAdjuster.PreferredPosition, cameraAdjuster.PreferredSize);
     }
-    
+
+    public void CameraGameTransition()
+    {
+        cameraTransition.MoveToGameState(_cameraWidthApplier.PreferredSize);
+    }
 }

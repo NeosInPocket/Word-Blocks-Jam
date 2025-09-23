@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Sources")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource clickSource;
 
     [Header("Clips")] 
     [SerializeField] private AudioClip music1;
@@ -18,6 +19,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip wordCompleted;
     [SerializeField] private AudioClip win1;
     [SerializeField] private AudioClip win2;
+
+    [Header("Clips")] 
+    [SerializeField] private float minClickPitch;
+    [SerializeField] private float maxClickPitch;
 
     private void Awake()
     {
@@ -36,7 +41,8 @@ public class AudioManager : MonoBehaviour
 
     public void PlayClick()
     {
-        sfxSource.PlayOneShot(click);
+        clickSource.pitch = Random.Range(minClickPitch, maxClickPitch);
+        clickSource.PlayOneShot(click);
     }
 
     public void PlayBooster()

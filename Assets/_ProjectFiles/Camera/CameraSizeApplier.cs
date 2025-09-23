@@ -9,6 +9,9 @@ public class CameraWidthApplier
     private Camera _cam;
     private float _targetWorldWidth;
     
+    private float _preferredSize;
+    public float PreferredSize => _preferredSize;
+    
     public CameraWidthApplier(Camera cam)
     {
         _cam = cam;
@@ -16,13 +19,12 @@ public class CameraWidthApplier
         float referenceAspect = (float)ReferenceWidth / ReferenceHeight;
         _targetWorldWidth = 2f * ReferenceOrthoSize * referenceAspect;
 
-        ApplyScale();
+        CalculateScale();
     }
 
-    public void ApplyScale()
+    public void CalculateScale()
     {
         float currentAspect = (float)Screen.width / Screen.height;
-
-        _cam.orthographicSize = _targetWorldWidth / (2f * currentAspect);
+        _preferredSize = _targetWorldWidth / (2f * currentAspect);
     }
 }
