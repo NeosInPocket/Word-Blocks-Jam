@@ -16,6 +16,7 @@ public class LetterUnitNavigation : MonoBehaviour
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float jumpDuration = 0.6f;
     [SerializeField] private bool debug;
+    [SerializeField] private float destinationThreshold = 0.1f;
 
     private ButtonCellView _button;
     private bool _isJumping;
@@ -63,7 +64,10 @@ public class LetterUnitNavigation : MonoBehaviour
         {
             foreach (var cell in keyPositions)
             {
-                await WaitForCellFree(cell);
+                if (cell.IsOccupiedByMovingUnit)
+                {
+                    await WaitForCellFree(cell);
+                }
 
                 cell.IsOccupiedByMovingUnit = true;
                 agent.SetDestination(cell.transform.position);
@@ -101,7 +105,7 @@ public class LetterUnitNavigation : MonoBehaviour
             Vector2 flatUnitPosition = new Vector2(transform.position.x, transform.position.z);
             Vector2 flatDestination = new Vector2(destination.x, destination.z);
             float distance = Vector2.Distance(flatUnitPosition, flatDestination);
-            if (distance < 0.001f && !_isJumping)
+            if (distance < destinationThreshold && !_isJumping)
             {
                 inPlace = true;
             }

@@ -108,7 +108,7 @@ public class LevelBootstrap : MonoBehaviour
         var units = boardView.Cells.Select(x => x.Occupant.gameObject).ToList();
         units.RemoveAll(x => x == null);
         
-        cameraAdjuster.FitCamera(boardView.Cells.Select(x => x.Occupant.transform).ToList());
+        //cameraAdjuster.FitCamera(boardView.Cells.Select(x => x.Occupant.transform).ToList());
     }
 
     public void CameraMenuTransition()

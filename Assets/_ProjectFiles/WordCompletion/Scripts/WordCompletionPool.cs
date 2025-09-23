@@ -120,6 +120,8 @@ public class WordCompletionPool : UnusedLettersPoolView
         {
             if (_queue.MoveNext())
             {
+                AudioManager.Instance.PlayWordCompleted();
+                
                 await UniTask.Delay(buildDelay);
                 await BuildNextPool();
 
@@ -142,6 +144,8 @@ public class WordCompletionPool : UnusedLettersPoolView
             }
             else
             {
+                AudioManager.Instance.PlayWin();
+                
                 winObject.SetActive(true);
                 tracker.Enable(false);
                 SaveManager.Load();
@@ -208,6 +212,8 @@ public class WordCompletionPool : UnusedLettersPoolView
 
         var oldModel = _model;
         
+        AudioManager.Instance.PlayNewWord();
+        
         await _model.transform
             .DOMoveX(_model.transform.position.x - modelDisappearOffset, poolAnimationDuration)
             .SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
@@ -220,6 +226,8 @@ public class WordCompletionPool : UnusedLettersPoolView
         modelOffsetPosition.x += Camera.main.orthographicSize;
         
         _model.transform.position = modelOffsetPosition;
+        
+        AudioManager.Instance.PlayNewWord();
         
         await _model.transform.DOMove(modelStartPosition, poolAnimationDuration).SetEase(Ease.InOutQuad)
             .AsyncWaitForCompletion();

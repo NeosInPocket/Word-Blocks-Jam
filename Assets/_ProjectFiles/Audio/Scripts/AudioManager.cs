@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,8 +12,12 @@ public class AudioManager : MonoBehaviour
     [Header("Clips")] 
     [SerializeField] private AudioClip music1;
     [SerializeField] private AudioClip music2;
-    [SerializeField] private AudioClip click1;
-    [SerializeField] private AudioClip click2;
+    [SerializeField] private AudioClip click;
+    [SerializeField] private AudioClip booster;
+    [SerializeField] private AudioClip newWord;
+    [SerializeField] private AudioClip wordCompleted;
+    [SerializeField] private AudioClip win1;
+    [SerializeField] private AudioClip win2;
 
     private void Awake()
     {
@@ -33,7 +36,27 @@ public class AudioManager : MonoBehaviour
 
     public void PlayClick()
     {
-        sfxSource.PlayOneShot(Random.Range(0, 2) == 0 ? click1 : click2);
+        sfxSource.PlayOneShot(click);
+    }
+
+    public void PlayBooster()
+    {
+        sfxSource.PlayOneShot(booster);
+    }
+
+    public void PlayWordCompleted()
+    {
+        sfxSource.PlayOneShot(wordCompleted);
+    }
+
+    public void PlayNewWord()
+    {
+        sfxSource.PlayOneShot(newWord);
+    }
+
+    public void PlayWin()
+    {
+        sfxSource.PlayOneShot(Random.Range(0, 2) == 0 ? win1 : win2);
     }
 
     public void SetMusicVolume(float volume)
