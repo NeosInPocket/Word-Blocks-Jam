@@ -1137,7 +1137,7 @@ MonoBehaviour:
   rendererObject: {fileID: 5108794026427356907}
   darkenFactor: 0.5
   lightenFactor: 1
-  blinkDuration: 0.5
+  blinkDuration: 0.3
 --- !u!195 &4908140141508671231
 NavMeshAgent:
   m_ObjectHideFlags: 0
