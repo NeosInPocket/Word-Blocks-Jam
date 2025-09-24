@@ -9,14 +9,14 @@ public class LoseScreen : MonoBehaviour
 
     public void OnReplay()
     {
-        bootstrap.UpdateLevel();
+        bootstrap.UpdateLevel(false);
         animator.SetTrigger("Close");
         tracker.Enable(true);
     }
 
     public void OnMenu()
     {
-        bootstrap.UpdateLevel();
+        bootstrap.UpdateLevel(false);
         animator.SetTrigger("Close");
         menuView.Animator.SetTrigger("Open");
         menuView.EnableMenuSelection(true);

@@ -11,6 +11,11 @@ public class LetterUnit : LetterUnitBase
     {
         navigation.Enabled = false;
     }
+
+    public void EnableNavMesh()
+    {
+        navigation.Enabled = true;
+    }
     
     public override bool Available
     {

@@ -10,6 +10,8 @@ public class UnusedLettersPoolView : MonoBehaviour
     [SerializeField] private float modelSize;
     [SerializeField] protected BoardView boardView;
     [SerializeField] protected WordCompletionPool wordCompletionPool;
+    [SerializeField] protected PlayerSelectionTracker tracker;
+    
     protected UnusedLetterPoolObject _model;
     
     public List<LetterPoolData> Cells => _cells;
@@ -33,7 +35,16 @@ public class UnusedLettersPoolView : MonoBehaviour
     public void DestroyPlatform()
     {
         if (_model != null) Destroy(_model.gameObject);
-    } 
+    }
+
+    public async void AddExtraCell()
+    {
+        _cells.Add(new LetterPoolData());
+        
+        tracker.Enable(false);
+        await _model.AddExtraCell();
+        tracker.Enable(true);
+    }
     
     public async UniTask TryAdd(BoardCellView cell)
     {
@@ -45,13 +56,16 @@ public class UnusedLettersPoolView : MonoBehaviour
             cell.RemoveOccupant();
             
             int cellIndex = _cells.IndexOf(freeCell);
-            var target = _model.SpawnPositions[cellIndex];
 
+            var target = cellIndex == _model.SpawnPositions.Count ? _model.ExtraCellSpawnPosition : _model.SpawnPositions[cellIndex];
+            
             var letterUnit = unit.GetComponent<LetterUnit>();
             freeCell.SetOccupant(letterUnit);
             
             var gridPath = GetLetterUnitPathGrid(letterUnit.PositionData.position);
             await unit.Navigation.SetTarget(target.position, false, null, gridPath);
+            letterUnit.transform.SetParent(transform);
+            letterUnit.DisableNavMesh();ghhghgj
             await wordCompletionPool.CheckLose();
         }
     }

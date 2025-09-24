@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 
 public class UnusedLetterPoolObject : MonoBehaviour
@@ -7,12 +9,18 @@ public class UnusedLetterPoolObject : MonoBehaviour
     [SerializeField] private List<GameObject> feedbacks;
     [SerializeField] private ButtonCellView buttonPrefab;
     [SerializeField] private PoolCanvasLetters canvasLetters;
+    [SerializeField] private GameObject extraCell;
+    [SerializeField] private Transform extraCellSpawnPosition;
+    [SerializeField] protected float platformAddOffset;
+    [SerializeField] protected float platformAddDuration;
+    [SerializeField] protected Ease platformOffsetEase;
     private List<ButtonCellView> _buttons;
     
     public List<Transform> SpawnPositions => spawnPositions;
     public List<GameObject> Feedbacks => feedbacks;
     public List<ButtonCellView> Buttons => _buttons;
     public PoolCanvasLetters CanvasLetters => canvasLetters;
+    public Transform ExtraCellSpawnPosition => extraCellSpawnPosition;
 
     public void AddButtons()
     {
@@ -23,5 +31,12 @@ public class UnusedLetterPoolObject : MonoBehaviour
             var button = Instantiate(buttonPrefab, pos.position, buttonPrefab.transform.rotation, transform);
             _buttons.Add(button);
         }
+    }
+
+    public async UniTask AddExtraCell()
+    {
+        await transform.DOMoveX(-platformAddOffset, platformAddDuration).SetEase(platformOffsetEase).AsyncWaitForCompletion();
+        await UniTask.Delay(100);
+        extraCell.gameObject.SetActive(true);
     }
 }

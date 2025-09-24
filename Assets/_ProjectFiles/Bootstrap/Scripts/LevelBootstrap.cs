@@ -22,9 +22,11 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private CameraTransition cameraTransition;
     [SerializeField] private TutorialManager tutorialManager;
     [SerializeField] private bool clearPlayerData;
+    [SerializeField] private BoostersManager boostersManager;
     
     private WordsQueue _queue;
-    private int _currentLevel;
+    private int _currentLevelIndex;
+    private LevelAsset _currentLevel;
     
     private CameraWidthApplier _cameraWidthApplier;
     [SerializeField] private GameCameraPositionAdjuster cameraAdjuster;
@@ -42,28 +44,29 @@ public class LevelBootstrap : MonoBehaviour
 
     private void Start()
     {
-        UpdateLevel();
+        UpdateLevel(true);
         AudioManager.Instance.PlayMusic();
     }
 
-    public void UpdateLevel()
+    public void UpdateLevel(bool replay)
     {
-        _currentLevel = levelSelection.Load();
+        _currentLevelIndex = levelSelection.Load();
         boardView.ClearBoard();
-        SelectLevel();
+        SelectLevel(replay);
         levelSelection.UpdateLevel();
     }
     
-    public void OnPlay()
+    public async void OnPlay()
     {
         fadeScreen.CloseMenu(EnableLevelControls);
+        CameraGameTransition();
+
+        await UniTask.Delay(1000);
         
         if (!SaveManager.Data.tutorialCompleted)
         {
             tutorialManager.StartTutorial(_queue);
         }
-
-        CameraGameTransition();
     }
 
     private void EnableLevelControls()
@@ -73,11 +76,11 @@ public class LevelBootstrap : MonoBehaviour
 
     public void SelectLevel(int levelId)
     {
-        _currentLevel = levelId;
-        SelectLevel();
+        _currentLevelIndex = levelId;
+        SelectLevel(false);
     }
     
-    private async void SelectLevel()
+    private async void SelectLevel(bool applyMenuCamera)
     {
         var levels = LevelAssetLoader.LoadAllLevels();
 
@@ -85,14 +88,15 @@ public class LevelBootstrap : MonoBehaviour
 
         try
         {
-            level = levels.First(x => x.LevelId == _currentLevel);
+            level = levels.First(x => x.LevelId == _currentLevelIndex);
         }
         catch (Exception e)
         {
-            Debug.LogError("Данный уровень не найден: " + _currentLevel);
+            Debug.LogError("Данный уровень не найден: " + _currentLevelIndex);
             return;
         }
 
+        _currentLevel = level;
         _queue = new(level.Words.Select(x => x.word).ToList());
 
         var viewModel = new CurrentWordViewModel(_queue);
@@ -114,9 +118,24 @@ public class LevelBootstrap : MonoBehaviour
 
         await UniTask.WaitForEndOfFrame(this);
         cameraAdjuster.CalculateCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
-        cameraAdjuster.ApplyPreferredCameraParameters();
+
+        if (applyMenuCamera)
+        {
+            cameraAdjuster.ApplyPreferredCameraParameters();
+            Debug.Log("applied");
+        }
+        
+        boostersManager.Initialize();
     }
 
+    public void OnLevelComplete()
+    {
+        SaveManager.Load();
+        SaveManager.Data.extraCellBoostersCount += _currentLevel.ExtraCellBoostersCount;
+        SaveManager.Data.unlockBoostersCount +=  _currentLevel.UnlockBoostersCount;
+        SaveManager.Save();
+    }
+    
     public void CameraMenuTransition()
     {
         cameraAdjuster.CalculateCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());

@@ -10,8 +10,8 @@ public class WordCompletionPool : UnusedLettersPoolView
 {
     [SerializeField] private GameObject winObject;
     [SerializeField] private GameObject loseObject;
-    [SerializeField] private PlayerSelectionTracker tracker;
     [SerializeField] private UnusedLettersPoolView unusedLettersPool;
+    [SerializeField] private LevelBootstrap levelBootstrap;
     [SerializeField] private float poolAnimationDuration;
     [SerializeField] private float maxModelSize;
     [SerializeField] private float minModelSize;
@@ -61,6 +61,7 @@ public class WordCompletionPool : UnusedLettersPoolView
 
     public async UniTask SetCharacter(LetterUnitBase character, bool findPath = true)
     {
+        character.GetComponent<LetterUnit>().EnableNavMesh();
         List<int> characterPositions = new List<int>();
 
         var word = _queue.CurrentWord;
@@ -146,6 +147,7 @@ public class WordCompletionPool : UnusedLettersPoolView
             {
                 AudioManager.Instance.PlayWin();
                 
+                levelBootstrap.OnLevelComplete();
                 winObject.SetActive(true);
                 tracker.Enable(false);
                 SaveManager.Load();
@@ -165,6 +167,11 @@ public class WordCompletionPool : UnusedLettersPoolView
             var allUnits = unusedPoolUnits.Concat(mainPoolUnits).Select(x => x.Occupant).ToList();
             
             await WaitForAllMovingUnits(allUnits);
+
+            if (boardView.Cells.All(x => x.Occupant == null))
+            {
+                return;
+            }
             
             var filledLetters = Cells.Where(x => x.Occupant != null).Select(x => x.Occupant.Character).ToList();
             var missingLetters = _queue.CurrentWord.Where(x => !filledLetters.Contains(x.ToString())).ToList().ConvertAll(x => x.ToString());

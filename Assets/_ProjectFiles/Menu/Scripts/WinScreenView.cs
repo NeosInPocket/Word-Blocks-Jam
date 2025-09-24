@@ -10,14 +10,14 @@ public class WinScreenView : MonoBehaviour
 
     public void OnNextLevel()
     {
-        bootstrap.UpdateLevel();
+        bootstrap.UpdateLevel(false);
         animator.SetTrigger("Close");
         tracker.Enable(true);
     }
 
     public void OnMenu()
     {
-        bootstrap.UpdateLevel();
+        bootstrap.UpdateLevel(false);
         animator.SetTrigger("Close");
         menuView.Animator.SetTrigger("Open");
         menuView.EnableMenuSelection(true);

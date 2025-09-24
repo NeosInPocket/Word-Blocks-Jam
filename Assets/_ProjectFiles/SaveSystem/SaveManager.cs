@@ -14,9 +14,6 @@ public static class SaveManager
         {
             string json = JsonUtility.ToJson(Data, true);
             File.WriteAllText(saveFilePath, json);
-            // #if UNITY_EDITOR
-            //     Debug.Log($"Данные сохранены: {saveFilePath}\n{json}");
-            // #endif
         }
         catch (Exception ex)
         {
@@ -32,9 +29,6 @@ public static class SaveManager
             {
                 string json = File.ReadAllText(saveFilePath);
                 Data = JsonUtility.FromJson<PlayerData>(json);
-                // #if UNITY_EDITOR
-                //     Debug.Log($"Данные загружены: {json}");
-                // #endif
             }
             catch (Exception ex)
             {
@@ -46,10 +40,6 @@ public static class SaveManager
         else
         {
             Data = new PlayerData();
-            Save();
-            // #if UNITY_EDITOR
-            //     Debug.Log("Файл сохранения отсутствовал — создан новый.");
-            // #endif
         }
     }
 
@@ -57,8 +47,5 @@ public static class SaveManager
     {
         Data = new PlayerData();
         Save();
-        // #if UNITY_EDITOR
-        //     Debug.Log("Прогресс сброшен.");
-        // #endif
     }
 }

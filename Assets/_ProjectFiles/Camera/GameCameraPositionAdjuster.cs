@@ -9,6 +9,7 @@ public class GameCameraPositionAdjuster : MonoBehaviour
     [SerializeField] public Image maskRect;
     [SerializeField] public float additionalCameraSize;
     private GraphicRaycaster gr;
+    private List<Vector3> worldVectors;
     public Vector3 PreferredPosition { get; private set; }
     public float PreferredSize { get; private set; }
 
@@ -23,14 +24,18 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         gr = maskRect.canvas.GetComponent<GraphicRaycaster>();
         Vector3[] v = new Vector3[4];
         maskRect.rectTransform.GetWorldCorners(v);
-        List<Vector3> worldVectors = new();
-        
-        for (var i = 0; i < 4; i++)
+
+        if (worldVectors == null)
         {
-            var normalized = new Vector3(v[i].x / Screen.width, v[i].y / Screen.height, 0);
-            var world = targetCamera.ViewportToWorldPoint(normalized);
-            worldVectors.Add(world);
-        }
+            worldVectors = new();
+            
+            for (var i = 0; i < 4; i++)
+            {
+                var normalized = new Vector3(v[i].x / Screen.width, v[i].y / Screen.height, 0);
+                var world = targetCamera.ViewportToWorldPoint(normalized);
+                worldVectors.Add(world);
+            }
+        } 
         
         Vector3 maskCenter = (worldVectors[0] + worldVectors[2]) * 0.5f;
         Vector3 toMaskTarget = maskCenter - targetCamera.transform.position;
@@ -43,7 +48,7 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         Vector3 projection = Vector3.ProjectOnPlane(toTarget, forward);
         Vector3 maskCenterProjection = Vector3.ProjectOnPlane(toMaskTarget, forward);
         
-        
+        var startPosition = targetCamera.transform.position;
         targetCamera.transform.position += projection - maskCenterProjection;
         PreferredPosition = targetCamera.transform.position;
         
@@ -68,8 +73,9 @@ public class GameCameraPositionAdjuster : MonoBehaviour
             {
                 size += additionalCameraSize;
                 PreferredSize = size;
-                
-                targetCamera.orthographicSize = size;
+
+                targetCamera.orthographicSize = startCameraSize;
+                targetCamera.transform.position = startPosition;
                 return;
             }
             

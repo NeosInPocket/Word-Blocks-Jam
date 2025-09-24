@@ -138,3 +138,5 @@ MonoBehaviour:
     isOccupiedByDispenser: 0
     isGhostCell: 0
   dispensers: []
+  unlockBoostersCount: 1
+  extraCellBoostersCount: 1

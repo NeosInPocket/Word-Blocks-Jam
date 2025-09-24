@@ -8,4 +8,6 @@ public class PlayerData
     public bool hapticsEnabled = true;
     public int levelsCompleted = 0;
     public bool tutorialCompleted = false;
+    public int unlockBoostersCount = 1;
+    public int extraCellBoostersCount = 1;
 }

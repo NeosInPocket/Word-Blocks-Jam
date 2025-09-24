@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _ProjectFiles._Features.LetterDispenser.Scripts;
 using UnityEditor;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "Level_", menuName = "Game/Level Asset")]
 public class LevelAsset : ScriptableObject
@@ -18,6 +19,8 @@ public class LevelAsset : ScriptableObject
     [SerializeField] private List<WordWithRange> words;
     [SerializeField] private List<BoardEntityData> board;
     [SerializeField] private List<LetterDispenserData> dispensers;
+    [SerializeField] private int unlockBoostersCount;
+    [SerializeField] private int extraCellBoostersCount;
     
     public int LevelId => levelId;
     public int Rows => rows;
@@ -26,6 +29,8 @@ public class LevelAsset : ScriptableObject
     public List<WordWithRange> Words => words;
     public List<BoardEntityData> Board => board;
     public List<LetterDispenserData> Dispensers => dispensers;
+    public int UnlockBoostersCount => unlockBoostersCount;
+    public int ExtraCellBoostersCount => extraCellBoostersCount;
     
     public BoardEntityData[,] boardArray => To2DArray(board, rows, columns);
 
