@@ -37,13 +37,10 @@ public class UnusedLettersPoolView : MonoBehaviour
         if (_model != null) Destroy(_model.gameObject);
     }
 
-    public async void AddExtraCell()
+    public void AddExtraCell()
     {
         _cells.Add(new LetterPoolData());
-        
-        tracker.Enable(false);
-        await _model.AddExtraCell();
-        tracker.Enable(true);
+        _model.AddExtraCell();
     }
     
     public async UniTask TryAdd(BoardCellView cell)
@@ -64,8 +61,6 @@ public class UnusedLettersPoolView : MonoBehaviour
             
             var gridPath = GetLetterUnitPathGrid(letterUnit.PositionData.position);
             await unit.Navigation.SetTarget(target.position, false, null, gridPath);
-            letterUnit.transform.SetParent(transform);
-            letterUnit.DisableNavMesh();ghhghgj
             await wordCompletionPool.CheckLose();
         }
     }

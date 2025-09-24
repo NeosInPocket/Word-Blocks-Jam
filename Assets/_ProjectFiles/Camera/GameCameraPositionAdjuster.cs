@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -35,7 +36,9 @@ public class GameCameraPositionAdjuster : MonoBehaviour
                 var world = targetCamera.ViewportToWorldPoint(normalized);
                 worldVectors.Add(world);
             }
-        } 
+        }
+
+        worldVectors = v.ToList();
         
         Vector3 maskCenter = (worldVectors[0] + worldVectors[2]) * 0.5f;
         Vector3 toMaskTarget = maskCenter - targetCamera.transform.position;
@@ -68,12 +71,12 @@ public class GameCameraPositionAdjuster : MonoBehaviour
             {
                 areAllInside &= IsRayHittingImage(targetCamera, obj, maskRect);
             }
-
+        
             if (areAllInside)
             {
                 size += additionalCameraSize;
                 PreferredSize = size;
-
+        
                 targetCamera.orthographicSize = startCameraSize;
                 targetCamera.transform.position = startPosition;
                 return;

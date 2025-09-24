@@ -118,12 +118,12 @@ public class LevelBootstrap : MonoBehaviour
 
         await UniTask.WaitForEndOfFrame(this);
         cameraAdjuster.CalculateCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
-
-        if (applyMenuCamera)
-        {
-            cameraAdjuster.ApplyPreferredCameraParameters();
-            Debug.Log("applied");
-        }
+        
+        // if (applyMenuCamera)
+        // {
+        //     cameraAdjuster.ApplyPreferredCameraParameters();
+        //     Debug.Log("applied");
+        // }
         
         boostersManager.Initialize();
     }

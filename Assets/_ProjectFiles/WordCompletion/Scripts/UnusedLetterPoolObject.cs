@@ -11,9 +11,6 @@ public class UnusedLetterPoolObject : MonoBehaviour
     [SerializeField] private PoolCanvasLetters canvasLetters;
     [SerializeField] private GameObject extraCell;
     [SerializeField] private Transform extraCellSpawnPosition;
-    [SerializeField] protected float platformAddOffset;
-    [SerializeField] protected float platformAddDuration;
-    [SerializeField] protected Ease platformOffsetEase;
     private List<ButtonCellView> _buttons;
     
     public List<Transform> SpawnPositions => spawnPositions;
@@ -33,10 +30,8 @@ public class UnusedLetterPoolObject : MonoBehaviour
         }
     }
 
-    public async UniTask AddExtraCell()
+    public void AddExtraCell()
     {
-        await transform.DOMoveX(-platformAddOffset, platformAddDuration).SetEase(platformOffsetEase).AsyncWaitForCompletion();
-        await UniTask.Delay(100);
         extraCell.gameObject.SetActive(true);
     }
 }
