@@ -38,7 +38,7 @@ public class GameCameraPositionAdjuster : MonoBehaviour
             }
         }
 
-        //worldVectors = v.ToList();
+        worldVectors = v.ToList();
         
         Vector3 maskCenter = (worldVectors[0] + worldVectors[2]) * 0.5f;
         Vector3 toMaskTarget = maskCenter - targetCamera.transform.position;
@@ -114,6 +114,8 @@ public class GameCameraPositionAdjuster : MonoBehaviour
             return false;
 
         Vector3 hitPoint = origin + direction * (enter + 1f);
+        Debug.DrawRay(origin, direction);
+        
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(cam, hitPoint);
 
         PointerEventData pointerData = new PointerEventData(EventSystem.current)

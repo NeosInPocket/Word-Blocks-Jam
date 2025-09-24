@@ -240,3 +240,5 @@ MonoBehaviour:
       color: {r: 0.17999998, g: 0.9, b: 0.46800005, a: 1}
       isOccupiedByDispenser: 0
       isGhostCell: 0
+  unlockBoostersCount: 1
+  extraCellBoostersCount: 0

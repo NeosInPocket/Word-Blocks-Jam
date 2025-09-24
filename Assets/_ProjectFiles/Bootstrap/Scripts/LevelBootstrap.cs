@@ -122,7 +122,6 @@ public class LevelBootstrap : MonoBehaviour
         if (applyMenuCamera)
         {
             cameraAdjuster.ApplyPreferredCameraParameters();
-            Debug.Log("applied");
         }
         
         boostersManager.Initialize();
