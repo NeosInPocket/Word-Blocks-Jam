@@ -38,7 +38,7 @@ public class GameCameraPositionAdjuster : MonoBehaviour
             }
         }
 
-        worldVectors = v.ToList();
+        //worldVectors = v.ToList();
         
         Vector3 maskCenter = (worldVectors[0] + worldVectors[2]) * 0.5f;
         Vector3 toMaskTarget = maskCenter - targetCamera.transform.position;
