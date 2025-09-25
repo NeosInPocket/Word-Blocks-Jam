@@ -38,8 +38,6 @@ public class GameCameraPositionAdjuster : MonoBehaviour
             }
         }
 
-        worldVectors = v.ToList();
-        
         Vector3 maskCenter = (worldVectors[0] + worldVectors[2]) * 0.5f;
         Vector3 toMaskTarget = maskCenter - targetCamera.transform.position;
         
@@ -51,39 +49,34 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         Vector3 projection = Vector3.ProjectOnPlane(toTarget, forward);
         Vector3 maskCenterProjection = Vector3.ProjectOnPlane(toMaskTarget, forward);
         
-        var startPosition = targetCamera.transform.position;
-        targetCamera.transform.position += projection - maskCenterProjection;
-        PreferredPosition = targetCamera.transform.position;
+        PreferredPosition = targetCamera.transform.position + projection - maskCenterProjection;
+
+        List<Vector3> screenPositions = objectsToFit.Select(x => targetCamera.WorldToScreenPoint(x.position)).ToList();
         
-        float sizeIncrement = 0.1f;
-        float minSize = 3f;
-        float maxSize = 50f;
-        float size = minSize;
+        float xMin = screenPositions.Min(x => x.x);
+        float xMax = screenPositions.Max(x => x.x);
+        float yMin = screenPositions.Min(x => x.y);
+        float yMax = screenPositions.Max(x => x.y);
         
-        float startCameraSize = targetCamera.orthographicSize;
+        float width = xMax - xMin;
+        float height = yMax - yMin;
         
-        while (size < maxSize)
+        float maskWidth = Vector3.Distance(v[0], v[3]);
+        float maskHeight = Vector3.Distance(v[0], v[1]);
+
+        float ratio = 0;
+        
+        if (height > width)
         {
-            targetCamera.orthographicSize = size;
-            bool areAllInside = true;
-            
-            foreach (var obj in objectsToFit)
-            {
-                areAllInside &= IsRayHittingImage(targetCamera, obj, maskRect);
-            }
-        
-            if (areAllInside)
-            {
-                size += additionalCameraSize;
-                PreferredSize = size;
-        
-                targetCamera.orthographicSize = startCameraSize;
-                targetCamera.transform.position = startPosition;
-                return;
-            }
-            
-            size += sizeIncrement;
+            ratio = maskHeight / height;
+           
         }
+        else
+        {
+            ratio = maskWidth / width;
+        }
+        
+        PreferredSize = targetCamera.orthographicSize / ratio;
     }
     
     private Vector3 GetCenterOfObjects(List<Transform> objects)
@@ -95,46 +88,5 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         }
         center /= objects.Count;
         return center;
-    }
-    
-    private bool IsRayHittingImage(Camera cam, Transform shooter, Image targetImage)
-    {
-        Canvas canvas = targetImage.canvas;
-        if (canvas == null) return false;
-
-        Vector3 origin = shooter.position;
-
-        Vector3 toPlane = canvas.transform.position - origin;
-        Vector3 direction = Vector3.Dot(toPlane, cam.transform.forward) >= 0 
-            ? cam.transform.forward 
-            : -cam.transform.forward;
-
-        Plane canvasPlane = new Plane(canvas.transform.forward, canvas.transform.position);
-        if (!canvasPlane.Raycast(new Ray(origin, direction), out float enter))
-            return false;
-
-        Vector3 hitPoint = origin + direction * (enter + 1f);
-        Debug.DrawRay(origin, direction);
-        
-        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(cam, hitPoint);
-
-        PointerEventData pointerData = new PointerEventData(EventSystem.current)
-        {
-            position = screenPos
-        };
-
-        List<RaycastResult> results = new List<RaycastResult>();
-
-        gr.Raycast(pointerData, results);
-        
-        foreach (RaycastResult result in results)
-        {
-            if (result.gameObject == targetImage.gameObject)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

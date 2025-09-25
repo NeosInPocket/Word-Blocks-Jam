@@ -19,6 +19,7 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private NavMeshSurface meshSurface;
     [SerializeField] private Image maskImage;
     [SerializeField] private Camera gameCamera;
+    [SerializeField] private Camera uiCamera;
     [SerializeField] private CameraTransition cameraTransition;
     [SerializeField] private TutorialManager tutorialManager;
     [SerializeField] private bool clearPlayerData;
@@ -80,7 +81,7 @@ public class LevelBootstrap : MonoBehaviour
         SelectLevel(false);
     }
     
-    private async void SelectLevel(bool applyMenuCamera)
+    private void SelectLevel(bool applyMenuCamera)
     {
         var levels = LevelAssetLoader.LoadAllLevels();
 
@@ -116,7 +117,6 @@ public class LevelBootstrap : MonoBehaviour
         var units = boardView.Cells.Select(x => x.Occupant.gameObject).ToList();
         units.RemoveAll(x => x == null);
 
-        await UniTask.WaitForEndOfFrame(this);
         cameraAdjuster.CalculateCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
         
         if (applyMenuCamera)

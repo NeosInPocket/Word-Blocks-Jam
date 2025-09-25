@@ -47,8 +47,9 @@ public class TutorialManager : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
-        
-        MoveUIToWorldTarget(_currentUnit.transform);
+
+        var target = new Vector3(_currentUnit.transform.position.x, _currentUnit.transform.position.y, _currentUnit.transform.position.z);
+        MoveUIToWorldTarget(target);
     }
     
     private void TutorialCellTapped(BoardCellView obj)
@@ -88,13 +89,21 @@ public class TutorialManager : MonoBehaviour
         moveTween = uiElement.DOAnchorPos3D(finalAnchorPosition, handMoveFreq).SetEase(handMoveEase).SetLoops(-1, LoopType.Yoyo);
     }
      
-    void MoveUIToWorldTarget(Transform worldTarget)
+    void MoveUIToWorldTarget(Vector3 worldTarget)
     {
-        if (mainCamera == null || uiElement == null || worldTarget == null || canvas == null)
+        if (mainCamera == null || uiElement == null || canvas == null)
             return;
 
-        Vector3 screenPos = mainCamera.WorldToScreenPoint(worldTarget.position);
+        Vector3 screenPos = mainCamera.WorldToScreenPoint(worldTarget);
         screenPos.z = 0;
+        
+        float screenRatio = Screen.width / (float)Screen.height;
+        float widthRatio = screenPos.x / Screen.width;
+        float heightRatio = screenPos.y / Screen.height;
+        float canvasHeight = 1242f / screenRatio;
+        
+        screenPos.x = widthRatio * 1242f;
+        screenPos.y = canvasHeight * heightRatio;
         
         uiElement.anchoredPosition = screenPos;
         HandAnimation();
