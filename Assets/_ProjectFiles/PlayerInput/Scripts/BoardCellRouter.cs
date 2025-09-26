@@ -17,40 +17,49 @@ public class BoardCellRouter : MonoBehaviour
 
     private void OnBoardCellTapped(BoardCellView obj)
     {
-        if (obj.Occupant != null)
+        try
         {
-            if (!obj.Occupant.Available)
+
+            if (obj.Occupant != null)
             {
+                if (!obj.Occupant.Available)
+                {
+                    HapticManager.Instance.PlayHaptic();
+                    AudioManager.Instance.PlayClick();
+
+                    obj.Occupant.GetComponent<LetterUnit>().Blink(true);
+                    return;
+                }
+
                 HapticManager.Instance.PlayHaptic();
-                AudioManager.Instance.PlayClick();
-                
-                obj.Occupant.GetComponent<LetterUnit>().Blink(true);
+                obj.Occupant.GetComponent<LetterUnit>().Blink(false);
+            }
+            else
+            {
                 return;
             }
-            
-            HapticManager.Instance.PlayHaptic();
-            obj.Occupant.GetComponent<LetterUnit>().Blink(false);
-        }
-        else
-        {
-            return;
-        }
-        
-        boardView.EnableAgents();
-        var mainPoolHasCharacter = wordPool.HasNonFilledCharacter(obj.Occupant.Character);
 
-        if (mainPoolHasCharacter)
-        {
-            if (wordPool.IsBuildingPool) return;
-            
-            wordPool.SetCharacter(obj.Occupant).Forget(x => Debug.Log(x.Message));
-            obj.RemoveOccupant();
+            boardView.EnableAgents();
+            var mainPoolHasCharacter = wordPool.HasNonFilledCharacter(obj.Occupant.Character);
+
+            if (mainPoolHasCharacter)
+            {
+                if (wordPool.IsBuildingPool) return;
+
+                wordPool.SetCharacter(obj.Occupant).Forget(x => Debug.Log(x.Message));
+                obj.RemoveOccupant();
+            }
+            else
+            {
+                unusedLettersPoolView.TryAdd(obj);
+            }
+
+            boardView.RefreshCells();
+
         }
-        else
+        catch (Exception ex)
         {
-            unusedLettersPoolView.TryAdd(obj);
+            Debug.Log(ex.Message);
         }
-        
-        boardView.RefreshCells();
     }
 }

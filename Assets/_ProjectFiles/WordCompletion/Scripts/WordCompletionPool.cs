@@ -25,6 +25,12 @@ public class WordCompletionPool : UnusedLettersPoolView
     private bool _isBuildingPool;
     public bool IsBuildingPool => _isBuildingPool;
 
+    private void Start()
+    {
+        Time.timeScale = 0.5f;
+        Debug.Log("delete time scale");
+    }
+
     public void BuildPool(WordsQueue wordsQueue)
     {
         _queue = wordsQueue;
@@ -121,7 +127,7 @@ public class WordCompletionPool : UnusedLettersPoolView
             {
                 AudioManager.Instance.PlayWordCompleted();
                 
-                await UniTask.Delay(buildDelay);
+                
                 await BuildNextPool();
 
                 var lettersInPool = unusedLettersPool.Cells.Where(x => x.Occupant != null)
@@ -211,7 +217,9 @@ public class WordCompletionPool : UnusedLettersPoolView
     private async UniTask BuildNextPool()
     {
         _isBuildingPool = true;
-        tracker.Enable(false);
+            //tracker.Enable(false);
+        
+        await UniTask.Delay(buildDelay);
         
         var occupants = Cells.Select(x => x.Occupant).ToList();
             

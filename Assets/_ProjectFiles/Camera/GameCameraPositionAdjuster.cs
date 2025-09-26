@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class GameCameraPositionAdjuster : MonoBehaviour
 {
@@ -19,22 +17,22 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         targetCamera.orthographicSize = _preferredSize;
     }
 
-    public (Vector3 position, float size) CalculateMenuCameraParameters(List<Transform> objectsToFit)
+    public (Vector3 position, float size) CalculateMenuCameraParameters(List<Transform> objectsToFit, bool apply = false)
     {
         var positions = objectsToFit.Select(x => x.position).ToList();
         
-        return CalculateCameraParameters(positions, menuMask);
+        return CalculateCameraParameters(positions, menuMask, apply);
     }
 
-    public (Vector3 position, float size) CalculateGameCameraParameters(List<Transform> objectsToFit)
+    public (Vector3 position, float size) CalculateGameCameraParameters(List<Transform> objectsToFit, bool apply = false)
     {
         var positions = objectsToFit.Select(x => x.position).ToList();
         positions.Add(bottomObject.position);
         
-        return CalculateCameraParameters(positions, gameMask);
+        return CalculateCameraParameters(positions, gameMask, apply);
     }
     
-    private (Vector3 position, float size) CalculateCameraParameters(List<Vector3> objectsToFit, RectTransform mask)
+    private (Vector3 position, float size) CalculateCameraParameters(List<Vector3> objectsToFit, RectTransform mask, bool apply)
     {
         Vector3[] v = new Vector3[4];
         mask.GetWorldCorners(v);
@@ -58,7 +56,7 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         
         Vector3 projection = Vector3.ProjectOnPlane(toTarget, forward);
         Vector3 maskCenterProjection = Vector3.ProjectOnPlane(toMaskTarget, forward);
-        
+
         _preferredPosition = targetCamera.transform.position + projection - maskCenterProjection;
 
         List<Vector3> screenPositions = objectsToFit.Select(x => targetCamera.WorldToScreenPoint(x)).ToList();
@@ -71,6 +69,8 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         float width = xMax - xMin;
         float height = yMax - yMin;
         
+        float worldRatio = width / height;
+        
         float maskWidth = Vector3.Distance(v[0], v[3]);
         float maskHeight = Vector3.Distance(v[0], v[1]);
 
@@ -78,19 +78,28 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         
         if (height > width)
         {
-            ratio = maskHeight / height;
-           
+            
         }
         else
         {
-            ratio = maskWidth / width;
+            
         }
+        
+        ratio = maskHeight / height;
+        
+        //ratio = maskWidth / width;
         
         _preferredSize = targetCamera.orthographicSize / ratio;
         
+        if (apply)
+        {
+            targetCamera.orthographicSize = _preferredSize;
+            targetCamera.transform.position = _preferredPosition;
+        }
+        
         return (_preferredPosition, _preferredSize);
     }
-    
+
     private Vector3 GetCenterOfObjects(List<Vector3> objects)
     {
         var maxX = objects.Max(x => x.x);
@@ -98,7 +107,7 @@ public class GameCameraPositionAdjuster : MonoBehaviour
         
         var maxZ = objects.Max(x => x.z);
         var minZ = objects.Min(x => x.z);
-
+        
         Vector3 center = new Vector3((maxX + minX) / 2, 0, (maxZ + minZ) / 2);
         
         // Vector3 center = Vector3.zero;

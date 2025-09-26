@@ -25,6 +25,7 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private bool clearPlayerData;
     [SerializeField] private BoostersManager boostersManager;
     [SerializeField] private BoostersCanvas boostersCanvas;
+    [SerializeField] private int overrideLevel;
     
     private WordsQueue _queue;
     private int _currentLevelIndex;
@@ -77,7 +78,7 @@ public class LevelBootstrap : MonoBehaviour
     public void SelectLevel(int levelId)
     {
         _currentLevelIndex = levelId;
-        SelectLevel(false);
+        SelectLevel(true);
     }
     
     private void SelectLevel(bool applyMenuCamera)
@@ -85,6 +86,11 @@ public class LevelBootstrap : MonoBehaviour
         var levels = LevelAssetLoader.LoadAllLevels();
 
         LevelAsset level = null;
+
+        if (overrideLevel > 0)
+        {
+            _currentLevelIndex = overrideLevel;
+        }
 
         try
         {
@@ -95,7 +101,7 @@ public class LevelBootstrap : MonoBehaviour
             Debug.LogError("Данный уровень не найден: " + _currentLevelIndex);
             return;
         }
-
+        
         _currentLevel = level;
         _queue = new(level.Words.Select(x => x.word).ToList());
 
@@ -116,12 +122,7 @@ public class LevelBootstrap : MonoBehaviour
         var units = boardView.Cells.Select(x => x.Occupant.gameObject).ToList();
         units.RemoveAll(x => x == null);
 
-        cameraAdjuster.CalculateMenuCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
-        
-        if (applyMenuCamera)
-        {
-            cameraAdjuster.ApplyPreferredCameraParameters();
-        }
+        cameraAdjuster.CalculateMenuCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList(), applyMenuCamera);
         
         boostersManager.Initialize();
     }

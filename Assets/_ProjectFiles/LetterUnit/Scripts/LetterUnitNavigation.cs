@@ -70,6 +70,7 @@ public class LetterUnitNavigation : MonoBehaviour
                 }
 
                 cell.IsOccupiedByMovingUnit = true;
+                if (agent == null) return;
                 agent.SetDestination(cell.transform.position);
                 await WaitUntilReached(cell.transform.position);
                 cell.IsOccupiedByMovingUnit = false;

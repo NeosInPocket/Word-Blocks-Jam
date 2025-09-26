@@ -1166,7 +1166,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 556138473}
-  m_Mesh: {fileID: 942728787}
+  m_Mesh: {fileID: 2118405727}
 --- !u!4 &556138479
 Transform:
   m_ObjectHideFlags: 0
@@ -1534,6 +1534,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2005711383276042698}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &711931118 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6913752291847331579, guid: f4d230a01a09da641b579b24e183ab44,
+    type: 3}
+  m_PrefabInstance: {fileID: 2005711383276042698}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711931117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 834c2e2207d8428bad49abb1cf13f691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &723499135 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4237641899275560990, guid: 04686673d8d2f0e41ae4d991d315e37c,
@@ -1719,6 +1731,7 @@ MonoBehaviour:
   clearPlayerData: 1
   boostersManager: {fileID: 2134412056}
   boostersCanvas: {fileID: 1262074335}
+  overrideLevel: 25
   cameraAdjuster: {fileID: 330585550}
 --- !u!1 &864282706
 GameObject:
@@ -2079,7 +2092,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 908698028}
-  m_Mesh: {fileID: 1716297997}
+  m_Mesh: {fileID: 934348794}
 --- !u!65 &908698033
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2114,7 +2127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _visualizer: {fileID: 908698030}
---- !u!43 &942728787
+--- !u!43 &934348794
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3843,171 +3856,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &1716297997
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: GeneratedBoxMesh
-  serializedVersion: 11
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 36
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 24
-    localAABB:
-      m_Center: {x: 0, y: 0, z: -2.0235658}
-      m_Extent: {x: 2.3432937, y: 0.5, z: 5.9562173}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 000001000200000002000300040005000600040006000700080009000a0008000a000b000c000d000e000c000e000f00100011001200100012001300140015001600140016001700
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 24
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 24
-      format: 0
-      dimension: 2
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 768
-    _typelessdata: 86f815c0000000bf90b07b4000000000000000000000803f000000000000000086f81540000000bf90b07b4000000000000000000000803f0000803f0000000086f815400000003f90b07b4000000000000000000000803f0000803f0000803f86f815c00000003f90b07b4000000000000000000000803f000000000000803f86f81540000000bf625affc00000000000000000000080bf000000000000000086f815c0000000bf625affc00000000000000000000080bf0000803f0000000086f815c00000003f625affc00000000000000000000080bf0000803f0000803f86f815400000003f625affc00000000000000000000080bf000000000000803f86f815c0000000bf625affc0000080bf0000000000000000000000000000000086f815c0000000bf90b07b40000080bf00000000000000000000803f0000000086f815c00000003f90b07b40000080bf00000000000000000000803f0000803f86f815c00000003f625affc0000080bf0000000000000000000000000000803f86f81540000000bf90b07b400000803f0000000000000000000000000000000086f81540000000bf625affc00000803f00000000000000000000803f0000000086f815400000003f625affc00000803f00000000000000000000803f0000803f86f815400000003f90b07b400000803f0000000000000000000000000000803f86f815c00000003f90b07b40000000000000803f00000000000000000000000086f815400000003f90b07b40000000000000803f000000000000803f0000000086f815400000003f625affc0000000000000803f000000000000803f0000803f86f815c00000003f625affc0000000000000803f00000000000000000000803f86f815c0000000bf625affc000000000000080bf00000000000000000000000086f81540000000bf625affc000000000000080bf000000000000803f0000000086f81540000000bf90b07b4000000000000080bf000000000000803f0000803f86f815c0000000bf90b07b4000000000000080bf00000000000000000000803f
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: -2.0235658}
-    m_Extent: {x: 2.3432937, y: 0.5, z: 5.9562173}
-  m_MeshUsageFlags: 0
-  m_CookingOptions: 30
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!43 &1747722469
 Mesh:
   m_ObjectHideFlags: 0
@@ -4806,6 +4654,171 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!43 &2118405727
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GeneratedBoxMesh
+  serializedVersion: 11
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 36
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 24
+    localAABB:
+      m_Center: {x: 0, y: 0, z: -2.0235658}
+      m_Extent: {x: 2.3432937, y: 0.5, z: 5.9562173}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 000001000200000002000300040005000600040006000700080009000a0008000a000b000c000d000e000c000e000f00100011001200100012001300140015001600140016001700
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 24
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 24
+      format: 0
+      dimension: 2
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 768
+    _typelessdata: 86f815c0000000bf90b07b4000000000000000000000803f000000000000000086f81540000000bf90b07b4000000000000000000000803f0000803f0000000086f815400000003f90b07b4000000000000000000000803f0000803f0000803f86f815c00000003f90b07b4000000000000000000000803f000000000000803f86f81540000000bf625affc00000000000000000000080bf000000000000000086f815c0000000bf625affc00000000000000000000080bf0000803f0000000086f815c00000003f625affc00000000000000000000080bf0000803f0000803f86f815400000003f625affc00000000000000000000080bf000000000000803f86f815c0000000bf625affc0000080bf0000000000000000000000000000000086f815c0000000bf90b07b40000080bf00000000000000000000803f0000000086f815c00000003f90b07b40000080bf00000000000000000000803f0000803f86f815c00000003f625affc0000080bf0000000000000000000000000000803f86f81540000000bf90b07b400000803f0000000000000000000000000000000086f81540000000bf625affc00000803f00000000000000000000803f0000000086f815400000003f625affc00000803f00000000000000000000803f0000803f86f815400000003f90b07b400000803f0000000000000000000000000000803f86f815c00000003f90b07b40000000000000803f00000000000000000000000086f815400000003f90b07b40000000000000803f000000000000803f0000000086f815400000003f625affc0000000000000803f000000000000803f0000803f86f815c00000003f625affc0000000000000803f00000000000000000000803f86f815c0000000bf625affc000000000000080bf00000000000000000000000086f81540000000bf625affc000000000000080bf000000000000803f0000000086f81540000000bf90b07b4000000000000080bf000000000000803f0000803f86f815c0000000bf90b07b4000000000000080bf00000000000000000000803f
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: -2.0235658}
+    m_Extent: {x: 2.3432937, y: 0.5, z: 5.9562173}
+  m_MeshUsageFlags: 0
+  m_CookingOptions: 30
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &2134412054
 GameObject:
   m_ObjectHideFlags: 0
@@ -5376,7 +5389,7 @@ PrefabInstance:
     - target: {fileID: 3394557548299729986, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3394557548299729986, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
@@ -5387,12 +5400,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 67566905}
+      objectReference: {fileID: 1267456501}
     - target: {fileID: 3394557548299729986, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1267456501}
+      objectReference: {fileID: 850575383}
     - target: {fileID: 3394557548299729986, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
@@ -5405,8 +5418,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3394557548299729986, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayHaptic
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394557548299729986, guid: 861160cf14735794f9049f10a9b0c9e7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: OnNextLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394557548299729986, guid: 861160cf14735794f9049f10a9b0c9e7,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
       value: OnNextLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394557548299729986, guid: 861160cf14735794f9049f10a9b0c9e7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: HapticManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394557548299729986, guid: 861160cf14735794f9049f10a9b0c9e7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: LevelBootstrap, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3394557548299729986, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
@@ -5431,7 +5464,7 @@ PrefabInstance:
     - target: {fileID: 7554425740099740465, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7554425740099740465, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
@@ -5442,12 +5475,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 67566905}
+      objectReference: {fileID: 1267456501}
     - target: {fileID: 7554425740099740465, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1267456501}
+      objectReference: {fileID: 850575383}
     - target: {fileID: 7554425740099740465, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
@@ -5460,8 +5493,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7554425740099740465, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayHaptic
+      objectReference: {fileID: 0}
+    - target: {fileID: 7554425740099740465, guid: 861160cf14735794f9049f10a9b0c9e7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: CameraMenuTransition
+      objectReference: {fileID: 0}
+    - target: {fileID: 7554425740099740465, guid: 861160cf14735794f9049f10a9b0c9e7,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
       value: CameraMenuTransition
+      objectReference: {fileID: 0}
+    - target: {fileID: 7554425740099740465, guid: 861160cf14735794f9049f10a9b0c9e7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: HapticManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7554425740099740465, guid: 861160cf14735794f9049f10a9b0c9e7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: LevelBootstrap, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7554425740099740465, guid: 861160cf14735794f9049f10a9b0c9e7,
         type: 3}
@@ -5620,18 +5673,43 @@ PrefabInstance:
       objectReference: {fileID: 285767231}
     - target: {fileID: 3213670033284941415, guid: f4d230a01a09da641b579b24e183ab44,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213670033284941415, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 67566905}
+      objectReference: {fileID: 1267456501}
     - target: {fileID: 3213670033284941415, guid: f4d230a01a09da641b579b24e183ab44,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1267456501}
+      objectReference: {fileID: 711931118}
+    - target: {fileID: 3213670033284941415, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayHaptic
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213670033284941415, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnReplay
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213670033284941415, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HapticManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213670033284941415, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: LoseScreen, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
         type: 3}
@@ -5642,12 +5720,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 67566905}
+      objectReference: {fileID: 1267456501}
     - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1267456501}
+      objectReference: {fileID: 711931118}
+    - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 850575383}
     - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
@@ -5660,8 +5743,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayHaptic
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: CameraMenuTransition
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
       value: CameraMenuTransition
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HapticManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: LoseScreen, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: LevelBootstrap, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3879109777301909699, guid: f4d230a01a09da641b579b24e183ab44,
         type: 3}
@@ -6345,6 +6458,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 421974483387953329, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 421974483387953329, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
       value: 6
       objectReference: {fileID: 0}
@@ -6362,12 +6480,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[5].m_Target
       value: 
-      objectReference: {fileID: 67566905}
+      objectReference: {fileID: 850575383}
     - target: {fileID: 421974483387953329, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[6].m_Target
       value: 
       objectReference: {fileID: 850575383}
+    - target: {fileID: 421974483387953329, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[5].m_MethodName
+      value: CameraMenuTransition
+      objectReference: {fileID: 0}
+    - target: {fileID: 421974483387953329, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[5].m_TargetAssemblyTypeName
+      value: LevelBootstrap, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 421974483387953329, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_BoolArgument
@@ -6425,6 +6553,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1995872606400566152, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995872606400566152, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2099532178}
@@ -6433,6 +6566,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 850575383}
+    - target: {fileID: 1995872606400566152, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1999241677415821837, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1999241677415821837, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -6447,22 +6590,47 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 67566905}
+      objectReference: {fileID: 330585549}
     - target: {fileID: 1999241677415821837, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 330585549}
+    - target: {fileID: 1999241677415821837, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: MoveToGameState
+      objectReference: {fileID: 0}
+    - target: {fileID: 1999241677415821837, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: CameraTransition, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387310021054855048, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2387310021054855048, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 67566905}
+      objectReference: {fileID: 1267456501}
     - target: {fileID: 2387310021054855048, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1267456501}
+    - target: {fileID: 2387310021054855048, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayHaptic
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387310021054855048, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: HapticManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2738165432793546811, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_Interactable
@@ -6610,9 +6778,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4598332054255713751, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598332054255713751, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 67566905}
+      objectReference: {fileID: 1267456501}
     - target: {fileID: 4598332054255713751, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
@@ -6621,7 +6794,7 @@ PrefabInstance:
     - target: {fileID: 4598332054255713751, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PlayClick
+      value: PlayHaptic
       objectReference: {fileID: 0}
     - target: {fileID: 4598332054255713751, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
@@ -6631,7 +6804,7 @@ PrefabInstance:
     - target: {fileID: 4598332054255713751, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: AudioManager, Assembly-CSharp
+      value: HapticManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4598332054255713751, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
@@ -6775,14 +6948,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6310295770897922118, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310295770897922118, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 67566905}
+      objectReference: {fileID: 1267456501}
     - target: {fileID: 6310295770897922118, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1267456501}
+    - target: {fileID: 6310295770897922118, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayHaptic
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310295770897922118, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: HapticManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6323434993614344032, guid: 1ff8488e64ccf3a4ba23f64c9ee6b98f,
         type: 3}
       propertyPath: m_Color.a
