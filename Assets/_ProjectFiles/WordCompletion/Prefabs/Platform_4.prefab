@@ -968,7 +968,7 @@ Transform:
   m_GameObject: {fileID: 1247965146023781726}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.243, y: 0.095, z: 0}
+  m_LocalPosition: {x: 2.007, y: 0.095, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2618,9 +2618,6 @@ MonoBehaviour:
   canvasLetters: {fileID: 645131455473166894}
   extraCell: {fileID: 3240327398371985773}
   extraCellSpawnPosition: {fileID: 5710946826486327743}
-  platformAddOffset: 1
-  platformAddDuration: 0.3
-  platformOffsetEase: 7
 --- !u!1 &7372632338917203352
 GameObject:
   m_ObjectHideFlags: 0
@@ -3153,7 +3150,7 @@ PrefabInstance:
     - target: {fileID: 5438232043859054339, guid: 7d8c6aaaa8073ee4ebb76d40f8fdc02f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.243
+      value: 2.007
       objectReference: {fileID: 0}
     - target: {fileID: 5438232043859054339, guid: 7d8c6aaaa8073ee4ebb76d40f8fdc02f,
         type: 3}

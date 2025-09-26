@@ -30,14 +30,10 @@ public class LevelBootstrap : MonoBehaviour
     private int _currentLevelIndex;
     private LevelAsset _currentLevel;
     
-    private CameraWidthApplier _cameraWidthApplier;
     [SerializeField] private GameCameraPositionAdjuster cameraAdjuster;
 
     private void Awake()
     {
-        _cameraWidthApplier = new CameraWidthApplier(gameCamera);
-        _cameraWidthApplier.CalculateScale();
-        
         if (clearPlayerData)
         {
             SaveManager.ResetProgress();
@@ -63,7 +59,8 @@ public class LevelBootstrap : MonoBehaviour
         fadeScreen.CloseMenu(EnableLevelControls);
         boostersCanvas.gameObject.SetActive(true);
         CameraGameTransition();
-
+        AnalyticsManager.Instance.SendLevelStartedEvent(_currentLevelIndex);
+        
         await UniTask.Delay(1000);
         
         if (!SaveManager.Data.tutorialCompleted)
@@ -119,7 +116,7 @@ public class LevelBootstrap : MonoBehaviour
         var units = boardView.Cells.Select(x => x.Occupant.gameObject).ToList();
         units.RemoveAll(x => x == null);
 
-        cameraAdjuster.CalculateCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
+        cameraAdjuster.CalculateMenuCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
         
         if (applyMenuCamera)
         {
@@ -131,22 +128,30 @@ public class LevelBootstrap : MonoBehaviour
 
     public void OnLevelComplete()
     {
+        AnalyticsManager.Instance.SendLevelCompletedEvent(_currentLevelIndex);
+        
         SaveManager.Load();
         SaveManager.Data.extraCellBoostersCount += _currentLevel.ExtraCellBoostersCount;
         SaveManager.Data.unlockBoostersCount +=  _currentLevel.UnlockBoostersCount;
         SaveManager.Save();
     }
+
+    public void OnNextLevel()
+    {
+        AnalyticsManager.Instance.SendNextLevelEvent(_currentLevelIndex);
+    }
     
     public void CameraMenuTransition()
     {
-        cameraAdjuster.CalculateCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
-        cameraTransition.MoveToMenuState(cameraAdjuster.PreferredPosition, cameraAdjuster.PreferredSize);
+        var parameters = cameraAdjuster.CalculateMenuCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
+        cameraTransition.MoveTo(parameters.position, parameters.size);
         HideBoosters();
     }
 
     private void CameraGameTransition()
     {
-        cameraTransition.MoveToGameState(_cameraWidthApplier.PreferredSize);
+        var parameters = cameraAdjuster.CalculateGameCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
+        cameraTransition.MoveTo(parameters.position, parameters.size);
     }
 
     private void HideBoosters()

@@ -21,10 +21,14 @@ public class BoardCellRouter : MonoBehaviour
         {
             if (!obj.Occupant.Available)
             {
+                HapticManager.Instance.PlayHaptic();
+                AudioManager.Instance.PlayClick();
+                
                 obj.Occupant.GetComponent<LetterUnit>().Blink(true);
                 return;
             }
             
+            HapticManager.Instance.PlayHaptic();
             obj.Occupant.GetComponent<LetterUnit>().Blink(false);
         }
         else

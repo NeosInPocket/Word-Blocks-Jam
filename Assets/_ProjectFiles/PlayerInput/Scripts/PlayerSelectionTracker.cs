@@ -32,9 +32,6 @@ public class PlayerSelectionTracker : MonoBehaviour
 
     private void OnTouch(Finger obj)
     {
-        HapticManager.Instance.PlayHaptic();
-        AudioManager.Instance.PlayClick();
-        
         Vector2 touchPosition = obj.screenPosition;
         Ray ray = MainCamera.ScreenPointToRay(touchPosition);
 

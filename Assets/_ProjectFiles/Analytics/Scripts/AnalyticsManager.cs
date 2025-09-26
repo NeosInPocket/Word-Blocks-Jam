@@ -11,41 +11,32 @@ public class AnalyticsManager : MonoBehaviour
         Instance = this;
     }
     
-    public void SendNextLevelEvent()
+    public void SendNextLevelEvent(int level)
     {
-        SaveManager.Load();
-        var currentLevel = SaveManager.Data.levelsCompleted + 1;
-        
         Dictionary<string, string> eventValues = new Dictionary<string, string>();
-        eventValues.Add("level_number", currentLevel.ToString());
+        eventValues.Add("level_number", level.ToString());
 
         AppsFlyer.sendEvent("af_next_level", eventValues);
 
-        Debug.Log($"Event: load next level: {currentLevel}");
+        Debug.Log($"Event: load next level: {level}");
     }
 
-    public void SendLevelStartedEvent()
+    public void SendLevelStartedEvent(int level)
     {
-        SaveManager.Load();
-        var currentLevel = SaveManager.Data.levelsCompleted + 1;
-        
         Dictionary<string, string> eventValues = new Dictionary<string, string>();
-        eventValues.Add("level_number", currentLevel.ToString());
+        eventValues.Add("level_number", level.ToString());
 
         AppsFlyer.sendEvent("af_level_started", eventValues);
 
-        Debug.Log($"Event: Level started: {currentLevel}");
+        Debug.Log($"Event: Level started: {level}");
     }
 
-    public void SendLevelCompletedEvent()
+    public void SendLevelCompletedEvent(int level)
     {
-        SaveManager.Load();
-        var currentLevel = SaveManager.Data.levelsCompleted + 1;
-        
         Dictionary<string, string> eventValues = new Dictionary<string, string>();
-        eventValues.Add("level_number", currentLevel.ToString());
+        eventValues.Add("level_number", level.ToString());
         AppsFlyer.sendEvent("af_level_completed", eventValues);
-        Debug.Log($"Event: Level completed: {currentLevel}");
+        Debug.Log($"Event: Level completed: {level}");
     }
 
 }

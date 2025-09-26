@@ -110,8 +110,6 @@ public class WordCompletionPool : UnusedLettersPoolView
         var someAreNotInPlace = cellWithOccupants.Any(x => !x.Occupant.Navigation.InFinalPlace);
         var missingLetters = cellWithOccupants.Count != _queue.CurrentWord.Length;
         
-        CheckLose();
-        
         if (missingLetters || someAreNotInPlace)
         {
             return;
@@ -132,15 +130,22 @@ public class WordCompletionPool : UnusedLettersPoolView
 
                 if (matchingCharacters.Any())
                 {
+                    List<UniTask> tasks = new();
+                    
                     foreach (var ch in matchingCharacters)
                     {
                         var poolCell = unusedLettersPool.Cells.FirstOrDefault(x =>
                             x.Occupant != null && x.Occupant.Character == ch.ToString());
                         if (poolCell == null) continue;
 
-                        SetCharacter(poolCell.Occupant, false).Forget(x => Debug.Log(x.Message));
+                        var task = SetCharacter(poolCell.Occupant, false);
+                        tasks.Add(task);
+                        
                         poolCell.RemoveOccupant();
                     }
+
+                    await UniTask.WhenAll(tasks);
+                    CheckLose();
                 }
             }
             else
@@ -166,8 +171,12 @@ public class WordCompletionPool : UnusedLettersPoolView
             
             var allUnits = unusedPoolUnits.Concat(mainPoolUnits).Select(x => x.Occupant).ToList();
             
-            await WaitForAllMovingUnits(allUnits);
-
+            //await WaitForAllMovingUnits(allUnits);
+            while (_isBuildingPool)
+            {
+                await UniTask.Yield();
+            }
+            
             if (boardView.Cells.All(x => x.Occupant == null))
             {
                 return;
@@ -202,6 +211,7 @@ public class WordCompletionPool : UnusedLettersPoolView
     private async UniTask BuildNextPool()
     {
         _isBuildingPool = true;
+        tracker.Enable(false);
         
         var occupants = Cells.Select(x => x.Occupant).ToList();
             
@@ -238,6 +248,8 @@ public class WordCompletionPool : UnusedLettersPoolView
         
         await _model.transform.DOMove(modelStartPosition, poolAnimationDuration).SetEase(Ease.InOutQuad)
             .AsyncWaitForCompletion();
+        
+        tracker.Enable(true);
         
         _isBuildingPool = false;
     }
