@@ -24,6 +24,7 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private TutorialManager tutorialManager;
     [SerializeField] private bool clearPlayerData;
     [SerializeField] private BoostersManager boostersManager;
+    [SerializeField] private BoostersCanvas boostersCanvas;
     
     private WordsQueue _queue;
     private int _currentLevelIndex;
@@ -60,6 +61,7 @@ public class LevelBootstrap : MonoBehaviour
     public async void OnPlay()
     {
         fadeScreen.CloseMenu(EnableLevelControls);
+        boostersCanvas.gameObject.SetActive(true);
         CameraGameTransition();
 
         await UniTask.Delay(1000);
@@ -139,10 +141,16 @@ public class LevelBootstrap : MonoBehaviour
     {
         cameraAdjuster.CalculateCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
         cameraTransition.MoveToMenuState(cameraAdjuster.PreferredPosition, cameraAdjuster.PreferredSize);
+        HideBoosters();
     }
 
-    public void CameraGameTransition()
+    private void CameraGameTransition()
     {
         cameraTransition.MoveToGameState(_cameraWidthApplier.PreferredSize);
+    }
+
+    private void HideBoosters()
+    {
+        boostersCanvas.HideBoosters();
     }
 }
