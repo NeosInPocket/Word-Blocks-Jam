@@ -53,6 +53,7 @@ MonoBehaviour:
   letterUnitPrefab: {fileID: 707119305613366751, guid: 3117d000f0d5fb443a38e62624d3d123,
     type: 3}
   unitSizePerCellSize: 1
+  waitForCellFree: 400
 --- !u!114 &313071262957500216
 MonoBehaviour:
   m_ObjectHideFlags: 0

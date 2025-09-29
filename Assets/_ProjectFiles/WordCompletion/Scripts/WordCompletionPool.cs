@@ -27,7 +27,7 @@ public class WordCompletionPool : UnusedLettersPoolView
 
     private void Start()
     {
-        Time.timeScale = 0.5f;
+        Time.timeScale = 1f;
         Debug.Log("delete time scale");
     }
 
@@ -151,6 +151,7 @@ public class WordCompletionPool : UnusedLettersPoolView
                     }
 
                     await UniTask.WhenAll(tasks);
+                    Debug.Log("main lose");
                     CheckLose();
                 }
             }
@@ -177,7 +178,7 @@ public class WordCompletionPool : UnusedLettersPoolView
             
             var allUnits = unusedPoolUnits.Concat(mainPoolUnits).Select(x => x.Occupant).ToList();
             
-            //await WaitForAllMovingUnits(allUnits);
+            await WaitForAllMovingUnits(allUnits);
             while (_isBuildingPool)
             {
                 await UniTask.Yield();
