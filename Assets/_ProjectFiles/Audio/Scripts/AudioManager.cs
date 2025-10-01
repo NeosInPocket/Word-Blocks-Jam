@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour
@@ -9,6 +11,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource clickSource;
+    [SerializeField] private AudioMixer mixer;
 
     [Header("Clips")] 
     [SerializeField] private AudioClip music1;
@@ -28,8 +31,9 @@ public class AudioManager : MonoBehaviour
     {
         Instance = this;
         SaveManager.Load();
-        musicSource.volume = SaveManager.Data.MusicVolume;
-        sfxSource.volume = SaveManager.Data.SFXVolume;
+
+        SetMusicVolume(SaveManager.Data.MusicVolume);
+        SetSFXVolume(SaveManager.Data.SFXVolume);
     }
 
     public void PlayMusic()
@@ -44,7 +48,7 @@ public class AudioManager : MonoBehaviour
         clickSource.pitch = Random.Range(minClickPitch, maxClickPitch);
         clickSource.PlayOneShot(click);
     }
-
+    
     public void PlayBooster()
     {
         sfxSource.PlayOneShot(booster);
@@ -67,11 +71,24 @@ public class AudioManager : MonoBehaviour
 
     public void SetMusicVolume(float volume)
     {
-        musicSource.volume = volume;
+        var value = Mathf.Log10(volume) * 20;
+        if (float.IsNegativeInfinity(value))
+        {
+            value = -80;
+        }
+        
+        mixer.SetFloat("BGMVolume", value);
+        Debug.Log(value);
     }
 
     public void SetSFXVolume(float volume)
     {
-        sfxSource.volume = volume;
+        var value = Mathf.Log10(volume) * 20;
+        if (float.IsNegativeInfinity(value))
+        {
+            value = -80;
+        }
+        
+        mixer.SetFloat("SFXVolume", value);
     }
 }

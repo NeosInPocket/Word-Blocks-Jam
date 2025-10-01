@@ -12,16 +12,14 @@ public class LevelAssetManagerEditor : Editor
 
         LevelAssetManager manager = (LevelAssetManager)target;
 
-        if (GUILayout.Button("Собрать все уровни"))
-        {
-            manager.CollectAllLevels();
-        }
-
-        GUILayout.Space(5);
-
         if (GUILayout.Button("Применить ко всем уровням"))
         {
             manager.ModifyAllLevels();
+        }
+        
+        if (GUILayout.Button("Применить бустеры"))
+        {
+            manager.ApplyBoosters();
         }
     }
 }

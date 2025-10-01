@@ -6,23 +6,26 @@ public class SettingsView : MonoBehaviour
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
-    private AudioSettings audioSettings;
 
     private void Start()
     {
-        audioSettings = new AudioSettings(audioManager);
+        Initialize();
+    }
+
+    private void Initialize()
+    {
         SaveManager.Load();
         musicSlider.value = SaveManager.Data.MusicVolume;
         sfxSlider.value = SaveManager.Data.SFXVolume;
     }
-
+    
     public void OnMusicVolumeChanged(float volume)
     {
-        audioSettings.SetMusicVolume(volume);
+        AudioSettings.Instance.SetMusicVolume(volume);
     }
     
     public void OnSfxVolumeChanged(float volume)
     {
-        audioSettings.SetSFXVolume(volume);
+        AudioSettings.Instance.SetSFXVolume(volume);
     }
 }

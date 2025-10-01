@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _ProjectFiles.LetterUnit.Scripts;
+using TMPro;
 using UnityEngine;
 
 public class LetterUnitRenderer : MonoBehaviour
@@ -20,6 +21,8 @@ public class LetterUnitRenderer : MonoBehaviour
     private Renderer _renderer;
     private Renderer _characterRenderer;
     private Color _defaultColor;
+    private Color _currentColor;
+    public Color CurrentColor => _currentColor;
 
     public GameObject CharacterObject => characterObject;
 
@@ -74,7 +77,9 @@ public class LetterUnitRenderer : MonoBehaviour
         eyesMpb.SetInt("_Available", visible ? 1 : 0);
         _renderer.SetPropertyBlock(eyesMpb, 1);
 
-        SetUnitColor(visible ? _defaultColor : unitNotVisibleColor);
+        var color = visible ? _defaultColor : unitNotVisibleColor;
+        
+        SetUnitColor(color);
         animator.SetBool("Active", visible);
     }
 
@@ -106,5 +111,6 @@ public class LetterUnitRenderer : MonoBehaviour
         _renderer.GetPropertyBlock(mpb);
         mpb.SetColor("_AlbedoColor", color);
         _renderer.SetPropertyBlock(mpb);
+        _currentColor = color;
     }
 }

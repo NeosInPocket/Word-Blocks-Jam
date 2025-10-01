@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +8,8 @@ using UnityEngine.AI;
 public class LetterUnitNavigation : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private AudioSource steps;
+    [SerializeField] private AudioSource jump;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private Animator animator;
     [SerializeField] private Vector3 finalForward;
@@ -59,7 +60,8 @@ public class LetterUnitNavigation : MonoBehaviour
         _shouldJump = shouldJump;
         _button = cellView;
         _finalDestination = target;
-
+        steps.Play();
+        
         if (keyPositions is { Count: > 0 })
         {
             foreach (var cell in keyPositions)
@@ -79,6 +81,7 @@ public class LetterUnitNavigation : MonoBehaviour
 
         agent.SetDestination(target);
         await WaitForDestinationReach();
+        steps.Stop();
     }
 
     private async UniTask WaitForCellFree(BoardCellView cellView)
@@ -173,7 +176,8 @@ public class LetterUnitNavigation : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         animator.SetBool("JumpLoop", true);
-
+        jump.Play();
+        
         Vector3 startPos = transform.position;
         float t = 0f;
 

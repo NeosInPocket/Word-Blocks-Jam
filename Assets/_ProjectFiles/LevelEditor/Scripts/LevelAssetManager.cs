@@ -11,33 +11,13 @@ using _ProjectFiles._Features.LetterDispenser.Scripts;
 public class LevelAssetManager : MonoBehaviour
 {
     [SerializeField] private LetterUnitColorData data;
-    public List<LevelAsset> allLevels = new List<LevelAsset>();
-
-    private void Awake()
-    {
-        CollectAllLevels();
-    }
-
-    public void CollectAllLevels()
-    {
-        allLevels.Clear();
-        string[] guids = AssetDatabase.FindAssets("t:LevelAsset", new[] { "Assets/Resources/LevelAssets" });
-        foreach (string guid in guids)
-        {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            LevelAsset asset = AssetDatabase.LoadAssetAtPath<LevelAsset>(path);
-            if (asset != null)
-                allLevels.Add(asset);
-        }
-        EditorUtility.SetDirty(this);
-    }
+    public List<LevelAsset> newLevels;
+    public List<LevelAsset> oldLevels;
 
     public void ModifyAllLevels()
     {
-        foreach (var asset in allLevels)
+        foreach (var asset in newLevels)
         {
-            if (asset == null) continue;
-
             int counter = 0;
             foreach (var word in asset.Words)
             {
@@ -54,6 +34,17 @@ public class LevelAssetManager : MonoBehaviour
             
             EditorUtility.SetDirty(asset);
         }
+        AssetDatabase.SaveAssets();
+    }
+
+    public void ApplyBoosters()
+    {
+        for (int i = 0; i < oldLevels.Count; i++)
+        {
+            newLevels[i].ApplyBoosters(oldLevels[i].ExtraCellBoostersCount, oldLevels[i].UnlockBoostersCount);
+            EditorUtility.SetDirty(newLevels[i]);
+        }
+        
         AssetDatabase.SaveAssets();
     }
 }

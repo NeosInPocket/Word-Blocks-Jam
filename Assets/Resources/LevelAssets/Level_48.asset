@@ -35,27 +35,27 @@ MonoBehaviour:
     rowMin: 1
     rowMax: 5
     minRowsNeeded: 0
-    color: {r: 0.9137255, g: 0.53333336, b: 0.9098039, a: 1}
+    color: {r: 0.52156866, g: 0.89411765, b: 0.30588236, a: 1}
   - word: depot
     rowMin: 1
     rowMax: 5
     minRowsNeeded: 0
-    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
+    color: {r: 0.96862745, g: 0.5647059, b: 0.9647059, a: 1}
   - word: bank
     rowMin: 3
     rowMax: 6
     minRowsNeeded: 0
-    color: {r: 0.63529414, g: 0.3764706, b: 0.94509804, a: 1}
+    color: {r: 1, g: 0.5764706, b: 0.29803923, a: 1}
   - word: hall
     rowMin: 4
     rowMax: 7
     minRowsNeeded: 0
-    color: {r: 0.2784314, g: 0.5411765, b: 0.93333334, a: 1}
+    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
   board:
   - character: l
     position: {x: 0, y: 0}
     isVisible: 1
-    color: {r: 0.63529414, g: 0.3764706, b: 0.94509804, a: 1}
+    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: e
@@ -79,13 +79,13 @@ MonoBehaviour:
   - character: r
     position: {x: 1, y: 0}
     isVisible: 1
-    color: {r: 0.9137255, g: 0.53333336, b: 0.9098039, a: 1}
+    color: {r: 0.52156866, g: 0.89411765, b: 0.30588236, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: l
     position: {x: 1, y: 1}
     isVisible: 1
-    color: {r: 0.63529414, g: 0.3764706, b: 0.94509804, a: 1}
+    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: o
@@ -103,37 +103,37 @@ MonoBehaviour:
   - character: v
     position: {x: 1, y: 4}
     isVisible: 1
-    color: {r: 0.9137255, g: 0.53333336, b: 0.9098039, a: 1}
+    color: {r: 0.52156866, g: 0.89411765, b: 0.30588236, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: d
     position: {x: 2, y: 1}
     isVisible: 0
-    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
+    color: {r: 0.96862745, g: 0.5647059, b: 0.9647059, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: a
     position: {x: 2, y: 2}
     isVisible: 1
-    color: {r: 0.63529414, g: 0.3764706, b: 0.94509804, a: 1}
+    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: i
     position: {x: 2, y: 3}
     isVisible: 1
-    color: {r: 0.9137255, g: 0.53333336, b: 0.9098039, a: 1}
+    color: {r: 0.52156866, g: 0.89411765, b: 0.30588236, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: r
     position: {x: 3, y: 1}
     isVisible: 1
-    color: {r: 0.9137255, g: 0.53333336, b: 0.9098039, a: 1}
+    color: {r: 0.52156866, g: 0.89411765, b: 0.30588236, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: h
     position: {x: 5, y: 4}
     isVisible: 1
-    color: {r: 0.63529414, g: 0.3764706, b: 0.94509804, a: 1}
+    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: b
@@ -145,37 +145,37 @@ MonoBehaviour:
   - character: o
     position: {x: 4, y: 0}
     isVisible: 0
-    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
+    color: {r: 0.96862745, g: 0.5647059, b: 0.9647059, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: e
     position: {x: 4, y: 1}
     isVisible: 0
-    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
+    color: {r: 0.96862745, g: 0.5647059, b: 0.9647059, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: b
     position: {x: 4, y: 3}
     isVisible: 1
-    color: {r: 0.63529414, g: 0.3764706, b: 0.94509804, a: 1}
+    color: {r: 1, g: 0.5764706, b: 0.29803923, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: t
     position: {x: 4, y: 4}
     isVisible: 0
-    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
+    color: {r: 0.96862745, g: 0.5647059, b: 0.9647059, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: n
     position: {x: 5, y: 0}
     isVisible: 1
-    color: {r: 0.63529414, g: 0.3764706, b: 0.94509804, a: 1}
+    color: {r: 1, g: 0.5764706, b: 0.29803923, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: k
     position: {x: 5, y: 1}
     isVisible: 1
-    color: {r: 0.63529414, g: 0.3764706, b: 0.94509804, a: 1}
+    color: {r: 1, g: 0.5764706, b: 0.29803923, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: n
@@ -187,13 +187,13 @@ MonoBehaviour:
   - character: a
     position: {x: 5, y: 3}
     isVisible: 1
-    color: {r: 0.63529414, g: 0.3764706, b: 0.94509804, a: 1}
+    color: {r: 1, g: 0.5764706, b: 0.29803923, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: p
     position: {x: 4, y: 2}
     isVisible: 0
-    color: {r: 0.96862745, g: 0.972549, b: 0.32941177, a: 1}
+    color: {r: 0.96862745, g: 0.5647059, b: 0.9647059, a: 1}
     isOccupiedByDispenser: 0
     isGhostCell: 0
   - character: 
@@ -223,3 +223,5 @@ MonoBehaviour:
       color: {r: 0.17999998, g: 0.9, b: 0.17999998, a: 1}
       isOccupiedByDispenser: 0
       isGhostCell: 0
+  unlockBoostersCount: 0
+  extraCellBoostersCount: 0

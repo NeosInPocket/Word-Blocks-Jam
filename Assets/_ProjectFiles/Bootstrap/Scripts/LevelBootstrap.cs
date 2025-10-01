@@ -19,17 +19,18 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private NavMeshSurface meshSurface;
     [SerializeField] private Image maskImage;
     [SerializeField] private Camera gameCamera;
-    [SerializeField] private Camera uiCamera;
     [SerializeField] private CameraTransition cameraTransition;
     [SerializeField] private TutorialManager tutorialManager;
     [SerializeField] private bool clearPlayerData;
     [SerializeField] private BoostersManager boostersManager;
     [SerializeField] private BoostersCanvas boostersCanvas;
     [SerializeField] private int overrideLevel;
+    [SerializeField] private AudioManager manager;
     
     private WordsQueue _queue;
     private int _currentLevelIndex;
     private LevelAsset _currentLevel;
+    private AudioSettings _audioSettings;
     
     [SerializeField] private GameCameraPositionAdjuster cameraAdjuster;
 
@@ -43,6 +44,8 @@ public class LevelBootstrap : MonoBehaviour
 
     private void Start()
     {
+        _audioSettings = new AudioSettings(manager);
+
         UpdateLevel(true);
         AudioManager.Instance.PlayMusic();
     }

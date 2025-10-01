@@ -5,8 +5,19 @@ public class AudioSettings
     private float _musicVolume;
     private float _sfxVolume;
 
+    public static AudioSettings Instance { get; private set; }
+    
     public AudioSettings(AudioManager manager)
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            return;
+        }
+        
         audioManager = manager;
 
         SaveManager.Load();

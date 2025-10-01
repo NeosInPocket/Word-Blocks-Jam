@@ -49,6 +49,12 @@ public class LevelAsset : ScriptableObject
         ghostCellsCount = board.Count(x => x.isGhostCell);
         dispensersCount = board.Count(x => x.isOccupiedByDispenser);
     }
+
+    public void ApplyBoosters(int extraCells, int reveal)
+    {
+        unlockBoostersCount = reveal;
+        extraCellBoostersCount = extraCells;
+    }
     
     public BoardEntityData[,] To2DArray(List<BoardEntityData> list, int rows, int columns)
     {

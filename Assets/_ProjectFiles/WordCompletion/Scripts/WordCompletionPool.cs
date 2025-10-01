@@ -151,9 +151,9 @@ public class WordCompletionPool : UnusedLettersPoolView
                     }
 
                     await UniTask.WhenAll(tasks);
-                    Debug.Log("main lose");
-                    CheckLose();
                 }
+                
+                CheckLose();
             }
             else
             {
@@ -171,6 +171,8 @@ public class WordCompletionPool : UnusedLettersPoolView
 
     public async UniTask CheckLose()
     {
+        Debug.Log("lose check");
+        
         if (unusedLettersPool.IsFull)
         {
             var unusedPoolUnits = unusedLettersPool.Cells.Where(x => x.Occupant != null);
@@ -189,8 +191,30 @@ public class WordCompletionPool : UnusedLettersPoolView
                 return;
             }
             
-            var filledLetters = Cells.Where(x => x.Occupant != null).Select(x => x.Occupant.Character).ToList();
-            var missingLetters = _queue.CurrentWord.Where(x => !filledLetters.Contains(x.ToString())).ToList().ConvertAll(x => x.ToString());
+            var filledLettersCount = Cells
+                .Where(x => x.Occupant != null)
+                .GroupBy(x => x.Occupant.Character)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            var wordLettersCount = _queue.CurrentWord
+                .GroupBy(c => c)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            var missingLetters = new List<string>();
+
+            foreach (var kvp in wordLettersCount)
+            {
+                char letter = kvp.Key;
+                int requiredCount = kvp.Value;
+
+                int filledCount = filledLettersCount.ContainsKey(letter.ToString()) ? filledLettersCount[letter.ToString()] : 0;
+
+                int missingCount = requiredCount - filledCount;
+                if (missingCount > 0)
+                {
+                    missingLetters.AddRange(Enumerable.Repeat(letter.ToString(), missingCount));
+                }
+            }
             
             if (missingLetters.Any())
             {
