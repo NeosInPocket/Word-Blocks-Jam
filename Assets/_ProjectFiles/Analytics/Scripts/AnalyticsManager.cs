@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using AppsFlyerSDK;
-using TMPro;
 
 #if UNITY_IOS
 using Unity.Advertisement.IosSupport;
@@ -12,7 +11,6 @@ using UnityEngine;
 
 public class AnalyticsManager : MonoBehaviour
 {
-    [SerializeField] private TMP_Text idfatext;
     public static AnalyticsManager Instance { get; private set; }
     
     #if UNITY_IOS
@@ -53,8 +51,6 @@ public class AnalyticsManager : MonoBehaviour
             SaveManager.Data.idfa = id;
             SaveManager.Save();
         }
-
-        idfatext.text = SaveManager.Data.idfa;
     }
     
     #endif

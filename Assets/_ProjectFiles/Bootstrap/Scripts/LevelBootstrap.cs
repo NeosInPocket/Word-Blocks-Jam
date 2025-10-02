@@ -36,6 +36,11 @@ public class LevelBootstrap : MonoBehaviour
 
     private void Awake()
     {
+        SaveManager.Load();
+        SaveManager.Data.extraCellBoostersCount = 100;
+        SaveManager.Data.unlockBoostersCount = 100;
+        SaveManager.Save();
+        
         if (clearPlayerData)
         {
             SaveManager.ResetProgress();
