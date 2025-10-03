@@ -18,6 +18,9 @@ public class SwitchView : MonoBehaviour
         SaveManager.Load();
         var pos = switchTransform.anchoredPosition;
         pos.x = SaveManager.Data.hapticsEnabled ? absolutePosition : -absolutePosition;
+        _isOn = SaveManager.Data.hapticsEnabled;
+        switchTransform.anchoredPosition = pos;
+        switchText.text = _isOn ? "ON" : "OFF";
     }
 
     public void Switch()
@@ -30,5 +33,9 @@ public class SwitchView : MonoBehaviour
         switchText.text = _isOn ? "ON" : "OFF";
         
         HapticManager.Instance.IsHapticsEnabled = _isOn;
+        
+        SaveManager.Load();
+        SaveManager.Data.hapticsEnabled = _isOn;
+        SaveManager.Save();
     }
 }
