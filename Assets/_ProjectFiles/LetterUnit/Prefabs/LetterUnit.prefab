@@ -1596,7 +1596,7 @@ MonoBehaviour:
   jumpHeight: 2
   jumpDuration: 0.45
   debug: 0
-  destinationThreshold: 0.2
+  destinationThreshold: 0.35
 --- !u!114 &81453971721444223
 MonoBehaviour:
   m_ObjectHideFlags: 0

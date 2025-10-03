@@ -52,11 +52,11 @@ public class LevelBootstrap : MonoBehaviour
         AudioManager.Instance.PlayMusic();
     }
 
-    public void UpdateLevel(bool replay)
+    public void UpdateLevel(bool instantCameraApply)
     {
         _currentLevelIndex = levelSelection.Load();
         boardView.ClearBoard();
-        SelectLevel(replay);
+        SelectLevel(instantCameraApply);
         levelSelection.UpdateLevel();
     }
     
@@ -86,7 +86,7 @@ public class LevelBootstrap : MonoBehaviour
         SelectLevel(true);
     }
     
-    private void SelectLevel(bool applyMenuCamera)
+    private void SelectLevel(bool instantCameraApply)
     {
         var levels = LevelAssetLoader.LoadAllLevels();
 
@@ -129,7 +129,7 @@ public class LevelBootstrap : MonoBehaviour
         var units = boardView.Cells.Select(x => x.Occupant.gameObject).ToList();
         units.RemoveAll(x => x == null);
 
-        cameraAdjuster.CalculateMenuCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList(), applyMenuCamera);
+        cameraAdjuster.CalculateMenuCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList(), instantCameraApply);
         
         boostersManager.Initialize();
     }
@@ -156,6 +156,11 @@ public class LevelBootstrap : MonoBehaviour
         HideBoosters();
     }
 
+    public void ApplyGameCamera()
+    {
+        cameraAdjuster.CalculateGameCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList(), true);
+    }
+    
     private void CameraGameTransition()
     {
         var parameters = cameraAdjuster.CalculateGameCameraParameters(boardView.Cells.Select(x => x.Occupant.transform).ToList());
