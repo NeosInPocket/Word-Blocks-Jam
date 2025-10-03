@@ -53,5 +53,10 @@ public class EditorLetterUnit : LetterUnitBase
         _visible = value;
         characterFrame.color = value ? Color.white : Color.black;
     }
+
+    public override void EnableVisibilityEffect()
+    {
+        
+    }
 }
 #endif

@@ -45,7 +45,8 @@ public class BoostersManager : MonoBehaviour
         if (!invisibleUnits.Any()) return;
         
         invisibleUnits.ForEach(x => x.Occupant.SetVisibility(true));
-            
+        invisibleUnits.ForEach(x => x.Occupant.EnableVisibilityEffect());    
+        
         SaveManager.Load();
         if (SaveManager.Data.unlockBoostersCount == 0) return;
         

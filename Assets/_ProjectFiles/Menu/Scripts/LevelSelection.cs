@@ -18,7 +18,7 @@ public class LevelSelection : MonoBehaviour
    {
       SaveManager.Load();
       var data = SaveManager.Data;
-      levelTexts.ForEach(x => x.text = "LEVEL " + (data.levelsCompleted + 1));
+      levelTexts.ForEach(x => x.text = "LEVEL " + (data.levelsCompleted + 1) % 50);
    }
 
    public void ResetProgress()

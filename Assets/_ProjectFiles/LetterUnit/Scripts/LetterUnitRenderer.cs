@@ -16,6 +16,7 @@ public class LetterUnitRenderer : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private List<ParticleSystem> particleSystems;
     [SerializeField] private GameObject vFXFeedback;
+    [SerializeField] private GameObject boosterFeedback;
     private GameObject characterObject;
     private GameObject questionMarkObject;
     private Renderer _renderer;
@@ -25,7 +26,8 @@ public class LetterUnitRenderer : MonoBehaviour
     public Color CurrentColor => _currentColor;
 
     public GameObject CharacterObject => characterObject;
-
+    private bool _visible;
+    
     public void SetCharacter(string character, Color defaultColor)
     {
         _defaultColor = defaultColor;
@@ -65,6 +67,11 @@ public class LetterUnitRenderer : MonoBehaviour
             materialBlock.SetColor("_AlbedoColor", color);
             psRenderer.SetPropertyBlock(materialBlock);
         }
+    }
+
+    public void EnableBoosterFeedback()
+    {
+        boosterFeedback.SetActive(true);
     }
     
     public void SetCharacterVisibility(bool visible)

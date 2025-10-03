@@ -68,7 +68,8 @@ public class TutorialManager : MonoBehaviour
         
         var currentWord = _wordsQueue.CurrentWord;
         var character = currentWord[_characterIndex].ToString();
-
+        tutorialText.text = tutorialReplicas[_characterIndex];
+        
         var unit = boardView.Cells.First(x => x.Occupant != null && x.Occupant.Character == character).Occupant.GetComponent<LetterUnit>();
         _characterIndex++;
         return unit;

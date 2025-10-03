@@ -36,11 +36,6 @@ public class LevelBootstrap : MonoBehaviour
 
     private void Awake()
     {
-        SaveManager.Load();
-        SaveManager.Data.extraCellBoostersCount = 100;
-        SaveManager.Data.unlockBoostersCount = 100;
-        SaveManager.Save();
-        
         if (clearPlayerData)
         {
             SaveManager.ResetProgress();
@@ -100,13 +95,15 @@ public class LevelBootstrap : MonoBehaviour
             _currentLevelIndex = overrideLevel;
         }
 
+        var levelIndex = _currentLevelIndex % 50;
+        
         try
         {
-            level = levels.First(x => x.LevelId == _currentLevelIndex);
+            level = levels.First(x => x.LevelId == levelIndex);
         }
         catch (Exception e)
         {
-            Debug.LogError("Данный уровень не найден: " + _currentLevelIndex);
+            Debug.LogError("Данный уровень не найден: " + levelIndex);
             return;
         }
         

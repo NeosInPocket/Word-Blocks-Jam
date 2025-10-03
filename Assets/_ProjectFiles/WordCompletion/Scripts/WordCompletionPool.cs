@@ -118,6 +118,7 @@ public class WordCompletionPool : UnusedLettersPoolView
         
         if (missingLetters || someAreNotInPlace)
         {
+            CheckLose();
             return;
         }
 
@@ -152,8 +153,6 @@ public class WordCompletionPool : UnusedLettersPoolView
 
                     await UniTask.WhenAll(tasks);
                 }
-                
-                CheckLose();
             }
             else
             {
@@ -167,6 +166,8 @@ public class WordCompletionPool : UnusedLettersPoolView
                 SaveManager.Save();
             }
         }
+        
+        CheckLose();
     }
 
     public async UniTask CheckLose()

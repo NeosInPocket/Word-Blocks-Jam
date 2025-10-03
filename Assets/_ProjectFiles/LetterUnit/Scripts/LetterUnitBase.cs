@@ -46,6 +46,7 @@ public abstract class LetterUnitBase : MonoBehaviour
     protected abstract void SetCharacterData(BoardEntityData data);
     
     public abstract void SetVisibility(bool value);
+    public abstract void EnableVisibilityEffect();
     public bool GetVisibility() => _visible;
 
     public void ToggleVisibility()

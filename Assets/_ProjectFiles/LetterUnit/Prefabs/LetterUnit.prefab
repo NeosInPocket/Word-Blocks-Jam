@@ -398,6 +398,7 @@ MonoBehaviour:
   - {fileID: 8043946554109184014}
   - {fileID: 2844067548424846308}
   vFXFeedback: {fileID: 4969670713201901626}
+  boosterFeedback: {fileID: 466451268351475894}
 --- !u!1 &1838685714154754603
 GameObject:
   m_ObjectHideFlags: 0

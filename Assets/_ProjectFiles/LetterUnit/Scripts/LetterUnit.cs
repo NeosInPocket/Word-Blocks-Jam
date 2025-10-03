@@ -39,6 +39,11 @@ public class LetterUnit : LetterUnitBase
         renderer.SetCharacterVisibility(value);
     }
 
+    public override void EnableVisibilityEffect()
+    {
+        renderer.EnableBoosterFeedback();
+    }
+
     public void Blink(bool darken)
     {
         blinkRenderer.Blink(darken);
