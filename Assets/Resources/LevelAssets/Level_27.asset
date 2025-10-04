@@ -226,13 +226,13 @@ MonoBehaviour:
     - character: b
       position: {x: 3, y: 0}
       isVisible: 1
-      color: {r: 0.17999998, g: 0.9, b: 0.17999998, a: 1}
+      color: {r: 0.52156866, g: 0.89411765, b: 0.30588236, a: 1}
       isOccupiedByDispenser: 0
       isGhostCell: 0
     - character: o
       position: {x: 3, y: 0}
       isVisible: 1
-      color: {r: 0.17999998, g: 0.17999998, b: 0.9, a: 1}
+      color: {r: 1, g: 0.5764706, b: 0.29803923, a: 1}
       isOccupiedByDispenser: 0
       isGhostCell: 0
   - cellCount: 2
@@ -240,13 +240,13 @@ MonoBehaviour:
     - character: l
       position: {x: 6, y: 4}
       isVisible: 1
-      color: {r: 0.17999998, g: 0.17999998, b: 0.9, a: 1}
+      color: {r: 1, g: 0.5764706, b: 0.29803923, a: 1}
       isOccupiedByDispenser: 0
       isGhostCell: 0
     - character: r
       position: {x: 6, y: 4}
       isVisible: 1
-      color: {r: 0.17999998, g: 0.9, b: 0.9, a: 1}
+      color: {r: 0.96862745, g: 0.5647059, b: 0.9647059, a: 1}
       isOccupiedByDispenser: 0
       isGhostCell: 0
   unlockBoostersCount: 0

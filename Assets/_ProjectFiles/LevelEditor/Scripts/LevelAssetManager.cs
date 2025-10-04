@@ -21,7 +21,17 @@ public class LevelAssetManager : MonoBehaviour
             int counter = 0;
             foreach (var word in asset.Words)
             {
-                var elements = asset.Board.Where(x => x.color == word.color).ToList();
+                List<BoardEntityData> allElements = new List<BoardEntityData>();
+
+                foreach (var disp in asset.Dispensers)
+                {
+                    disp.Board.ForEach(x => allElements.Add(x));
+                }
+                
+                var boardElements = asset.Board;
+                allElements.AddRange(boardElements);
+                
+                var elements = allElements.Where(x => x.color == word.color).ToList();
                 
                 foreach (var element in elements)
                 {
@@ -36,7 +46,7 @@ public class LevelAssetManager : MonoBehaviour
         }
         AssetDatabase.SaveAssets();
     }
-
+    
     public void ApplyBoosters()
     {
         for (int i = 0; i < oldLevels.Count; i++)
