@@ -179,6 +179,7 @@ public class BoardView : BoardSpawner<BoardCellView>
             {
                 if (dispenser.TryGetNext(out BoardEntityData data))
                 {
+                    nextCellToDispenser.IsWaitingForDispenser = true;
                     nextCellToDispenser.SetData(data);
                     nextCellToDispenser.Occupant.gameObject.SetActive(false);
                     
@@ -186,6 +187,7 @@ public class BoardView : BoardSpawner<BoardCellView>
                     nextCellToDispenser.Occupant.gameObject.SetActive(true);
                     nextCellToDispenser.Occupant.Navigation.Enabled = true;
                     nextCellToDispenser.Occupant.Available = true;
+                    nextCellToDispenser.IsWaitingForDispenser = false;
                     
                     RefreshDispensers();
                 }

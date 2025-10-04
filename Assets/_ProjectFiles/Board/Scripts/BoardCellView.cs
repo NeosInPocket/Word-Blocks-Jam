@@ -10,6 +10,7 @@ public class BoardCellView : LetterCell
     public Transform SpawnPositionTransform => spawnTransform;
 
     private bool _isOccupiedByMovingUnit;
+    public bool IsWaitingForDispenser { get; set; }
     
     public bool IsOccupiedByMovingUnit
     {

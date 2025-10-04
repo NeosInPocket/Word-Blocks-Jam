@@ -17,9 +17,10 @@ public class BoardCellRouter : MonoBehaviour
 
     private void OnBoardCellTapped(BoardCellView obj)
     {
+        if (obj.IsWaitingForDispenser) return;
+        
         try
         {
-
             if (obj.Occupant != null)
             {
                 if (!obj.Occupant.Available)
