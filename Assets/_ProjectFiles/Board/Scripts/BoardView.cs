@@ -49,12 +49,9 @@ public class BoardView : BoardSpawner<BoardCellView>
                     try
                     {
                         var dispenserData =
-                            levelAsset.Dispensers.FirstOrDefault(x => x.Board.Last().position == new Vector2Int(entity.position.x - 1, entity.position.y));
+                            levelAsset.Dispensers.FirstOrDefault(x => x.Board.Last().position == new Vector2Int(entity.position.x, entity.position.y) || x.Board.Last().position == new Vector2Int(entity.position.x - 1, entity.position.y));
 
-                        if (dispenserData != null)
-                        {
-                            dispenser.SetData(dispenserData);
-                        }
+                        dispenser.SetData(dispenserData);
                     }
                     catch (Exception e)
                     {
