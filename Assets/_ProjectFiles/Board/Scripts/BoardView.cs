@@ -110,7 +110,7 @@ public class BoardView : BoardSpawner<BoardCellView>
         for (int i = 0; i < maxCellsColumn + 1; i++)
         {
             var targetCell = _cells.FirstOrDefault(x => x.positionData.position == new Vector2Int(0, i));
-            if (targetCell != null && targetCell.Occupant != null)
+            if (targetCell != null && targetCell.Occupant != null && targetCell.Occupant.GetVisibility())
                 targetCell.Occupant.Available = true;
         }
     }
