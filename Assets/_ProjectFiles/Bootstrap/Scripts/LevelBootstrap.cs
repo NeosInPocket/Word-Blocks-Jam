@@ -54,7 +54,8 @@ public class LevelBootstrap : MonoBehaviour
 
     public void UpdateLevel(bool instantCameraApply)
     {
-        _currentLevelIndex = levelSelection.Load();
+        levelSelection.Load();
+        _currentLevelIndex = levelSelection.BoardLevelNumber;
         boardView.ClearBoard();
         SelectLevel(instantCameraApply);
         levelSelection.UpdateLevel();
@@ -65,7 +66,7 @@ public class LevelBootstrap : MonoBehaviour
         fadeScreen.CloseMenu(EnableLevelControls);
         boostersCanvas.gameObject.SetActive(true);
         CameraGameTransition();
-        AnalyticsManager.Instance.SendLevelStartedEvent(_currentLevelIndex);
+        AnalyticsManager.Instance.SendLevelStartedEvent(levelSelection.AnalyticsLevelNumber);
         
         await UniTask.Delay(1000);
         
@@ -96,16 +97,14 @@ public class LevelBootstrap : MonoBehaviour
         {
             _currentLevelIndex = overrideLevel;
         }
-
-        var levelIndex = _currentLevelIndex % 50;
         
         try
         {
-            level = levels.First(x => x.LevelId == levelIndex);
+            level = levels.First(x => x.LevelId == _currentLevelIndex);
         }
         catch (Exception e)
         {
-            Debug.LogError("Данный уровень не найден: " + levelIndex);
+            Debug.LogError("Данный уровень не найден: " + _currentLevelIndex);
             return;
         }
         
@@ -136,7 +135,7 @@ public class LevelBootstrap : MonoBehaviour
 
     public void OnLevelComplete()
     {
-        AnalyticsManager.Instance.SendLevelCompletedEvent(_currentLevelIndex);
+        AnalyticsManager.Instance.SendLevelCompletedEvent(levelSelection.AnalyticsLevelNumber);
         
         SaveManager.Load();
         SaveManager.Data.extraCellBoostersCount += _currentLevel.ExtraCellBoostersCount;
@@ -146,7 +145,7 @@ public class LevelBootstrap : MonoBehaviour
 
     public void OnNextLevel()
     {
-        AnalyticsManager.Instance.SendNextLevelEvent(_currentLevelIndex);
+        AnalyticsManager.Instance.SendNextLevelEvent(levelSelection.AnalyticsLevelNumber);
     }
     
     public void CameraMenuTransition()

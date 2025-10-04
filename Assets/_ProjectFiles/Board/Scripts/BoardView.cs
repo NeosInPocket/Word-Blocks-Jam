@@ -188,6 +188,7 @@ public class BoardView : BoardSpawner<BoardCellView>
                     nextCellToDispenser.Occupant.Navigation.Enabled = true;
                     nextCellToDispenser.Occupant.Available = true;
                     nextCellToDispenser.IsWaitingForDispenser = false;
+                    nextCellToDispenser.Occupant.GetComponent<LetterUnit>().Blink(false);
                     
                     RefreshDispensers();
                 }

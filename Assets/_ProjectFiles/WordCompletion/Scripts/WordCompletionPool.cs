@@ -25,12 +25,6 @@ public class WordCompletionPool : UnusedLettersPoolView
     private bool _isBuildingPool;
     public bool IsBuildingPool => _isBuildingPool;
 
-    private void Start()
-    {
-        Time.timeScale = 1f;
-        Debug.Log("delete time scale");
-    }
-
     public void BuildPool(WordsQueue wordsQueue)
     {
         _queue = wordsQueue;

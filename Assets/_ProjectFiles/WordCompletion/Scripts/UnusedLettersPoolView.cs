@@ -21,7 +21,13 @@ public class UnusedLettersPoolView : MonoBehaviour
     public void BuildPool(int poolCount)
     {
         var modelPrefab = poolInfos.First(x => x.CellsCount == poolCount).Model;
-        _model = Instantiate(modelPrefab, spawnPosition.position, modelPrefab.transform.rotation, transform);
+        var pos = spawnPosition.position;
+        var left = boardView.Cells.Min(x => x.transform.position.x);
+        var right = boardView.Cells.Max(x => x.transform.position.x);
+        var mid = (left + right) / 2f;
+        pos.x = mid;
+        
+        _model = Instantiate(modelPrefab, pos, modelPrefab.transform.rotation, transform);
         _model.transform.localScale = Vector3.one * modelSize;
 
         _cells = new List<LetterPoolData>();

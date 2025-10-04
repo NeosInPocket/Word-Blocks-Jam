@@ -78,7 +78,6 @@ public class AudioManager : MonoBehaviour
         }
         
         mixer.SetFloat("BGMVolume", value);
-        Debug.Log(value);
     }
 
     public void SetSFXVolume(float volume)
