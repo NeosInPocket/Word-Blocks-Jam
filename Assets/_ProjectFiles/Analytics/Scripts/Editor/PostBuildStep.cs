@@ -1,3 +1,4 @@
+#if UNITY_IOS
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
@@ -31,3 +32,4 @@ public class PostBuildStep
         File.WriteAllText(plistPath, plistObj.WriteToString());
     }
 }
+#endif

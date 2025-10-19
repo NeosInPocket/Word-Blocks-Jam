@@ -219,6 +219,7 @@ public class WordCompletionPool : UnusedLettersPoolView
 
                 if (isLose)
                 {
+                    AppMetricaLevelManager.Instance.ReportLevelFailed();
                     loseObject.SetActive(true);
                     tracker.Enable(false);
                 }
