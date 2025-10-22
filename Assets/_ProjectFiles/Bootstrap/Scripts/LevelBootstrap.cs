@@ -67,7 +67,6 @@ public class LevelBootstrap : MonoBehaviour
         boostersCanvas.gameObject.SetActive(true);
         CameraGameTransition();
         AnalyticsManager.Instance.SendLevelStartedEvent(levelSelection.AnalyticsLevelNumber);
-        AppMetricaLevelManager.Instance.ReportLevelStart(levelSelection.AnalyticsLevelNumber);
         
         await UniTask.Delay(1000);
         
@@ -137,7 +136,6 @@ public class LevelBootstrap : MonoBehaviour
     public void OnLevelComplete()
     {
         AnalyticsManager.Instance.SendLevelCompletedEvent(levelSelection.AnalyticsLevelNumber);
-        AppMetricaLevelManager.Instance.ReportLevelComplete();
         
         SaveManager.Load();
         SaveManager.Data.extraCellBoostersCount += _currentLevel.ExtraCellBoostersCount;

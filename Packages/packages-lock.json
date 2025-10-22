@@ -7,13 +7,6 @@
       "dependencies": {},
       "hash": "95998ff3f2d8011da67c7b9ba0c75a57af5f6b26"
     },
-    "com.google.external-dependency-manager": {
-      "version": "1.2.186",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://package.openupm.com"
-    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -283,15 +276,6 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
-    },
-    "io.appmetrica.analytics": {
-      "version": "https://github.com/appmetrica/appmetrica-unity-plugin.git#v6.7.0",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.google.external-dependency-manager": "1.2.183"
-      },
-      "hash": "493dce822b0588da81c102db1a21648daebf7aa8"
     },
     "xyz.candycoded.hapticfeedback": {
       "version": "https://github.com/CandyCoded/HapticFeedback.git#v1.0.3",
