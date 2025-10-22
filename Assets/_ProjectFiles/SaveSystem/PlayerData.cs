@@ -10,6 +10,8 @@ public class PlayerData
     public bool tutorialCompleted = false;
     public int unlockBoostersCount = 1;
     public int extraCellBoostersCount = 1;
+    public int gameSession = -1;
+    public int timePlayed = 0;
     public string idfa = String.Empty;
     public bool trackingAuthorized = false;
 }

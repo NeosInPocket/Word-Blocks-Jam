@@ -30,7 +30,6 @@ public class LevelBootstrap : MonoBehaviour
     private WordsQueue _queue;
     private int _currentLevelIndex;
     private LevelAsset _currentLevel;
-    private AudioSettings _audioSettings;
     
     [SerializeField] private GameCameraPositionAdjuster cameraAdjuster;
 
@@ -46,10 +45,14 @@ public class LevelBootstrap : MonoBehaviour
 
     private void Start()
     {
-        _audioSettings = new AudioSettings(manager);
-
         UpdateLevel(true);
         AudioManager.Instance.PlayMusic();
+        
+        SaveManager.Load();
+        SaveManager.Data.gameSession++;
+        SaveManager.Save();
+        
+        AdjustEventManager.Instance.SetGlobalParams(SaveManager.Data.gameSession);
     }
 
     public void UpdateLevel(bool instantCameraApply)
@@ -66,7 +69,10 @@ public class LevelBootstrap : MonoBehaviour
         fadeScreen.CloseMenu(EnableLevelControls);
         boostersCanvas.gameObject.SetActive(true);
         CameraGameTransition();
+        
+        LevelTimer.Instance.StartLevel();
         AnalyticsManager.Instance.SendLevelStartedEvent(levelSelection.AnalyticsLevelNumber);
+        AdjustEventManager.Instance.TrackLevelStart("qjbgpm", levelSelection.BoardLevelNumber, $"Level {levelSelection.BoardLevelNumber}");
         
         await UniTask.Delay(1000);
         
@@ -135,7 +141,9 @@ public class LevelBootstrap : MonoBehaviour
 
     public void OnLevelComplete()
     {
+        LevelTimer.Instance.FinishLevel();
         AnalyticsManager.Instance.SendLevelCompletedEvent(levelSelection.AnalyticsLevelNumber);
+        AdjustEventManager.Instance.TrackLevelFinish("lmf6ne", levelSelection.AnalyticsLevelNumber, $"Level {levelSelection.AnalyticsLevelNumber}", "Completed", LevelTimer.Instance.GetLevelTime());
         
         SaveManager.Load();
         SaveManager.Data.extraCellBoostersCount += _currentLevel.ExtraCellBoostersCount;

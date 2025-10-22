@@ -221,6 +221,9 @@ public class WordCompletionPool : UnusedLettersPoolView
                 {
                     loseObject.SetActive(true);
                     tracker.Enable(false);
+                    
+                    LevelTimer.Instance.FinishLevel();
+                    AdjustEventManager.Instance.TrackLevelFinish("lmf6ne", LevelSelection.Instance.AnalyticsLevelNumber, $"Level {LevelSelection.Instance.AnalyticsLevelNumber}", "Completed", LevelTimer.Instance.GetLevelTime());
                 }
             }
         }

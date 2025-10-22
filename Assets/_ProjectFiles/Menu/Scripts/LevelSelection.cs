@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,13 @@ public class LevelSelection : MonoBehaviour
    public int BoardLevelNumber { get; private set; }
    public int AnalyticsLevelNumber { get; private set; }
    
+   public static LevelSelection Instance { get; private set; }
+
+   private void Awake()
+   {
+      Instance = this;
+   }
+
    public void Load()
    {
       SaveManager.Load();
