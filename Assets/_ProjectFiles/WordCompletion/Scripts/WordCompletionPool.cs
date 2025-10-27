@@ -166,8 +166,6 @@ public class WordCompletionPool : UnusedLettersPoolView
 
     public async UniTask CheckLose()
     {
-        Debug.Log("lose check");
-        
         if (unusedLettersPool.IsFull)
         {
             var unusedPoolUnits = unusedLettersPool.Cells.Where(x => x.Occupant != null);
