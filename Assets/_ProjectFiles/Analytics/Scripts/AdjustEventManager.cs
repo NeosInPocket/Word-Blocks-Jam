@@ -1,4 +1,5 @@
 using AdjustSdk;
+using UnityEngine;
 
 public sealed class AdjustEventManager
 {
@@ -44,6 +45,8 @@ public sealed class AdjustEventManager
         if (!string.IsNullOrEmpty(levelLine))
             adjustEvent.AddCallbackParameter("level_line", levelLine);
         Adjust.TrackEvent(adjustEvent);
+
+        Debug.Log("<color=green>Level started: " + levelId + "</color>");
     }
 
     public void TrackLevelFinish(string token, int levelId, string levelName, string levelResult, int levelTime, string levelLine = "")
@@ -57,6 +60,8 @@ public sealed class AdjustEventManager
         if (!string.IsNullOrEmpty(levelLine))
             adjustEvent.AddCallbackParameter("level_line", levelLine);
         Adjust.TrackEvent(adjustEvent);
+        
+        Debug.Log("<color=green>Level finished: " + levelId + "</color>");
     }
 
     public void TrackABTest(string token, string testName, string testGroup)

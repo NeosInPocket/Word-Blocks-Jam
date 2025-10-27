@@ -153,6 +153,7 @@ public class LevelBootstrap : MonoBehaviour
 
     public void OnNextLevel()
     {
+        AdjustEventManager.Instance.TrackLevelStart("qjbgpm", levelSelection.BoardLevelNumber, $"Level {levelSelection.BoardLevelNumber}");
         AnalyticsManager.Instance.SendNextLevelEvent(levelSelection.AnalyticsLevelNumber);
     }
     
