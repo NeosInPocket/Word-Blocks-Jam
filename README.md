@@ -4,6 +4,8 @@ Mobile word puzzle built in Unity. Players pick letter characters off a board to
 
 ![Gameplay](Docs/LetterPop_gameplay.gif)
 
+[Watch the video](Docs/LetterPop_gameplay.mp4)
+
 ## My role
 
 I was the sole programmer. All C# code in `Assets/_ProjectFiles` is mine. A game designer built the levels, and an artist handled art, VFX and UI layout.
